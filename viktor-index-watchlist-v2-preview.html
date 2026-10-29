@@ -1,0 +1,1005 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#091628"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Viktor AI"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon.svg"><title>Viktor AI Tools — Options + AI</title><style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;--bg:#081424;--panel:#10253a;--line:#284257;--fg:#eaf4fc;--muted:#a4bdcf;--accent:#50dac8;--gold:#e7bd72}*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#081424,#11263a 56%,#091827);color:var(--fg);min-height:100vh}main{max-width:980px;margin:auto;padding:22px 16px 90px}.hero{display:flex;align-items:center;gap:14px;margin-bottom:22px}.logo{background:#1b6d74;border-radius:17px;font-size:27px;padding:14px}h1{font-size:25px;margin:0}h2{font-size:20px;margin:0 0 12px}p{line-height:1.5}.sub,.muted,small{color:var(--muted)}.sub{margin:5px 0 0;font-size:13px}.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:12px;margin-bottom:8px}.tabs button{white-space:nowrap}.tab{display:none}.tab.active{display:block}.panel{background:rgba(16,37,58,.96);border:1px solid var(--line);border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 8px 22px #0002}.panel h3{margin:0 0 13px;font-size:16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#132e43;border-radius:15px;padding:14px;border:1px solid var(--line)}.stat b{display:block;font-size:21px;margin-top:6px}.stat span{font-size:12px;color:var(--muted)}button{border:1px solid var(--line);background:#213a4f;color:var(--fg);padding:11px 13px;border-radius:11px;font:inherit;cursor:pointer}button.active,button.primary{background:var(--accent);color:#052327;border-color:var(--accent);font-weight:750}button.danger{border-color:#8a454c;color:#ffd3d3}button:active{transform:scale(.99)}label{display:block;color:var(--muted);font-size:12px;margin:0 0 5px}input,select,textarea{width:100%;background:#0b1d30;color:var(--fg);border:1px solid #37556d;border-radius:10px;padding:11px;font:inherit}textarea{min-height:120px;resize:vertical}form .field{min-width:0}.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.between{justify-content:space-between}.result{border-radius:13px;background:#0c2935;padding:14px;margin:12px 0;border:1px solid #27565d;font-size:17px}.result strong{color:var(--accent)}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:700px;font-size:13px}td,th{padding:10px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:600}td .positive{color:#8eedc4}.negative{color:#ffacac}.note{border-left:3px solid var(--gold);padding:8px 12px;font-size:13px;color:#d5dfec;background:#24303d;border-radius:0 10px 10px 0}.chip{display:inline-block;background:#23465a;border-radius:999px;padding:5px 9px;font-size:11px;color:#c4e6eb}.sectionfoot{color:var(--muted);font-size:12px;margin-top:13px}.hidden{display:none!important}@media(max-width:620px){.cards{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}main{padding:18px 12px 72px}h1{font-size:22px}.panel{padding:14px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#0a1c2cf5;border-top:1px solid #345368;display:grid;grid-template-columns:repeat(6,1fr);padding:6px max(5px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(5px,env(safe-area-inset-left));backdrop-filter:blur(15px)}.bottom-nav button{border:0;background:none;color:#a4bdcf;padding:6px 1px;font-size:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;min-width:0}.bottom-nav button span{font-size:20px}.bottom-nav button.active{color:#50dac8;background:#163545}.tabs{display:none}main{padding-bottom:110px}.tradeitem{border:1px solid #284257;border-radius:12px;padding:12px;margin:9px 0}.tradeitem .row{margin-top:9px}.tradeitem button{padding:8px 11px}.calendaritem{padding:13px 0;border-bottom:1px solid #284257}.calendaritem strong{color:#50dac8} .muted{font-size:13px}
+
+/* v1.2 compact editor and accessible roll dialog */
+@media(max-width:620px){.grid{grid-template-columns:1fr 1fr;gap:10px}.grid .field{min-width:0}.field input,.field select{min-height:44px;font-size:16px} .bottom-nav{padding-bottom:max(8px,env(safe-area-inset-bottom))}main{padding-bottom:calc(110px + env(safe-area-inset-bottom))}}
+#rollDialog{background:#10253a;color:#eaf4fc;border:1px solid #416377;border-radius:18px;width:min(94vw,480px);max-height:86dvh;overflow:auto;padding:20px}#rollDialog::backdrop{background:#000b}#rollDialog h2{margin-bottom:12px}#rollDialog .grid{grid-template-columns:1fr 1fr}#rollDialog input{font-size:16px}#rollDialog .roll-result{padding:12px;background:#0b2934;border-radius:10px;margin:13px 0}#rollDialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+
+/* v1.3: larger, more readable typography on iPhone without modifying saved data */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-size:17px;line-height:1.48}
+h1{font-size:27px}h2{font-size:23px}.panel h3{font-size:19px}
+.sub{font-size:15px}.muted,.sectionfoot,.note{font-size:16px;line-height:1.55}
+label{font-size:15px;line-height:1.38;margin-bottom:7px}
+.stat span{font-size:16px}.stat b{font-size:25px}
+.chip{font-size:14px;line-height:1.35;padding:7px 11px;overflow-wrap:anywhere}
+small{font-size:14px}.bottom-nav button{font-size:12px;line-height:1.2}
+.bottom-nav button span{font-size:23px}
+button{font-size:17px;min-height:44px}input,select,textarea{font-size:17px;min-height:46px}
+table{font-size:15px}td,th{padding:12px}.sectionfoot{margin-top:14px}
+#rollDialog label{font-size:15px}#rollDialog .muted{font-size:16px}#rollDialog input{font-size:17px}
+@media(max-width:620px){main{padding-bottom:calc(124px + env(safe-area-inset-bottom))}.panel{padding:16px}.stat{padding:15px}.bottom-nav button{font-size:11.5px}}
+
+/* v1.3 details */
+.v13list{display:grid;gap:12px}.v13item{padding:14px;border:1px solid var(--line);border-radius:14px;background:#132c42}.v13item button{margin-top:9px}.v13metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.v13metrics div{background:#163349;padding:12px;border-radius:12px}.v13metrics strong{display:block;font-size:19px;margin-top:5px}.v13metric-label{font-size:14px;color:var(--muted)}.v13warn{border-left:3px solid #e7bd72;padding:10px 12px;background:#2a313f;margin:12px 0;border-radius:8px}.v13table{width:100%;min-width:0;font-size:15px}.v13table td{overflow-wrap:anywhere}.v13table td:first-child{width:48%}.v13detail{margin-top:10px;padding-top:10px;border-top:1px solid #34516b}.v13detail p{margin:8px 0}.v13-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.v13-fields label{font-size:15px}.v13-fields input{font-size:17px}@media(max-width:420px){.v13-fields{grid-template-columns:1fr}.v13metrics{grid-template-columns:1fr 1fr}}
+ .market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:16px 0}.market-card{padding:15px;border:1px solid #36576b;border-radius:14px;background:#153146}.market-card strong{font-size:24px}.market-card small{display:block;font-size:15px;color:#abc8d9}.market-card .price{font-size:26px;font-weight:800;margin:10px 0}.market-card .foot{color:#abc8d9;font-size:14px;line-height:1.4}#marketEndpoint,#marketTickers{font-size:17px;margin-bottom:12px} 
+/* Y: mobile layout refinement, scoped to new overview only. */
+#rhMultiImport #rhmOverviewX{padding:12px!important;max-width:100%;box-sizing:border-box}
+#rhMultiImport #rhmOverviewX .rhm-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#rhMultiImport #rhmOverviewX .rhm-stat{padding:10px 9px;min-width:0;display:flex;flex-direction:column;gap:7px}
+#rhMultiImport #rhmOverviewX .rhm-stat small{font-size:clamp(11px,2.9vw,13px);line-height:1.35;overflow-wrap:break-word}
+#rhMultiImport #rhmOverviewX .rhm-stat b{font-size:clamp(15px,4.1vw,22px);line-height:1.2;white-space:nowrap;overflow-wrap:normal;word-break:normal;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+#rhMultiImport #rhmOverviewX h3{font-size:clamp(19px,5vw,25px);line-height:1.25}
+#rhMultiImport #rhmOverviewX nav a{font-size:14px;line-height:1.35}
+#rhMultiImport #rhmAdvancedY{margin-top:18px;padding:10px;border:1px solid #476b7c;border-radius:12px}
+#rhMultiImport #rhmAdvancedY>summary{padding:8px 2px}
+@media(max-width:330px){#rhMultiImport #rhmOverviewX .rhm-grid{grid-template-columns:1fr}}
+</style><style>
+/* v1.4 responsive form and navigation improvements */
+#tradeForm .date-field{grid-column:1/-1;min-width:0;width:100%}
+#tradeForm .date-field input[type=date]{display:block;width:100%;max-width:100%;min-width:0;box-sizing:border-box;min-height:52px;font-size:18px;padding:11px 13px;overflow:hidden}
+#tradeForm .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#tradeForm .field{min-width:0;max-width:100%}
+#tradeForm .field input,#tradeForm .field select{min-width:0;max-width:100%}
+.bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr));padding-left:max(6px,env(safe-area-inset-left));padding-right:max(6px,env(safe-area-inset-right))}
+.bottom-nav button{font-size:clamp(10px,2.65vw,13px)!important;letter-spacing:-.025em;overflow:hidden;text-overflow:clip;padding-inline:0!important}
+.bottom-nav button span{font-size:21px!important}
+#undoDeletion{position:fixed;bottom:calc(94px + env(safe-area-inset-bottom));left:12px;right:12px;max-width:560px;margin:auto;z-index:45;border:1px solid #5a8591;background:#153d47;color:white;padding:12px 14px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 8px 35px #0009}
+#undoDeletion button{background:#50dac8;color:#06272a;font-weight:750;white-space:nowrap}
+#undoDeletion[hidden]{display:none}
+@media(max-width:410px){#tradeForm .grid{grid-template-columns:minmax(0,1fr)}#tradeForm .date-field{grid-column:auto}}
+ .market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:16px 0}.market-card{padding:15px;border:1px solid #36576b;border-radius:14px;background:#153146}.market-card strong{font-size:24px}.market-card small{display:block;font-size:15px;color:#abc8d9}.market-card .price{font-size:26px;font-weight:800;margin:10px 0}.market-card .foot{color:#abc8d9;font-size:14px;line-height:1.4}#marketEndpoint,#marketTickers{font-size:17px;margin-bottom:12px} </style><style>.v18audit{margin:14px 0}.v18card{padding:16px;border:1px solid #416377;border-radius:14px;background:#10283b;margin:10px 0}.v18card strong{display:block;font-size:19px;margin-bottom:8px}.v18card p{font-size:16px;line-height:1.5}.v18flag{color:#ffd18a}.v18good{color:#99e9cf}.v18audit summary{cursor:pointer;font-weight:700;padding:8px}</style></head><body><main><header class="hero"><div class="logo">✦</div><div><h1>Viktor AI Tools</h1><div class="sub">Особистий журнал опціонів + AI-помічник · v2.2 TEST</div></div></header><nav class="tabs" aria-label="Розділи"><button class="active" data-tab="home">Огляд</button><button data-tab="journal">Угоди</button><button data-tab="calc">Калькулятори</button><button data-tab="calendar">Календар</button><button data-tab="ai">AI-помічник</button><button data-tab="settings">Дані</button></nav>
+<section class="tab active" id="home"><div class="cards"><div class="stat"><span>Кількість угод</span><b id="count">0</b></div><div class="stat"><span>Відкриті угоди</span><b id="openCount">0</b></div><div class="stat"><span>Реалізований P/L</span><b id="realized">$0</b></div></div><div class="panel"><h2>Твоя персональна робоча панель</h2><p>Записуй Covered Call, Cash-Secured Put і PMCC, рахуй премії та готуй запити до ChatGPT. Для демонстрації можна додати тестову угоду.</p><div class="row"><button class="primary" id="demoTrade">Додати тестову угоду</button><button id="openJournal">Перейти до журналу</button></div></div><div class="panel"><h3>Ризик-правила моделі ($30 000)</h3><div class="grid"><div><span class="chip">Резерв 25% · $7 500</span></div><div><span class="chip">Звичайна позиція ≤ $9 000</span></div><div><span class="chip">Високоволатильна ≤ $4 500</span></div><div><span class="chip">Спекулятивний кластер ≤ $7 500</span></div></div><p class="sectionfoot">Це довідкові ліміти твоєї моделі, а не перевірка реального рахунку. Котирування на закриття сесії можна отримувати через окремий захищений шлюз у розділі «Ринок». Живі опціонні котирування ще не підключені.</p></div></section>
+<section class="tab" id="journal"><div class="panel"><h2>Нова угода</h2><form id="tradeForm"><div class="grid"><div class="field"><label for="ticker">Тикер</label><input id="ticker" maxlength="12" placeholder="HPE" required></div><div class="field"><label for="strategy">Стратегія</label><select id="strategy"><option>Covered Call</option><option>Cash-Secured Put</option><option>PMCC</option></select></div><div class="field date-field"><label for="tradeDate">Дата продажу опціону</label><input id="tradeDate" type="date" required></div><div class="field date-field"><label for="expiry">Експірація</label><input id="expiry" type="date" required></div><div class="field"><label for="strike">Страйк ($)</label><input id="strike" type="number" min="0.01" step="0.01" required></div><div class="field"><label for="contracts">Кількість контрактів</label><input id="contracts" type="number" min="1" max="10000" step="1" value="1" required></div><div class="field"><label for="premium">Отримана премія ($/акцію)</label><input id="premium" type="number" min="0" step="0.01" required></div><div class="field"><label for="closeDebit">Викуп опціону ($/акцію; 0 якщо експірація)</label><input id="closeDebit" type="number" min="0" step="0.01" value="0"></div><div class="field"><label for="fee">Загальні комісії ($)</label><input id="fee" type="number" min="0" step="0.01" value="0"></div><div class="field"><label for="status">Статус</label><select id="status"><option>Open</option><option>Closed</option><option>Expired</option></select></div></div><p class="sectionfoot">P/L враховує лише продану опціонну ногу (short option), без зміни вартості акцій, LEAPS, дивідендів і податків. Для відкритих угод остаточний P/L не показується.</p><button class="primary" type="submit">Зберегти угоду</button></form></div><div class="panel"><h2>Керування позиціями</h2><p class="muted">Закрий відкриту коротку ногу або запиши ролювання. Ролювання фіксує закриття старого контракту і створює новий запис. Обидві операції можна перевірити у журналі.</p><div id="manageTrades"></div></div><div class="panel"><div class="row between"><h2>Журнал</h2><span id="journalCount" class="chip">0 записів</span></div><div id="journalCards" class="journal-cards"></div><div class="hidden"><table><tbody id="tradesBody"></tbody></table></div></div></section>
+<dialog id="rollDialog" aria-labelledby="rollTitle"><form id="rollForm"><h2 id="rollTitle">Ролювання опціону</h2><p class="muted" id="rollInfo"></p><div class="grid"><div class="field"><label for="rollBtc">BTC старого ($/акцію)</label><input id="rollBtc" type="number" required min="0" step="0.01"></div><div class="field"><label for="rollExpiry">Нова експірація</label><input id="rollExpiry" type="date" required></div><div class="field"><label for="rollStrike">Новий страйк ($)</label><input id="rollStrike" type="number" required min="0.01" step="0.01"></div><div class="field"><label for="rollPremium">Нова премія ($/акцію)</label><input id="rollPremium" type="number" required min="0" step="0.01"></div><div class="field"><label for="rollFee">Комісія відкриття ($)</label><input id="rollFee" type="number" min="0" step="0.01" value="0" required></div><div class="field"><label for="rollCloseFee">Комісія закриття ($)</label><input id="rollCloseFee" type="number" min="0" step="0.01" value="0" required></div></div><div class="roll-result" id="rollResult" aria-live="polite"></div><p class="sectionfoot">Наведені дати не перевірені за біржовими опціонними ланцюжками. Чистий кредит/дебет не є загальним P/L усієї позиції.</p><div class="actions"><button type="button" id="rollCancel">Скасувати</button><button type="submit" class="primary">Підтвердити ролювання</button></div></form></dialog>
+<section class="tab" id="history"><div class="panel"><h2>Історія за тикером</h2><p class="muted">Натисни на тикер, щоб подивитися всі його опціонні ноги, премії, BTC та комісії. Це не повний P/L акцій або LEAPS.</p><div id="v13History" class="v13list"></div></div><div class="panel"><h2>Контроль ризику ($30 000)</h2><p class="muted">Орієнтовний капітал: CSP — страйк × 100 × контракти; Covered Call — 100 акцій за вказаною ціною; PMCC — дебет LEAPS. Для точного розрахунку заповни фактичні дані нижче.</p><div class="v13-fields"><div><label for="v13CC">Вартість акцій під CC ($)</label><input id="v13CC" type="number" min="0" step="1" value="0"></div><div><label for="v13Leap">Дебет LEAPS під PMCC ($)</label><input id="v13Leap" type="number" min="0" step="1" value="0"></div><div><label for="v13Other">Інші зобов'язання / капітал ($)</label><input id="v13Other" type="number" min="0" step="1" value="0"></div><div><label for="v13High">Високоволатильні позиції ($)</label><input id="v13High" type="number" min="0" step="1" value="0"></div><div><label for="v13Spec">Спекулятивний кластер ($)</label><input id="v13Spec" type="number" min="0" step="1" value="0"></div></div><div id="v13Risk" class="result"></div><p class="sectionfoot">CSP розраховані за журналом, без неттингу, за винятком відкритих позицій. Суми CC, PMCC та інших вкладень вводяться вручну: показник не підтверджує безпечність портфеля і не перевіряє брокерський рахунок.</p></div></section>
+<section class="tab" id="calendar"><div class="panel"><h2>Календар експірацій</h2><p class="muted">Усі дати взято з локального журналу. Це не біржовий календар і не push-нагадування.</p><div id="expiryList"></div></div></section><section class="tab" id="calc"><div class="panel"><h2>Закрити опціон зараз?</h2><p class="muted">Для проданих опціонів (одна коротка нога). Порівняй закриття зараз із утриманням до експірації. Без оцінки ризику акцій та LEAPS.</p><div class="grid"><div><label>Отримана премія ($/акцію)</label><input id="btcCredit" type="number" step="0.01" min="0" value="1.20"></div><div><label>Поточний викуп / BTC ($/акцію)</label><input id="btcDebit" type="number" step="0.01" min="0" value="0.45"></div><div><label>Контрактів</label><input id="btcQty" type="number" step="1" min="1" value="1"></div><div><label>Комісії за відкриття й закриття ($ разом)</label><input id="btcFees" type="number" step="0.01" min="0" value="2.60"></div></div><div id="btcResult" class="result"></div><div id="btcNote" class="note"></div></div><div class="panel"><h2>Калькулятор опціонів</h2><div class="row" id="calcTabs"><button class="active" data-mode="cc">Covered Call</button><button data-mode="csp">Cash-Secured Put</button><button data-mode="pmcc">PMCC</button></div><div class="grid" style="margin-top:15px"><div><label>Страйк short опціону ($)</label><input id="cStrike" type="number" min="0.01" step="0.01" value="70"></div><div><label>Премія short опціону ($/акцію)</label><input id="cPrem" type="number" min="0" step="0.01" value="1.20"></div><div><label>Кількість контрактів</label><input id="cQty" type="number" min="1" step="1" value="1"></div><div id="sharesField"><label>Ціна купівлі акцій ($/акцію)</label><input id="cShares" type="number" min="0.01" step="0.01" value="65"></div><div id="leapField" class="hidden"><label>Премія купленого LEAPS ($/акцію)</label><input id="cLeap" type="number" min="0.01" step="0.01" value="12"></div></div><div class="result" id="calcResult"></div><div class="note" id="calcNote"></div></div></section>
+<section class="tab" id="ai"><div class="panel"><h2>AI-помічник з аналізу</h2><p>Обери задачу — я підготую структурований запит, який можна вставити в ChatGPT разом із даними. Він не передає записи автоматично й не здійснює угод.</p><div class="field"><label for="task">Тип аналізу</label><select id="task"><option value="risk">Перевірка ризику Covered Call / Wheel</option><option value="rolling">Закрити зараз чи чекати експірації?</option><option value="technicals">Технічний аналіз 1D / 1W</option><option value="pmcc">Оцінка PMCC</option><option value="daily">План денного огляду портфеля</option></select></div><div class="field" style="margin-top:12px"><label for="promptTicker">Тикер</label><input id="promptTicker" value="HPE" maxlength="12"></div><div class="field" style="margin-top:12px"><label for="context">Дані, які хочеш додати (необов'язково)</label><textarea id="context" placeholder="Ціна акції, strike, премія, дата експірації, IV, дельта... Не додавай паролі чи номери рахунків."></textarea></div><button class="primary" id="generatePrompt">Створити запит</button><div class="field" style="margin-top:15px"><label for="promptOutput">Готовий текст</label><textarea id="promptOutput" readonly rows="9" placeholder="Натисни «Створити запит»"></textarea></div><div class="row"><button id="copyPrompt">Скопіювати</button><a href="https://chatgpt.com/" target="_blank" rel="noopener" style="color:var(--accent)">Відкрити ChatGPT ↗</a></div><p class="sectionfoot">Живий AI-чат усередині застосунку вимагатиме окремого захищеного серверного підключення до AI API. Ключі API не можна зберігати в HTML на телефоні.</p></div></section>
+<section class="tab" id="market"><div class="panel"><h2>Ціни акцій · кінець торгового дня</h2><p class="muted">Ці дані НЕ є котируваннями в реальному часі. Для їх отримання потрібен власний захищений шлюз до Massive. Без налаштування шлюзу ціни не завантажуються.</p><label for="marketEndpoint">Адреса твого Cloudflare Worker (тільки HTTPS)</label><input id="marketEndpoint" type="url" autocomplete="off" placeholder="https://your-worker.workers.dev" inputmode="url"><p class="sectionfoot">У це поле вводиться лише публічна адреса шлюзу. Ніколи не вводь API-ключ Massive або брокерський пароль.</p><label for="marketTickers">Тикери, розділені комами (до 5)</label><input id="marketTickers" value="HPE,HIMS,TEM" autocapitalize="characters"><div class="row" style="margin-top:12px"><button type="button" id="marketLoad" class="primary">Отримати EOD</button><button type="button" id="marketClear">Очистити показники</button></div><p id="marketState" class="muted" role="status" aria-live="polite">Дані ще не завантажено.</p><div id="marketCards" class="market-grid"></div><p class="note">Котирування акцій не дорівнюють вартості опціонів. Не використовуй EOD-ціни для розрахунку поточної ціни BTC, Greeks, IV або виконання угод.</p></div></section><section class="tab" id="rhmarket"><div class="panel"><h2>Robinhood · 7 опціонних позицій</h2><p class="muted">Контрольний список зі знімка 18.10.2026, НЕ живе з’єднання з Robinhood. Значення не змінюють журнал HPE чи імпорт CSV.</p><div class="note">Massive Options Basic: перевірка характеристик контракту й доступної ціни попереднього торгового дня (за наявності дозволу тарифу). Денний close — не Bid/Ask, не ціна виконання й не поточний P/L.</div><p class="sectionfoot">Тестовий сервер: <code>viktor-ai-market-test.camry007.workers.dev</code>. Ключ Massive зберігається лише в Cloudflare. Токен доступу вводиться на цьому пристрої для поточної відкритої сторінки; він не записується в GitHub або localStorage.</p><div class="field" style="margin:14px 0"><label for="rh22token">Токен доступу до тестового Worker (APP_ACCESS_TOKEN)</label><input id="rh22token" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Встав токен із застосунку Паролі"><p class="sectionfoot">Не вводь ключ Massive. Токен залишається лише в пам’яті відкритої сторінки; після її закриття введи знову. Не роби скриншот із відкритим токеном.</p><button type="button" id="rh22clearToken">Очистити токен</button></div><label for="rh21enabled"><input id="rh21enabled" type="checkbox" style="width:auto;min-height:0"> Я підтверджую, що захист Worker налаштовано, і дозволяю тестові запити</label><div class="row"><button id="rh21load" type="button" class="primary" disabled>Перевірити Close 1 контракту</button><button id="rh21all" type="button" disabled>Оновити Close 7 контрактів (із паузами)</button></div><p id="rh21status" role="status" class="muted">Спочатку налаштуй захищений шлюз. Реальні заявки не виконуються.</p><div id="rh21positions" class="v13list"></div></div></section><section class="tab" id="settings"><div class="panel"><h2>Збереження та резервні копії</h2><p>Угоди зберігаються локально у браузері цього пристрою. Якщо видалити дані Safari, вони можуть зникнути. Для надійності регулярно експортуй резервну копію.</p><div class="row"><button class="primary" id="exportJson">Експорт JSON</button><button id="exportCsv">Експорт CSV</button><label style="display:inline-block;margin:0"><input id="importJson" type="file" accept=".json,application/json" style="display:none"><span class="chip" style="cursor:pointer;font-size:14px;padding:12px">Імпорт JSON</span></label></div><div class="row" style="margin-top:18px"><button class="danger" id="clearAll">Видалити всі локальні угоди</button></div></div><div class="panel"><h3>Як встановити на iPhone</h3><p>Для встановлення як PWA застосунок потрібно розмістити на HTTPS-сайті. Потім відкрити адресу у Safari → <b>Поділитися</b> → <b>На початковий екран</b> → <b>Додати</b>.</p><p>HTML-файл можна відкрити локально для попереднього перегляду, але це не повноцінне встановлення PWA, і в режимі перегляду файлу збереження може бути недоступне.</p></div></section>
+<nav class="bottom-nav" aria-label="Основна навігація"><button data-tab="home" class="active"><span>⌂</span>Огляд</button><button data-tab="journal"><span>▤</span>Угоди</button><button data-tab="calc"><span>▦</span>Розрахунок</button><button data-tab="calendar"><span>▣</span>Календар</button><button type="button" id="moreButton" aria-expanded="false"><span>☰</span>Більше</button></nav><div id="moreMenu" class="more-menu hidden" role="menu"><button type="button" data-more-tab="history">📊 Історія й ризик</button><button type="button" data-more-tab="ai">✦ AI-помічник</button><button type="button" data-more-tab="market">📈 Ринок (EOD)</button><button type="button" data-more-tab="rhmarket">📌 Robinhood · 7 позицій</button><button type="button" id="vwlOpen">⭐ Мої акції (Watchlist)</button><button type="button" data-more-tab="settings">⚙ Дані та резервні копії</button></div><footer class="sectionfoot">Viktor AI Tools · Особистий прототип · Не інвестиційна рекомендація · Без торгівлі й реальних котирувань</footer></main><script>
+'use strict';const KEY='viktor-options-journal-v1';let trades=[];try{const x=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(x))trades=x}catch{}const $=x=>document.getElementById(x);const money=x=>(x<0?'−':'')+'$'+Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});const num=id=>Number($(id).value)||0;const cleanTicker=s=>s.toUpperCase().replace(/[^A-Z0-9.\-]/g,'').slice(0,12);const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const currentDate=()=>new Date().toLocaleDateString('en-CA');$('tradeDate').value=currentDate();function save(){localStorage.setItem(KEY,JSON.stringify(trades));render()}function pAndL(t){return(t.premium-t.closeDebit)*100*t.contracts-t.fee}function render(){const closed=trades.filter(t=>t.status!=='Open');$('count').textContent=trades.length;$('openCount').textContent=trades.filter(t=>t.status==='Open').length;$('realized').textContent=money(closed.reduce((s,t)=>s+pAndL(t),0));$('journalCount').textContent=trades.length+' записів';$('tradesBody').innerHTML=trades.length?trades.map(t=>`<tr><td><b>${esc(t.ticker)}</b><br><small>${esc(t.tradeDate)}</small></td><td>${esc(t.strategy)}</td><td>${esc(t.expiry)}</td><td>${money(t.premium*100*t.contracts)}</td><td>${esc(t.status)}</td><td>${t.status==='Open'?'—':`<span class="${pAndL(t)>=0?'positive':'negative'}">${money(pAndL(t))}</span>`}</td><td><button class="danger" data-delete="${esc(t.id)}">×</button></td></tr>`).join(''):'<tr><td colspan="7">Поки немає угод. Додай першу вище.</td></tr>'}render();function tab(id){document.querySelectorAll('.tab').forEach(e=>e.classList.toggle('active',e.id===id));document.querySelectorAll('.bottom-nav button, .tabs button').forEach(e=>e.classList.toggle('active',e.dataset.tab===id))}document.querySelectorAll('.bottom-nav button, .tabs button').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));$('openJournal').onclick=()=>tab('journal');$('demoTrade').onclick=()=>{trades.unshift({id:String(Date.now()),ticker:'HPE',strategy:'Covered Call',tradeDate:'2026-10-19',expiry:'2026-10-30',strike:75,contracts:1,premium:1.2,closeDebit:0,fee:1.3,status:'Open'});save();tab('journal')};$('tradeForm').onsubmit=e=>{e.preventDefault();const ticker=cleanTicker($('ticker').value),date=$('tradeDate').value,expiry=$('expiry').value;if(!ticker||!date||!expiry||expiry<date){alert('Перевір тикер та дати');return}const status=$('status').value;if(status==='Open'&&num('closeDebit')>0){alert('Для відкритої угоди не вводь ціну викупу. Спочатку зміни статус на Closed.');return}trades.unshift({id:String(Date.now())+Math.random().toString(36).slice(2),ticker,strategy:$('strategy').value,tradeDate:date,expiry,strike:num('strike'),contracts:num('contracts'),premium:num('premium'),closeDebit:num('closeDebit'),fee:num('fee'),status});save();$('tradeForm').reset();$('tradeDate').value=currentDate();$('contracts').value='1';$('fee').value='0';$('closeDebit').value='0'};$('tradesBody').onclick=e=>{const b=e.target.closest('[data-delete]');if(!b)return;if(confirm('Видалити цю угоду?')){trades=trades.filter(t=>t.id!==b.dataset.delete);save()}};
+let mode='cc';document.querySelectorAll('#calcTabs button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('#calcTabs button').forEach(x=>x.classList.toggle('active',x===b));$('sharesField').classList.toggle('hidden',mode!=='cc');$('leapField').classList.toggle('hidden',mode!=='pmcc');calculate()});['cStrike','cPrem','cQty','cShares','cLeap'].forEach(id=>$(id).addEventListener('input',calculate));function calculate(){let strike=num('cStrike'),prem=num('cPrem'),qty=num('cQty');if(qty<1||strike<=0||prem<0){$('calcResult').textContent='Введи правильні значення';return}let val='',note='';if(mode==='cc'){const shares=num('cShares');val=`Отримана премія: <strong>${money(prem*100*qty)}</strong><br>Зобов’язання поставити: ${100*qty} акцій<br>Якщо виконають call: орієнтовний результат відносно ціни купівлі акцій <strong>${money(((strike-shares)+prem)*100*qty)}</strong>`;note='Без комісій, дивідендів і податків. Це НЕ загальний P/L рахунку. При падінні ціни акцій можливі значні збитки.'}else if(mode==='csp'){val=`Зарезервовані кошти за страйком: <strong>${money(strike*100*qty)}</strong><br>Отримана премія: ${money(prem*100*qty)}<br>Ефективна ціна акцій при призначенні: <strong>${money(strike-prem)} за акцію</strong>`;note='Без комісій і податків. Якщо акції різко впадуть, премія покриє лише частину збитків.'}else{const leap=num('cLeap');val=`Дебет LEAPS мінус кредит short call: <strong>${money((leap-prem)*100*qty)}</strong><br>Кількість short call контрактів: ${qty}`;note='Це лише початковий чистий дебет двох ніг. Без страйку та експірації LEAPS неможливо коректно визначити max loss, max profit або ризик раннього виконання. Не використовуй це як повний PMCC-ризик-розрахунок.'}$('calcResult').innerHTML=val;$('calcNote').textContent=note}calculate();
+const taskText={risk:'Оціни ризики covered call або cash-secured put: капітал під 100 акцій, концентрацію, ліквідність, ризик присвоєння, сценарії −20% і −30%, 7 DTE vs 30–45 DTE. Не вигадуй котирування.',rolling:'Порівняй buy-to-close зараз проти очікування експірації. Попроси відсутні premium received, current buy-to-close, commissions, expiry, stock price, strike. Окремо покажи вже зароблене та залишковий ризик.',technicals:'Зроби 1D/1W аналіз: OHLCV, EMA20/SMA50/SMA200, RSI14, MACD, Stochastic, AO/AC, дивергенції, HL/HH, підтримка і опір. Не вигадуй значень та дату джерела.',pmcc:'Перевір PMCC: довгий LEAPS strike, expiration, debit, short call strike, premium, expirations, net debit, breakeven, max risk, assignment, liquidity, delta, early exercise. Познач відсутні поля.',daily:'Створи денний план аналізу: відкриті позиції, премії, buy-to-close vs expiry, earnings/catalysts, ризик лімітів, технічний 1D/1W чекліст. Не удавай, що маєш live prices.'};$('generatePrompt').onclick=()=>{const ticker=cleanTicker($('promptTicker').value)||'Тикер не вказано';$('promptOutput').value=`Проаналізуй ${ticker} українською. ${taskText[$('task').value]}\n\nМої дані:\n${$('context').value.trim()||'[додам дані окремо]'}\n\nДай структуровану відповідь із формулами, припущеннями, невідомими даними й основними ризиками. Не вважай це торговим наказом.`};$('copyPrompt').onclick=async()=>{const t=$('promptOutput').value;if(!t){alert('Спочатку створи запит');return}try{await navigator.clipboard.writeText(t);alert('Скопійовано')}catch{$('promptOutput').focus();$('promptOutput').select();alert('Виділено — скопіюй текст вручну')}};
+function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}$('exportJson').onclick=()=>download('viktor-options-backup.json',JSON.stringify({version:1,trades},null,2),'application/json');$('exportCsv').onclick=()=>{const cols=['ticker','strategy','tradeDate','expiry','strike','contracts','premium','closeDebit','fee','status'];const lines=[cols.join(','),...trades.map(t=>cols.map(k=>'"'+String(t[k]??'').replaceAll('"','""')+'"').join(','))];download('viktor-options.csv','\ufeff'+lines.join('\r\n'),'text/csv;charset=utf-8')};$('importJson').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const obj=JSON.parse(await file.text());if(obj.version!==1||!Array.isArray(obj.trades)||obj.trades.length>10000||obj.trades.some(t=>!t||typeof t.ticker!=='string'||typeof t.id!=='string'||!['Open','Closed','Expired'].includes(t.status)||!Number.isFinite(t.premium)||!Number.isFinite(t.contracts)||!Number.isFinite(t.closeDebit)||!Number.isFinite(t.fee))){throw Error('Invalid data')}if(confirm(`Імпортувати ${obj.trades.length} записів, замінивши поточні?`)){trades=obj.trades;save()}}catch{alert('Некоректний файл резервної копії')}e.target.value=''};$('clearAll').onclick=()=>{if(confirm('Назавжди видалити всі записи на цьому пристрої? Зроби резервну копію перед видаленням.')){trades=[];save()}};if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+// v1.1 additions: retain KEY 'viktor-options-journal-v1', keeping existing records.
+const oldRender=render;
+render=function(){oldRender();renderExtras()};
+function renderExtras(){
+ const open=trades.filter(t=>t.status==='Open');
+ $('manageTrades').innerHTML=open.length?open.map(t=>`<div class="tradeitem"><b>${esc(t.ticker)}</b> · ${esc(t.strategy)} · ${esc(t.expiry)} · $${esc(t.strike)} · ${esc(t.contracts)} контракт(ів)<div class="row"><button data-close="${esc(t.id)}">Закрити</button><button data-roll="${esc(t.id)}">Ролювати</button></div></div>`).join(''):'<p class="muted">Відкритих позицій немає.</p>';
+ const dated=trades.filter(t=>t.expiry && t.status==='Open').sort((a,b)=>a.expiry.localeCompare(b.expiry));
+ const today=new Date();today.setHours(0,0,0,0);
+ $('expiryList').innerHTML=dated.length?dated.map(t=>{const d=new Date(t.expiry+'T12:00:00');const days=Math.round((d-today)/86400000);return `<div class="calendaritem"><strong>${esc(t.expiry)}</strong> · ${esc(t.ticker)} (${esc(t.strategy)})<br><small>${days<0?'Дата минула на '+Math.abs(days)+' дн.':days===0?'Сьогодні': 'Через '+days+' дн.'} · strike $${esc(t.strike)} · ${esc(t.contracts)} контракт(ів)</small></div>`}).join(''):'<p class="muted">Немає відкритих позицій з експірацією.</p>';
+}
+let rollingId=null;
+function rollPreview(){const t=trades.find(x=>x.id===rollingId);if(!t)return;const btc=Number($('rollBtc').value),prem=Number($('rollPremium').value),fee=Number($('rollFee').value),q=t.contracts||1;const net=(prem-btc)*100*q-fee;$('rollResult').textContent=[btc,prem,fee].every(x=>Number.isFinite(x)&&x>=0)?`Чистий ${net>=0?'кредит':'дебет'} ролювання: ${money(Math.abs(net))} (без раніше отриманої премії)`:'Перевір значення.';}
+function openRoll(t){rollingId=t.id;$('rollInfo').textContent=`${t.ticker} · ${t.strategy} · ${t.contracts} контр. · попередня експірація ${t.expiry}`;$('rollBtc').value=t.closeDebit||0;$('rollExpiry').value=t.expiry;$('rollExpiry').min=currentDate();$('rollStrike').value=t.strike;$('rollPremium').value='0';$('rollFee').value='0';$('rollCloseFee').value='0';rollPreview();$('rollDialog').showModal()}
+$('rollCancel').onclick=()=>$('rollDialog').close();$('rollDialog').addEventListener('close',()=>{rollingId=null});['rollBtc','rollPremium','rollFee','rollCloseFee'].forEach(id=>$(id).addEventListener('input',rollPreview));
+$('manageTrades').addEventListener('click',e=>{
+ const closeBtn=e.target.closest('[data-close]');const rollBtn=e.target.closest('[data-roll]');if(!closeBtn&&!rollBtn)return;
+ const t=trades.find(x=>x.id===(closeBtn||rollBtn).dataset[closeBtn?'close':'roll']);if(!t)return;
+ if(rollBtn){openRoll(t);return}
+ const debitInput=prompt(`Викуп ${t.ticker} ($ за акцію). Введи ціну BTC:`,String(t.closeDebit||0));if(debitInput===null)return;
+ if(debitInput.trim()===''||!Number.isFinite(Number(debitInput))||Number(debitInput)<0){alert('Некоректна ціна викупу');return}
+ const debit=Number(debitInput);if(!confirm(`Закрити ${t.ticker} по $${debit.toFixed(2)}/акцію?`))return;t.status='Closed';t.closeDebit=debit;t.closedAt=currentDate();save();
+});
+$('rollForm').addEventListener('submit',e=>{e.preventDefault();const t=trades.find(x=>x.id===rollingId);if(!t||t.status!=='Open')return;const expiry=$('rollExpiry').value,btc=Number($('rollBtc').value),strike=Number($('rollStrike').value),premium=Number($('rollPremium').value),fee=Number($('rollFee').value),closeFee=Number($('rollCloseFee').value);if(!expiry||expiry<currentDate()||!Number.isFinite(new Date(expiry+'T12:00:00').getTime())||![btc,strike,premium,fee,closeFee].every(Number.isFinite)||btc<0||strike<=0||premium<0||fee<0||closeFee<0){alert('Перевір дату та значення');return}if(!confirm(`Підтвердити ролювання ${t.ticker}? Старий запис буде закрито, новий відкрито.`))return;
+ t.status='Closed';t.closeDebit=btc;t.fee=(Number(t.fee)||0)+closeFee;t.closedAt=currentDate();trades.unshift({id:String(Date.now())+'-roll',ticker:t.ticker,strategy:t.strategy,tradeDate:currentDate(),expiry,strike,contracts:t.contracts,premium,closeDebit:0,fee:fee,status:'Open',rolledFrom:t.id});$('rollDialog').close();save();});
+function btcCalculate(){const cr=Number($('btcCredit').value),db=Number($('btcDebit').value),q=Number($('btcQty').value),fees=Number($('btcFees').value);if([cr,db,q,fees].some(x=>!Number.isFinite(x))||cr<0||db<0||q<1||!Number.isInteger(q)||fees<0){$('btcResult').textContent='Введи коректні значення.';return}
+ const received=cr*100*q, buyback=db*100*q,now=received-buyback-fees, expire=received-fees;
+ $('btcResult').innerHTML=`Отримана премія: <strong>${money(received)}</strong><br>Викуп зараз: ${money(buyback)}<br>Результат закриття зараз: <strong>${money(now)}</strong><br>Якщо short опціон знеціниться до $0: <strong>${money(expire)}</strong><br>Додаткова премія, яку ще можна зберегти: ${money(buyback)}`;
+ $('btcNote').textContent='Сценарій експірації за нульовою вартістю — не прогноз. Призначення, рух акцій, LEAPS, зміна маржі, додаткові комісії та ризик утримання не враховані.';
+}
+['btcCredit','btcDebit','btcQty','btcFees'].forEach(x=>$(x).addEventListener('input',btcCalculate));btcCalculate();renderExtras();
+
+// Version 1.3 — extra analytics, backward compatible with v1.2 journal.
+(function(){
+const nav=document.querySelector('nav.tabs');const button=document.createElement('button');button.dataset.tab='history';button.textContent='Історія й ризик';nav.insertBefore(button,nav.querySelector('[data-tab="settings"]'));
+// both desktop and mobile nav are controlled by existing tab listeners; manually bind the new tab
+button.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.id==='history'));document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab==='history'));renderV13()});
+const M=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const val=(id)=>{let v=Number(document.getElementById(id).value);return Number.isFinite(v)&&v>=0?v:0};
+function renderV13(){
+const grouped=Object.groupBy?Object.groupBy(trades,t=>t.ticker):trades.reduce((a,t)=>{(a[t.ticker]??=[]).push(t);return a},{});
+const targets=Object.keys(grouped).sort();
+document.getElementById('v13History').innerHTML=targets.length?targets.map(ticker=>{
+ const ts=[...grouped[ticker]].sort((a,b)=>String(a.tradeDate).localeCompare(String(b.tradeDate)));
+ const realized=ts.filter(t=>t.status!=='Open').reduce((a,t)=>a+((Number(t.premium)||0)-(Number(t.closeDebit)||0))*100*(Number(t.contracts)||0)-(Number(t.fee)||0),0);
+ const moneyflow=ts.reduce((a,t)=>a+(Number(t.premium)||0)*100*(Number(t.contracts)||0),0);
+ return `<div class="v13item"><button class="v13toggle" data-v13ticker="${E(ticker)}" aria-expanded="false">${E(ticker)} · ${ts.length} запис(ів) · реаліз. short P/L: ${M(realized)}</button><div class="v13detail hidden"><p>Отримані премії за всіма ногами: <b>${M(moneyflow)}</b> (частина за відкритими контрактами ще не зароблена).</p><table class="v13table"><tbody>${ts.map(t=>`<tr><td>${E(t.tradeDate)}<br>${E(t.strategy)}<br>${E(t.status)}</td><td>Страйк ${M(Number(t.strike)||0)}<br>Експ. ${E(t.expiry)}<br>Премія ${M((Number(t.premium)||0)*100*(Number(t.contracts)||0))}<br>BTC ${M((Number(t.closeDebit)||0)*100*(Number(t.contracts)||0))}<br>Комісії ${M(Number(t.fee)||0)}${t.rolledFrom?'<br>Рольована нога':''}</td></tr>`).join('')}</tbody></table><p class="muted">P/L закритих ніг не враховує зміни ціни акцій або LEAPS. Для старих ролювань усі комісії могли записатися на нову ногу — перевір у брокерській виписці.</p></div></div>`;
+}).join(''):'<p class="muted">У журналі поки немає угод.</p>';
+ const csp=trades.filter(t=>t.status==='Open'&&t.strategy==='Cash-Secured Put').reduce((a,t)=>a+(Number(t.strike)||0)*100*(Number(t.contracts)||0),0);
+ const cc=val('v13CC'),leap=val('v13Leap'),other=val('v13Other'),used=csp+cc+leap+other,available=30000-used;
+ const hi=val('v13High'),spec=val('v13Spec');
+ document.getElementById('v13Risk').innerHTML=`<div class="v13metrics"><div><span class="v13metric-label">CSP забезпечення з журналу</span><strong>${M(csp)}</strong></div><div><span class="v13metric-label">Зайнято, орієнтовно</span><strong>${M(used)}</strong></div><div><span class="v13metric-label">Вільно за моделлю</span><strong>${M(available)}</strong></div><div><span class="v13metric-label">Мін. резерв 25%</span><strong>${M(7500)}</strong></div></div><div class="v13warn">${available<7500?'⚠️ Резерв 25% порушено за введеними даними.':'Резерв ≥ $7 500 за введеними даними.'} ${hi>4500?'⚠️ Перевищено ліміт високої волатильності $4 500.':''} ${spec>7500?'⚠️ Перевищено ліміт спекулятивного кластера $7 500.':''}<br>Ліміт звичайної позиції $9 000 треба перевіряти для кожного тикера окремо. Наведені величини залежать від повноти ручних даних.</div>`;
+}
+document.getElementById('v13History').addEventListener('click',e=>{const b=e.target.closest('[data-v13ticker]');if(!b)return;const d=b.nextElementSibling;d.classList.toggle('hidden');b.setAttribute('aria-expanded',String(!d.classList.contains('hidden')))});
+['v13CC','v13Leap','v13Other','v13High','v13Spec'].forEach(id=>{const el=document.getElementById(id);const key='viktor-v13-'+id;el.value=localStorage.getItem(key)||'0';el.addEventListener('input',()=>{localStorage.setItem(key,el.value);renderV13()})});
+// preserve existing trade render and saved key. No mutations to financial records.
+const originalSave=save;save=function(){originalSave();renderV13()};renderV13();
+})();
+</script>
+<style>
+.bottom-nav{grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}.bottom-nav button{font-size:13px!important;white-space:nowrap;min-width:0}.bottom-nav button span{font-size:23px}
+.more-menu{position:fixed;bottom:calc(87px + env(safe-area-inset-bottom));right:12px;left:12px;max-width:520px;margin:auto;z-index:31;background:#18364b;border:1px solid #527286;border-radius:18px;padding:10px;box-shadow:0 0 0 100vmax #0008}.more-menu button{display:block;width:100%;font-size:18px;text-align:left;padding:15px;margin:2px 0}.journal-cards{display:grid;gap:12px}.j-card{background:#132d41;border:1px solid #34546a;border-radius:15px;padding:16px}.j-card h3{font-size:20px;margin:0}.j-head{display:flex;justify-content:space-between;align-items:start;gap:8px;flex-wrap:wrap}.j-lines{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin:15px 0}.j-lines div{min-width:0}.j-lines small{display:block;color:#adcadc;font-size:14px}.j-lines strong{display:block;font-size:17px;overflow-wrap:anywhere;margin-top:3px}.j-foot{border-top:1px solid #3a5266;padding-top:12px;display:flex;justify-content:space-between;gap:10px;align-items:center}.j-foot button{font-size:16px}.v13table td{font-size:16px;min-width:0;overflow-wrap:anywhere}.v13detail .v13table{min-width:0;width:100%}.v13detail{overflow-x:auto}.v13toggle{font-size:17px!important;line-height:1.45!important}.v13detail p{font-size:16px}.sectionfoot,.muted{font-size:16px}
+@media(max-width:390px){.j-lines{gap:8px}.j-card{padding:12px}.bottom-nav button{font-size:11px!important}.bottom-nav button span{font-size:21px}}
+ .market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:16px 0}.market-card{padding:15px;border:1px solid #36576b;border-radius:14px;background:#153146}.market-card strong{font-size:24px}.market-card small{display:block;font-size:15px;color:#abc8d9}.market-card .price{font-size:26px;font-weight:800;margin:10px 0}.market-card .foot{color:#abc8d9;font-size:14px;line-height:1.4}#marketEndpoint,#marketTickers{font-size:17px;margin-bottom:12px} #rhMultiImport .rhm-audit-table{border-collapse:collapse;width:100%;font-size:13px;min-width:440px}
+#rhMultiImport .rhm-audit-table th,#rhMultiImport .rhm-audit-table td{padding:8px;border-bottom:1px solid #48697d;text-align:left;vertical-align:top}
+#rhMultiImport .rhm-audit-table th{font-weight:700}
+</style>
+<script>
+(function(){
+ const more=document.getElementById('moreButton'),menu=document.getElementById('moreMenu');
+ more.addEventListener('click',()=>{const open=menu.classList.toggle('hidden');more.setAttribute('aria-expanded',String(!open))});
+ document.querySelectorAll('[data-more-tab]').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.moreTab;menu.classList.add('hidden');more.setAttribute('aria-expanded','false');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.id===id));document.querySelectorAll('.bottom-nav button').forEach(t=>t.classList.toggle('active',t===more));if(id==='history'&&typeof window.renderV13==='function')window.renderV13();else if(id==='history'){const desktop=document.querySelector('nav.tabs [data-tab="history"]');if(desktop)desktop.click();}window.scrollTo(0,0)}));
+ document.querySelectorAll('.bottom-nav [data-tab]').forEach(b=>b.addEventListener('click',()=>{menu.classList.add('hidden');more.setAttribute('aria-expanded','false');window.scrollTo(0,0)}));
+ function fmtDate(d){if(!/^\d{4}-\d{2}-\d{2}$/.test(String(d)))return String(d||'—');const [y,m,day]=d.split('-');return `${day}.${m}.${y}`}
+ function renderCards(){const wrap=document.getElementById('journalCards');if(!wrap)return;wrap.innerHTML=trades.length?trades.map(t=>{const closed=t.status!=='Open';const pl=closed?((t.premium-t.closeDebit)*100*t.contracts-t.fee):null;return `<article class="j-card"><div class="j-head"><h3>${esc(t.ticker)} · ${esc(t.strategy)}</h3><span class="chip">${esc(t.status)}</span></div><div class="j-lines"><div><small>Відкрито</small><strong>${fmtDate(t.tradeDate)}</strong></div><div><small>Експірація</small><strong>${fmtDate(t.expiry)}</strong></div><div><small>Страйк</small><strong>${money(Number(t.strike)||0)}</strong></div><div><small>Контракти</small><strong>${Number(t.contracts)||0}</strong></div><div><small>Премія отримана</small><strong>${money((Number(t.premium)||0)*100*(Number(t.contracts)||0))}</strong></div><div><small>BTC ${closed?'':'(ще не закрито)'}</small><strong>${closed?money((Number(t.closeDebit)||0)*100*(Number(t.contracts)||0)):'—'}</strong></div><div><small>Комісії за записом</small><strong>${money(Number(t.fee)||0)}</strong></div><div><small>Short P/L за записом</small><strong>${closed?money(pl):'Не реалізований'}</strong></div></div><div class="j-foot"><small>${t.rolledFrom?'Нова нога після ролювання':'Опціонна нога'}</small><div class="row"><button type="button" data-edit-card="${esc(t.id)}">Редагувати</button><button class="danger" data-delete-card="${esc(t.id)}">Видалити</button></div></div></article>`}).join(''):'<p class="muted">Журнал порожній.</p>'}
+ const old=window.render;window.render=function(){old();renderCards()};renderCards();
+ const undoBar=document.createElement('div');undoBar.id='undoDeletion';undoBar.hidden=true;undoBar.innerHTML='<span>Угоду видалено з журналу</span><button type="button" id="undoDeleteBtn">Скасувати</button>';document.body.appendChild(undoBar);
+ let deletedTrade=null,deletedIndex=-1;
+ document.getElementById('undoDeleteBtn').addEventListener('click',()=>{if(!deletedTrade)return;if(!trades.some(t=>t.id===deletedTrade.id)){trades.splice(Math.min(deletedIndex,trades.length),0,deletedTrade);save()}deletedTrade=null;undoBar.hidden=true});
+ document.getElementById('journalCards').addEventListener('click',e=>{const b=e.target.closest('[data-delete-card]');if(!b)return;const idx=trades.findIndex(t=>t.id===b.dataset.deleteCard);if(idx<0)return;const tr=trades[idx];if(!confirm(`Видалити ${tr.ticker} (${tr.expiry})? Запис буде прибрано з журналу. Його можна одразу відновити.`))return;deletedIndex=idx;deletedTrade=tr;trades=trades.filter(t=>t.id!==tr.id);save();undoBar.hidden=false});
+ const h=document.querySelector('#home .stat:last-child span');if(h)h.textContent='Short P/L закритих ніг (перевір комісії)';
+ const note=document.createElement('p');note.className='note';note.textContent='Увага: для раніше збережених ролювань комісії могли бути повністю приписані новому контракту. Цифри P/L за історичними записами не є перевіреним брокерським результатом. Чистий кредит ролювання ≠ реалізований P/L.';document.querySelector('#journal .panel:last-child').append(note);
+})();
+</script>
+
+<style>
+#editDialog{background:#10253a;color:#eaf4fc;border:1px solid #416377;border-radius:20px;width:min(94vw,520px);max-height:88dvh;overflow:auto;padding:18px}#editDialog::backdrop{background:#000b}#editDialog .field{margin-bottom:11px}#editDialog label{font-size:16px}#editDialog input,#editDialog select{font-size:18px;max-width:100%;min-width:0}#editDialog .actions{display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}#editDialog .date-field{min-width:0}#editDialog input[type=date]{display:block;width:100%;max-width:100%;box-sizing:border-box} .financial-audit{line-height:1.5}.financial-audit strong{font-size:20px} .j-foot{flex-wrap:wrap} .j-foot .row{flex-wrap:wrap} @media(max-width:620px){#editDialog{padding:15px} .bottom-nav button{font-size:12px!important} .j-head{flex-wrap:wrap}}
+ .market-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:16px 0}.market-card{padding:15px;border:1px solid #36576b;border-radius:14px;background:#153146}.market-card strong{font-size:24px}.market-card small{display:block;font-size:15px;color:#abc8d9}.market-card .price{font-size:26px;font-weight:800;margin:10px 0}.market-card .foot{color:#abc8d9;font-size:14px;line-height:1.4}#marketEndpoint,#marketTickers{font-size:17px;margin-bottom:12px} </style>
+<dialog id="editDialog" aria-labelledby="editTitle"><form id="editTradeForm"><h2 id="editTitle">Редагувати угоду</h2><p class="note">Редагування змінює локальний запис. Спершу звір дані з брокером; журнал змін не зберігається.</p><div class="field"><label for="edTicker">Тикер</label><input id="edTicker" maxlength="12" required></div><div class="field"><label for="edStrategy">Стратегія</label><select id="edStrategy"><option>Covered Call</option><option>Cash-Secured Put</option><option>PMCC</option></select></div><div class="field date-field"><label for="edTradeDate">Дата відкриття</label><input id="edTradeDate" type="date" required></div><div class="field date-field"><label for="edExpiry">Експірація</label><input id="edExpiry" type="date" required></div><div class="field"><label for="edStrike">Страйк ($)</label><input id="edStrike" type="number" step="0.01" min="0.01" required></div><div class="field"><label for="edContracts">Контракти</label><input id="edContracts" type="number" step="1" min="1" required></div><div class="field"><label for="edPremium">Отримана премія ($/акцію)</label><input id="edPremium" type="number" step="0.01" min="0" required></div><div class="field"><label for="edDebit">BTC ($/акцію)</label><input id="edDebit" type="number" step="0.01" min="0" required></div><div class="field"><label for="edFee">Комісії цього запису ($)</label><input id="edFee" type="number" step="0.01" min="0" required></div><div class="field"><label for="edStatus">Статус</label><select id="edStatus"><option>Open</option><option>Closed</option><option>Expired</option></select></div><div class="actions"><button type="button" id="edCancel">Скасувати</button><button class="primary" type="submit">Зберегти зміни</button></div></form></dialog>
+<script>
+(function(){
+let editId=null;const fields={ticker:'edTicker',strategy:'edStrategy',tradeDate:'edTradeDate',expiry:'edExpiry',strike:'edStrike',contracts:'edContracts',premium:'edPremium',closeDebit:'edDebit',fee:'edFee',status:'edStatus'};
+const dialog=document.getElementById('editDialog');
+document.getElementById('journalCards').addEventListener('click',e=>{const b=e.target.closest('[data-edit-card]');if(!b)return;const t=trades.find(x=>x.id===b.dataset.editCard);if(!t)return;editId=t.id;for(const [k,id] of Object.entries(fields))document.getElementById(id).value=t[k]??'';dialog.showModal()});
+document.getElementById('edCancel').onclick=()=>dialog.close();
+document.getElementById('editTradeForm').addEventListener('submit',e=>{e.preventDefault();const t=trades.find(x=>x.id===editId);if(!t)return;const next={};for(const [k,id] of Object.entries(fields)){const el=document.getElementById(id);next[k]=['strike','contracts','premium','closeDebit','fee'].includes(k)?Number(el.value):el.value.trim()}
+ if(!cleanTicker(next.ticker)||next.tradeDate>next.expiry||!/^\d{4}-\d{2}-\d{2}$/.test(next.expiry)||!Number.isInteger(next.contracts)||next.contracts<1||next.strike<=0||[next.premium,next.closeDebit,next.fee].some(x=>!Number.isFinite(x)||x<0)){alert('Перевір дати та числові значення');return}
+ next.ticker=cleanTicker(next.ticker);if(!confirm('Змінити цей запис? Попередні значення буде замінено.'))return;Object.assign(t,next);save();dialog.close();});
+// A transparent reconciliation summary rather than a false claim that legacy fees were audited.
+const panel=document.createElement('div');panel.className='panel financial-audit';panel.id='financeAudit';
+const home=document.getElementById('home');home.appendChild(panel);
+function audit(){const closed=trades.filter(t=>t.status!=='Open'),open=trades.filter(t=>t.status==='Open');const sum=f=>trades.reduce((s,t)=>s+f(t),0);const cashPremium=sum(t=>(Number(t.premium)||0)*100*(Number(t.contracts)||0));const buybacks=closed.reduce((s,t)=>s+(Number(t.closeDebit)||0)*100*(Number(t.contracts)||0),0);const fees=sum(t=>Number(t.fee)||0);const realized=closed.reduce((s,t)=>s+((Number(t.premium)||0)-(Number(t.closeDebit)||0))*100*(Number(t.contracts)||0)-(Number(t.fee)||0),0);const openPremium=open.reduce((s,t)=>s+(Number(t.premium)||0)*100*(Number(t.contracts)||0),0);const by={};for(const t of trades){const k=cleanTicker(t.ticker)||'Інше';(by[k]??=[]).push(t)}panel.innerHTML=`<h2>Звірка премій і P/L</h2><p class="muted">Лише короткі опціонні ноги, без акцій, LEAPS і податків.</p><div class="grid"><div class="stat"><span>Премії, отримані при відкритті</span><b>${money(cashPremium)}</b></div><div class="stat"><span>Викуп закритих опціонів</span><b>${money(buybacks)}</b></div><div class="stat"><span>Всі записані комісії</span><b>${money(fees)}</b></div><div class="stat"><span>Реалізований short P/L закритих</span><b>${money(realized)}</b></div></div><p>Премії відкритих ніг: <b>${money(openPremium)}</b> — це ще не реалізований результат.</p><h3>За тикерами</h3>${Object.entries(by).sort().map(([k,ts])=>`<p><b>${esc(k)}</b> · ${ts.length} запис(ів) · закритий short P/L: <strong>${money(ts.filter(t=>t.status!=='Open').reduce((s,t)=>s+((Number(t.premium)||0)-(Number(t.closeDebit)||0))*100*(Number(t.contracts)||0)-(Number(t.fee)||0),0))}</strong></p>`).join('')}<p class="note">Зверни увагу: комісії старих ролювань могли бути віднесені до нової ноги. Їх потрібно звірити з випискою брокера. Поточна оцінка не є аудитом реального рахунку.</p>`;}
+const prevSave=save;save=function(){prevSave();audit()};audit();
+})();
+</script>
+<script>
+(()=>{'use strict';
+const E=id=>document.getElementById(id), state=E('marketState'), cards=E('marketCards');
+const urlKey='viktor-market-worker-url-v1'; E('marketEndpoint').value=localStorage.getItem(urlKey)||'';
+const escM=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+E('marketClear').addEventListener('click',()=>{cards.replaceChildren();state.textContent='Показники очищено. Дані не збережено у журналі угод.';});
+E('marketLoad').addEventListener('click',async()=>{
+ const endpoint=E('marketEndpoint').value.trim().replace(/\/$/,'');
+ let parsed;try{parsed=new URL(endpoint);if(parsed.protocol!=='https:'||parsed.username||parsed.password||parsed.search||parsed.hash)throw Error('bad');}catch{state.textContent='Введи правильну HTTPS-адресу свого шлюзу (без ключів і параметрів).';return}
+ const symbols=[...new Set(E('marketTickers').value.toUpperCase().split(',').map(x=>x.trim()).filter(Boolean))];
+ if(!symbols.length||symbols.length>5||symbols.some(x=>! /\b[A-Z][A-Z0-9.\-]{0,9}\b/.test(x))){state.textContent='Введи від 1 до 5 правильних тикерів.';return}
+ localStorage.setItem(urlKey,endpoint); cards.replaceChildren();const btn=E('marketLoad');btn.disabled=true;
+ state.textContent='Запит до шлюзу…';
+ try{
+  const results=[];
+  for(const symbol of symbols){const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
+   let response;try{response=await fetch(endpoint+'/quote?symbol='+encodeURIComponent(symbol),{method:'GET',cache:'no-store',signal:controller.signal});}finally{clearTimeout(timeout)}
+   const data=await response.json();if(!response.ok||data.error)throw Error(data.error||'HTTP '+response.status);
+   if(data.symbol!==symbol||!Number.isFinite(data.close)||data.close<=0||!/^\d{4}-\d{2}-\d{2}$/.test(data.session)||data.kind!=='EOD')throw Error('Некоректна відповідь для '+symbol);
+   results.push(data);
+  }
+  cards.innerHTML=results.map(q=>'<div class="market-card"><strong>'+escM(q.symbol)+'</strong><div class="price">$'+q.close.toFixed(2)+'</div><small>Ціна закриття · '+escM(q.session)+'</small><div class="foot">Тип: EOD · Дані можуть бути за попередній торговий день</div></div>').join('');
+  state.textContent='Отримано '+results.length+' цін EOD. Час запиту: '+new Date().toLocaleString('uk-UA')+'.';
+ }catch(err){cards.replaceChildren();state.textContent='Не вдалося отримати ціни: '+(err.name==='AbortError'?'перевищено час очікування':err.message)+'. Перевір шлюз, ключ і ліміти API.';}
+ finally{btn.disabled=false}
+});
+})();
+</script><style>
+.v16layout{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,310px),1fr));gap:12px}.v16box{border:1px solid #34546a;border-radius:14px;padding:14px;background:#132d41}.v16box h3{margin:0 0 9px}.v16box small{font-size:14px}.v16out{overflow:auto;max-height:420px}.v16out table{min-width:640px;font-size:14px}.v16success{color:#8eedc4}.v16warning{color:#ffd18a}.v16box input{font-size:17px}.v16quote{border:1px solid #34546a;border-radius:12px;padding:12px;margin-top:10px}.v16quote strong{font-size:20px}.v16box .row{margin:12px 0}.v16box input[type=file]{padding:9px;font-size:15px}@media(max-width:550px){#v16Module{padding:12px}.v16box{padding:12px}.v16out table{min-width:550px}}
+</style>
+<section class="tab" id="importsAndOptions"><div class="panel" id="v16Module"><h2>Robinhood CSV + Options Bid/Ask</h2><p class="note">Режим дослідження та перевірки. Імпорт не змінює журнал автоматично; жодні ордери не надсилаються брокеру.</p>
+<div class="v16layout"><div class="v16box"><h3>📄 Імпорт Robinhood CSV</h3><p>Вибери завантажений із Robinhood Account Activity Report (.csv). Обробка відбувається безпосередньо на цьому пристрої.</p><label for="v16Csv">Файл CSV</label><input type="file" id="v16Csv" accept=".csv,text/csv,text/plain"><p id="v16CsvStatus" class="muted" aria-live="polite">Файл ще не вибрано.</p><button id="v16ClearCsv" type="button">Очистити попередній перегляд</button><div id="v16CsvPreview" class="v16out"></div><p class="sectionfoot">Через відмінності форматів CSV не всі рядки можна автоматично визначити як опціони. Перевіримо заголовки й значення з реального звіту перед додаванням імпорту до журналу; немає автоматичного об'єднання ролювань та розрахунку P/L.</p></div>
+<div class="v16box" id="v17box"><h3>📊 Robinhood — повний імпорт v2.0</h3><p class="muted">Окремий локальний архів. Журнал позицій HPE не змінюється. Перед імпортом показуємо операції та орієнтовне зіставлення коротких опціонів.</p><label for="v17file">Звіт Account Activity (.csv)</label><input type="file" id="v17file" accept=".csv,text/csv"><p id="v17state" aria-live="polite">Вибери CSV, щоб почати перевірку.</p><div id="v17stats" class="v17stats"></div><div id="v17exceptions"></div><div id="v18audit" class="v18audit" aria-live="polite"></div><div class="v19panel" id="v19panel"><h3>🔎 Звірка позицій Robinhood · v2.0</h3><p class="muted">Контрольний знімок із Robinhood від 18.10.2026. Це не живе з’єднання з брокером. CSV закінчується 14.10.2026; операції між цими датами можуть змінювати позиції.</p><div class="v19summary" id="v19summary"></div><div id="v19rows"></div><div class="v19controls"><button type="button" id="v19export">Експорт звірки JSON</button><button type="button" id="v19reset">Відновити контрольний список</button></div><p class="muted">Поточний торговий журнал HPE та імпортований архів не змінюються. Позиції зі знімка можна звірити з CSV після вибору файлу вище.</p></div>
+<section class="panel" id="rh20" aria-label="Robinhood 2.0 фінансова звірка">
+<h2>📊 Robinhood 2.0 · фінансова звірка</h2>
+<p class="muted">Окремий аналітичний модуль. Контрольні позиції Robinhood не додаються до тестового журналу HPE. Дані CSV залишаються на цьому пристрої; для нового перегляду вибери файл вище.</p>
+<div id="rh20status" class="note">Завантаж CSV у розділі «Robinhood — повний імпорт» вище.</div>
+<div id="rh20totals" class="v17stats"></div>
+<h3>Контрольні позиції · Robinhood 18.10.2026</h3>
+<p class="muted">CSV закінчується 14.10.2026; збіг кількостей не підтверджує події після цієї дати. Невизначені операції з акціями, assignment, expiry та OCC не включено в реалізований результат.</p>
+<div id="rh20positions"></div>
+<h3>Звірка закритих опціонних ніг</h3>
+<div id="rh20ledger"></div>
+<p class="note">Показаний результат — cash P/L лише для повністю зіставлених відкриттів і закриттів STO/BTC або BTO/STC за FIFO; суми CSV уже містять грошові комісії Robinhood. Окремі комісії повторно не віднімаються. Підсумок не є загальним прибутком портфеля.</p>
+<h3>Bid / Ask · оцінка вартості закриття</h3>
+<p class="muted">Введи актуальні ціни Bid/Ask вручну із Robinhood або отримай їх у розділі котирувань через власний захищений API. Для проданих опціонів викуп орієнтується на Ask. Без введення ринкових цін результат невідомий.</p>
+<div id="rh20quote"></div>
+<div class="row"><button type="button" id="rh20export">Експорт звірки 2.0 JSON</button></div>
+</section><label for="v17filter">Перегляд операцій</label><select id="v17filter"><option value="all">Усі операції</option><option value="options">Усі опціонні події</option><option value="needs">Потребують перевірки</option><option value="closed">Зіставлені закриття</option></select><div id="v17rows" class="v17rows"></div><div class="v17controls"><button type="button" id="v17more">Показати ще 40</button><button type="button" id="v17confirm" class="primary" disabled>Підтвердити імпорт архіву</button></div><p id="v17saved" class="muted"></p><p class="note">Важливо: CSV зберігається тільки у локальному сховищі цього застосунку. Не завантажуй персональні звіти до публічного GitHub. Імпорт архіву не створює та не змінює торгові позиції. Розрахунки P/L попередні: потрібно враховувати assignment, expiry, cash settlement, multiplier і комісії.</p></div><div class="v16box"><h3>📈 Опціонні котирування</h3><p>Отримання котирувань конкретного опціонного контракту через захищений сервер Massive.</p><label for="v16Worker">HTTPS-адреса твого Cloudflare Worker</label><input id="v16Worker" type="url" placeholder="https://your-worker.workers.dev" autocomplete="off" spellcheck="false"><label for="v16Symbol">Акція</label><input id="v16Symbol" value="HPE" maxlength="10"><label for="v16Contract">OCC-тикер контракту (наприклад, O:HPE261106C00075000)</label><input id="v16Contract" value="O:HPE261106C00075000" spellcheck="false"><button class="primary" id="v16Load" type="button">Отримати Bid / Ask</button><p id="v16QuoteStatus" class="muted" aria-live="polite">Шлюз ще не налаштований.</p><div id="v16QuotePreview"></div><p class="sectionfoot">Котирування, Greeks і IV залежать від тарифу й доступності контракту. Bid/Ask можуть бути відсутніми. Час даних обов'язково перевіряй перед торговими рішеннями. Не вводь API-ключ у це поле.</p></div></div></div></section>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const nav=document.querySelector('nav.tabs');const b=document.createElement('button');b.dataset.tab='importsAndOptions';b.textContent='Robinhood + опціони';nav.appendChild(b);
+ b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(el=>el.classList.toggle('active',el.id==='importsAndOptions'));document.querySelectorAll('[data-tab]').forEach(el=>el.classList.toggle('active',el===b));scrollTo(0,0)});
+ const more=document.getElementById('moreMenu')||document.querySelector('.more-menu');
+ if(more){const bb=document.createElement('button');bb.type='button';bb.textContent='📊 Robinhood CSV + Bid/Ask';bb.addEventListener('click',()=>{b.click();more.classList.add('hidden')});more.appendChild(bb)}
+ function parseCSV(text){const rows=[],out=[];let cell='',row=[],quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(c==='"'){if(quoted&&text[i+1]==='"'){cell+='"';i++}else quoted=!quoted}else if(c===','&&!quoted){row.push(cell);cell=''}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&text[i+1]==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push(row);row=[];cell=''}else cell+=c}if(quoted)throw Error('CSV має незакриті лапки');row.push(cell);if(row.some(x=>x.trim()))rows.push(row);return rows}
+ const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ $('v16Csv').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;const area=$('v16CsvPreview'),msg=$('v16CsvStatus');area.replaceChildren();if(file.size>4_000_000){msg.textContent='Файл перевищує 4 MB: створи менший звіт за вибраний період.';return}try{const rows=parseCSV((await file.text()).replace(/^\uFEFF/,''));if(rows.length<2)throw Error('Немає рядків даних');const headers=rows[0].map(s=>s.trim()),data=rows.slice(1);const validHeader=headers.some(x=>/date|activity|description|instrument|symbol|amount|type|trans|quantity|price/i.test(x));if(!validHeader)throw Error('Не впізнаю заголовки звіту. Потрібен CSV Account Activity з Robinhood.');const sample=data.slice(0,50);const matches=data.filter(r=>r.some(v=>/\b(?:put|call|option|expir|assign|exercise|O:[A-Z]{1,6}\d{6}[CP]\d{8})\b/i.test(v))).length;msg.textContent=`Знайдено ${data.length} рядків, ${matches} можливих опціонних. Показано лише перші ${sample.length}. Журнал не змінено.`;const tbl=document.createElement('table');let html='<thead><tr>'+headers.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr></thead><tbody>'+sample.map(row=>'<tr>'+headers.map((_,i)=>'<td>'+esc(row[i]||'')+'</td>').join('')+'</tr>').join('')+'</tbody>';tbl.innerHTML=html;area.appendChild(tbl)}catch(err){msg.textContent='Не вдалося розібрати CSV: '+err.message}});
+ $('v16ClearCsv').addEventListener('click',()=>{$('v16Csv').value='';$('v16CsvPreview').replaceChildren();$('v16CsvStatus').textContent='Попередній перегляд очищено.'});
+ const oldKey='viktor-market-worker-url-v1';$('v16Worker').value=localStorage.getItem(oldKey)||'';
+ $('v16Load').addEventListener('click',async()=>{const msg=$('v16QuoteStatus'),box=$('v16QuotePreview');box.replaceChildren();const raw=$('v16Worker').value.trim().replace(/\/$/,'');let endpoint;try{endpoint=new URL(raw);if(endpoint.protocol!=='https:'||endpoint.username||endpoint.password||endpoint.search||endpoint.hash||endpoint.pathname!=='/')throw Error('Неправильна HTTPS-адреса')}catch{msg.textContent='Введи HTTPS-адресу Cloudflare Worker без шляхів і ключів.';return}const symbol=$('v16Symbol').value.trim().toUpperCase(),contract=$('v16Contract').value.trim().toUpperCase();if(!/^[A-Z][A-Z0-9.-]{0,9}$/.test(symbol)||!/^O:[A-Z]{1,6}\d{6}[CP]\d{8}$/.test(contract)||!contract.startsWith('O:'+symbol.replace(/\./g,'').slice(0,6))){msg.textContent='Перевір тикер акції та OCC-символ контракту.';return}localStorage.setItem(oldKey,raw);$('v16Load').disabled=true;msg.textContent='Запит котирувань…';const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);try{const res=await fetch(raw+'/option?symbol='+encodeURIComponent(symbol)+'&contract='+encodeURIComponent(contract),{signal:controller.signal,cache:'no-store'});const d=await res.json();if(!res.ok||d.error)throw Error(d.error||'HTTP '+res.status);if(d.contract!==contract||d.symbol!==symbol||d.kind!=='option')throw Error('Некоректна відповідь');const fmt=n=>Number.isFinite(n)?'$'+n.toFixed(2):'Немає';const x=document.createElement('div');x.className='v16quote';x.innerHTML='<strong>'+esc(contract)+'</strong><p>Bid: <b>'+fmt(d.bid)+'</b> · Ask: <b>'+fmt(d.ask)+'</b></p><p>Delta: '+esc(d.delta??'—')+' · IV: '+esc(d.iv??'—')+' · OI: '+esc(d.openInterest??'—')+'</p><p>Час джерела: '+esc(d.asOf||'не надано')+' · Режим: '+esc(d.feed||'невідомо')+'</p>';box.append(x);msg.textContent='Отримано відповідь сервера. Перевір свіжість та ліцензію ринкових даних.'}catch(e){msg.textContent=e.name==='AbortError'?'Час очікування перевищено':e.message}finally{clearTimeout(timer);$('v16Load').disabled=false}})
+})();
+</script>
+<style>
+#v17box{min-width:0}#v17box .v17stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}#v17box .v17stat{background:#0b2234;border:1px solid #35556b;border-radius:10px;padding:10px;font-size:15px}#v17box .v17stat strong{display:block;font-size:24px;color:#e7f5ff}#v17box .v17rows{max-height:550px;overflow-y:auto}#v17box .v17row{padding:12px 10px;border-bottom:1px solid #35556b;font-size:16px}#v17box .v17row small{display:block;color:#b5cad6;margin-top:5px;font-size:14px;overflow-wrap:anywhere}#v17box .v17controls{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}#v17box select{width:100%;font-size:17px;padding:10px;border-radius:9px}#v17exceptions{font-size:15px;color:#ffdeac;line-height:1.5}#v17box input[type=file]{max-width:100%}
+</style><script>
+(()=>{'use strict';
+const el=id=>document.getElementById(id), STORE='viktor-rh-csv-archive-v17';
+let parsed=null, display=[],shown=0;
+const safe=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const money=x=>(x<0?'-':'')+'$'+Math.abs(x).toFixed(2);
+const numeric=s=>{s=String(s||'').trim();let negative=/^\(.*\)$/.test(s);let n=Number(s.replace(/[$,()\s]/g,''));return Number.isFinite(n)?(negative?-n:n):NaN};
+const shortCodes=new Set(['STO','BTC']),longCodes=new Set(['BTO','STC']),events=new Set(['OEXP','OASGN','OEXCS','OCC']);
+function csvParse(src){let rows=[],row=[],cell='',q=false;src=src.replace(/^\uFEFF/,'');for(let i=0;i<src.length;i++){let c=src[i];if(q){if(c==='"'&&src[i+1]==='"'){cell+='"';i++}else if(c==='"')q=false;else cell+=c}else if(c==='"')q=true;else if(c===','){row.push(cell);cell=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&src[i+1]==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push(row);row=[];cell=''}else cell+=c}if(q)throw Error('CSV містить незакриті лапки');row.push(cell);if(row.some(x=>x.trim()))rows.push(row);return rows}
+function dateISO(s){let m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(s||'');return m?m[3]+'-'+m[1].padStart(2,'0')+'-'+m[2].padStart(2,'0'):''}
+function parseOption(desc){let m=/\b([A-Z][A-Z0-9.\-]*)\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+(Call|Put)\s+\$([\d,.]+)/i.exec(desc||'');return m?`${m[1].toUpperCase()}|${dateISO(m[2])}|${m[3].toUpperCase()}|${Number(m[4].replaceAll(',','')).toFixed(3)}`:null}
+function classify(r){if(shortCodes.has(r.code)||longCodes.has(r.code))return 'options';if(events.has(r.code))return 'events';return 'other'}
+function analyze(rows){let positions=new Map(), matched=[], review=[], opt=0, other=0, net=0;
+// Chronological order, stable for partial fills and same day operations.
+let ordered=rows.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.row-b.row);
+for(let r of ordered){r.kind=classify(r);r.key=parseOption(r.description);r.review='';if(r.kind==='other'){other++;continue}opt++;
+ if(r.kind==='events'){r.review='Експірація, assignment або cash settlement: перевірка вручну';review.push(r);continue}
+ if(!r.key||!Number.isFinite(r.qty)||r.qty<=0||!Number.isFinite(r.amount)){r.review='Не вдалося прочитати контракт / кількість / суму';review.push(r);continue}
+ // short STO/BTC, long BTO/STC. separate legs and FIFO lots.
+ const side=(r.code==='STO'||r.code==='BTC')?'S':'L';const k=r.key+'|'+side;
+ let queue=positions.get(k)||[];
+ if(r.code==='STO'||r.code==='BTO'){queue.push({qty:r.qty,cash:r.amount/r.qty,row:r.row,date:r.date});positions.set(k,queue);continue}
+ let remaining=r.qty, cashPer=r.amount/r.qty;
+ for(const lot of queue){if(remaining<=1e-8)break;if(lot.qty<=1e-8)continue;let q=Math.min(remaining,lot.qty);remaining-=q;lot.qty-=q;let realized=q*(lot.cash+cashPer);net+=realized;matched.push({key:r.key,side,qty:q,open:lot.date,close:r.date,amount:realized,openRow:lot.row,closeRow:r.row});}
+ if(remaining>1e-8){r.review=`Немає відкриття для ${remaining} контракт(ів) у цьому CSV`;review.push(r)}positions.set(k,queue);
+}
+let open=[];for(let [key,lots] of positions)for(let l of lots)if(l.qty>1e-8)open.push({key,qty:l.qty,date:l.date,row:l.row});
+return {matched,review,open,opt,other,net};}
+function refresh(){if(!parsed)return;let f=el('v17filter').value;display=parsed.rows.filter(r=>f==='all'||(f==='options'&&(r.kind==='options'||r.kind==='events'))||(f==='needs'&&r.review)||(f==='closed'&&parsed.calc.matched.some(m=>m.closeRow===r.row)));shown=0;more()}
+function more(){if(!parsed)return;let part=display.slice(shown,shown+40);shown+=part.length;el('v17rows').insertAdjacentHTML(shown===part.length?'afterbegin':'beforeend',part.map(r=>`<div class="v17row"><strong>${safe(r.code||'—')} · ${safe(r.instrument||'—')} · ${safe(r.date)}</strong><small>${safe(r.description)} · кількість: ${safe(r.quantity)} · сума: ${safe(r.rawAmount)}</small>${r.review?`<small style="color:#ffd18a">⚠ ${safe(r.review)}</small>`:''}</div>`).join(''));if(shown===part.length&&!part.length)el('v17rows').textContent='Немає рядків для цього фільтра.';el('v17more').disabled=shown>=display.length;el('v17more').textContent=`Показано ${shown} із ${display.length} · Ще 40`}
+el('v17filter').onchange=()=>{el('v17rows').replaceChildren();refresh()};el('v17more').onclick=more;
+el('v17file').onchange=async e=>{parsed=null;el('v17confirm').disabled=true;el('v17rows').replaceChildren();el('v17stats').replaceChildren();el('v17exceptions').textContent='';let file=e.target.files?.[0];if(!file)return;
+try{if(file.size>8e6)throw Error('Ліміт розміру CSV — 8 МБ');let text=await file.text();let grid=csvParse(text);let header=grid.shift();const needed=['Activity Date','Instrument','Description','Trans Code','Quantity','Amount'];let ix=Object.fromEntries(header.map((h,i)=>[h.trim(),i]));if(needed.some(k=>!(k in ix)))throw Error('Невідомий формат заголовків CSV. Не імпортуємо.');
+let rows=grid.map((a,i)=>({row:i+2,date:dateISO(a[ix['Activity Date']]),instrument:a[ix.Instrument]||'',description:a[ix.Description]||'',code:(a[ix['Trans Code']]||'').trim().toUpperCase(),quantity:a[ix.Quantity]||'',qty:numeric(a[ix.Quantity]),rawAmount:a[ix.Amount]||'',amount:numeric(a[ix.Amount]),raw:a})).filter(r=>r.code&&r.date);let calc=analyze(rows);parsed={header,rows,calc};if(window.v18RunAudit)window.v18RunAudit(rows);
+let blocks=[['Операцій CSV',rows.length],['Опціонні події',calc.opt],['Зіставлених частин закриття',calc.matched.length],['Рядків для перевірки',calc.review.length],['Незакритих лотів',calc.open.length],['Орієнтовний cash P/L зіставлених',money(calc.net)]];
+el('v17stats').innerHTML=blocks.map(([k,v])=>`<div class="v17stat">${safe(k)}<strong>${safe(v)}</strong></div>`).join('');el('v17exceptions').textContent='Увага: незакриті лоти, призначення, погашення, операції з акціями та грошові розрахунки не входять у цей попередній P/L. Для реального фінансового результату потрібна повна звірка з брокером.';
+el('v17state').textContent=`Розпізнано ${rows.length} фінансових рядків. Перегляд перед збереженням.`;el('v17confirm').disabled=false;refresh();}catch(ex){el('v17state').textContent='Помилка: '+ex.message;}}
+function fingerprint(r){return [r.date,r.code,r.instrument,r.description,r.quantity,r.rawAmount].join('|')}
+el('v17confirm').onclick=()=>{if(!parsed)return;let prev=[];try{prev=JSON.parse(localStorage.getItem(STORE)||'[]')}catch{}if(!Array.isArray(prev))prev=[];let existing=new Map();for(const r of prev){const k=fingerprint(r);existing.set(k,(existing.get(k)||0)+1)}let fresh=parsed.rows.filter(r=>{const k=fingerprint(r),n=existing.get(k)||0;if(n>0){existing.set(k,n-1);return false}return true});if(!confirm(`Зберегти ${fresh.length} нових рядків у ЛОКАЛЬНИЙ архів? Журнал угод не зміниться.`))return;
+try{let combined=prev.concat(fresh).map(r=>({date:r.date,instrument:r.instrument,description:r.description,code:r.code,quantity:r.quantity,rawAmount:r.rawAmount}));localStorage.setItem(STORE,JSON.stringify(combined));el('v17saved').textContent=`Архів збережено: ${combined.length} рядків; нових ${fresh.length}; повторів ${parsed.rows.length-fresh.length}. Журнал HPE не змінено.`;}catch{el('v17saved').textContent='Не вистачило локального сховища. Дані не імпортовано. Збережи CSV у «Файли».';}}
+try{let old=JSON.parse(localStorage.getItem(STORE)||'[]');if(Array.isArray(old)&&old.length)el('v17saved').textContent=`Локальний архів уже містить ${old.length} рядків.`}catch{}
+})();
+</script><script>
+(()=>{'use strict';
+const node=document.getElementById('v18audit');
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+const parseQty=v=>{const m=String(v??'').trim().match(/^(\d+(?:\.\d+)?)(S)?$/i);return m?{n:+m[1],short:!!m[2]}:null};
+const opt=s=>{const m=String(s||'').match(/\b([A-Z][A-Z0-9.\-]*)\s+(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(Call|Put)\s+\$([\d,.]+)/i);return m?[m[1].toUpperCase(),`${m[4]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`,m[5].toUpperCase(),Number(m[6].replaceAll(',','')).toFixed(3)].join('|'):null};
+const safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+window.v18RunAudit=function(rows){
+let events={OASGN:0,OEXP:0,OEXCS:0,OCC:0}, related=0, unresolved=[], eventClosed=0, expiryPremium=0, cashLines=0, cashSum=0, openingBtc=0, missing=0, flagged=0;
+const order=rows.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.row-b.row);
+const positions=new Map();let closedMoney=0;
+for(const r of order){const code=r.code,qty=parseQty(r.quantity),key=opt(r.description);if(code in events)events[code]++;
+if(code==='OCC'){cashLines++;if(Number.isFinite(r.amount))cashSum+=r.amount;unresolved.push({r,why:'OCC: сума cash settlement без однозначного зв’язку з контрактом'});continue;}
+if(['STO','BTO','BTC','STC'].includes(code)){
+if(!key||!qty||!Number.isFinite(r.amount)){unresolved.push({r,why:'Неповні параметри опціонної операції'});continue;}
+const side=['STO','BTC'].includes(code)?'S':'L', k=key+'|'+side;let q=positions.get(k)||[];
+if(['STO','BTO'].includes(code)){q.push({qty:qty.n,remainingCash:r.amount,initialQty:qty.n,row:r.row});positions.set(k,q);continue;}
+let remain=qty.n;for(const l of q){if(remain<=0)break;let take=Math.min(remain,l.qty);if(take<=0)continue;closedMoney+=(l.remainingCash/l.qty)*(take)+r.amount/qty.n*take;l.remainingCash-=l.remainingCash/l.qty*take;l.qty-=take;remain-=take;}
+if(remain>0.000001){missing++;unresolved.push({r,why:`Немає відповідного відкриття для ${remain} контр.`});}positions.set(k,q);continue;
+}
+if(['OASGN','OEXP','OEXCS'].includes(code)){
+if(!key||!qty){unresolved.push({r,why:'Подія без надійного ключа/кількості контракту'});continue;}
+const sides=qty.short?['S']:['S','L'];let choices=[];
+for(const side of sides){const k=key+'|'+side;const q=positions.get(k)||[];const n=q.reduce((z,l)=>z+l.qty,0);if(n>0)choices.push({side,k,q,n});}
+if(choices.length!==1||choices[0].n+1e-8<qty.n){unresolved.push({r,why:choices.length>1?'Подія неоднозначна між long та short':'Відсутня або недостатня відкрита позиція для події'});continue;}
+const c=choices[0];let rem=qty.n;for(const l of c.q){let take=Math.min(rem,l.qty);if(take<=0)continue;if(code==='OEXP')expiryPremium+=l.remainingCash/l.qty*take;l.remainingCash-=l.remainingCash/l.qty*take;l.qty-=take;rem-=take;}eventClosed+=qty.n;related++;
+if(code!=='OEXP')unresolved.push({r,why:'Зіставлено з відкритим контрактом, але економічний результат assignment/settlement не визначено'});
+}
+}
+let residual=0,residualQty=0;for(const q of positions.values())for(const l of q)if(l.qty>1e-8){residual++;residualQty+=l.qty;}
+const unresolvedByReason={};for(const x of unresolved)unresolvedByReason[x.why]=(unresolvedByReason[x.why]||0)+1;
+const aud=[`<div class="v18card"><strong>Аудит v1.8 · статус: попередній</strong><p>Зіставлено події з відкритими контрактами: <b>${related}</b>; кількість контрактів у цих подіях: <b>${eventClosed}</b>. Залишок відкритих частин після звірки: <b>${residual}</b> (контрактів: ${residualQty}).</p><p>Невизначених або таких, що потребують ручного підтвердження: <b class="v18flag">${unresolved.length}</b>. Відсутніх відкриттів у BTC/STC: <b>${missing}</b>.</p><p>Події Robinhood: OASGN ${events.OASGN}; OEXP ${events.OEXP}; OEXCS ${events.OEXCS}; OCC ${events.OCC}.</p><p>Грошові рядки OCC: ${cashLines}; алгебраїчна сума: <b>${money(cashSum)}</b> — НЕ додана до P/L без звірки зі специфічними контрактами.</p><p class="v18flag">Цифра з v1.7 — неповний cash P/L. Премії при експірації, рух акцій, cash settlement, дроблення/коригування й окремі комісії можуть змінити підсумок. Не використовуй його як підтверджений прибуток.</p></div>`];
+if(unresolved.length)aud.push(`<details class="v18card"><summary>Переглянути причини невизначеності (${unresolved.length})</summary>${Object.entries(unresolvedByReason).map(([k,n])=>`<p>${safe(k)} — <b>${n}</b></p>`).join('')}<p>Для точного аудиту потрібно звірити підсумкові позиції та рух акцій із брокерською випискою. Наявний CSV не слід «домислювати».</p></details>`);
+node.innerHTML=aud.join('');
+};
+})();
+</script><style>
+.v19panel{border:1px solid #416377;border-radius:17px;padding:17px;margin:18px 0;background:#10283b}.v19panel h3{font-size:22px;margin:0 0 12px}.v19summary{font-size:17px;line-height:1.55;background:#173649;border-radius:10px;padding:12px;margin:12px 0}.v19position{border:1px solid #37556b;border-radius:12px;padding:12px;margin:11px 0}.v19position strong{font-size:18px}.v19position p{margin:8px 0;line-height:1.45;font-size:16px}.v19position input{width:90px!important;min-width:0;max-width:100%;font-size:18px!important}.v19position .entry{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.v19position .state{color:#ffc98b}.v19controls{display:flex;gap:10px;flex-wrap:wrap}.v19controls button{font-size:15px!important}.v19hint{color:#a9c5d6;font-size:14px}
+</style>
+<script>
+(()=>{
+'use strict';
+const POSKEY='viktor-rh-position-snapshot-v19';
+const snapshot=[['SMCI','CALL',39,'2026-11-20',1],['SMCI','CALL',41,'2026-11-20',1],['SLS','PUT',6,'2026-12-18',30],['SLS','PUT',5,'2026-12-18',40],['SLS','PUT',2,'2027-01-15',1],['APLD','CALL',26.5,'2026-11-27',4],['HIMS','CALL',32,'2026-11-20',1]];
+const el=id=>document.getElementById(id),esc=x=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const key=p=>`${p[0]}|${p[3]}|${p[1]}|${Number(p[2]).toFixed(2)}`;
+let entries=load();let csv=null;
+function load(){try{const v=JSON.parse(localStorage.getItem(POSKEY)||'null');if(Array.isArray(v)&&v.length===7)return v}catch{}return snapshot.map(p=>[...p])}
+function save(){localStorage.setItem(POSKEY,JSON.stringify(entries))}
+function csvRows(src){const result=[];let q=false,field='',row=[];for(let i=0;i<src.length;i++){const c=src[i];if(q){if(c==='"'&&src[i+1]==='"'){field+='"';i++}else if(c==='"')q=false;else field+=c}else if(c==='"')q=true;else if(c===','){row.push(field);field=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&src[i+1]==='\n')i++;row.push(field);if(row.some(x=>x.trim()))result.push(row);row=[];field=''}else field+=c}row.push(field);if(row.some(x=>x.trim()))result.push(row);return result}
+function csvDate(d){const m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(d||'');return m?`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`:''}
+function makeReport(data){const grid=csvRows(data);const head=grid.shift()||[];const idx=s=>head.indexOf(s);if(['Activity Date','Description','Trans Code','Quantity'].some(x=>idx(x)<0))throw Error('Не знайдено потрібні колонки Robinhood');const balances=new Map();let latest='';let notes=0;
+const events=[];
+for(const row of grid){const date=csvDate(row[idx('Activity Date')]);if(!date)continue;if(date>latest)latest=date;const code=(row[idx('Trans Code')]||'').trim().toUpperCase();const desc=row[idx('Description')]||'';const m=/\b([A-Z][A-Z0-9.\-]*)\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+(Call|Put)\s+\$([\d,.]+)/i.exec(desc);if(!m)continue;const qty=Math.abs(Number((row[idx('Quantity')]||'').replace(/[,()]/g,'')));if(!Number.isFinite(qty)||!qty)continue;let delta=0;if(code==='STO')delta=qty;if(code==='BTC')delta=-qty;if(code==='BTO')delta=-qty;if(code==='STC')delta=qty;if(['OEXP','OASGN','OEXCS'].includes(code)){notes++;continue}if(!delta)continue;events.push({date,code,k:`${m[1].toUpperCase()}|${csvDate(m[2])}|${m[3].toUpperCase()}|${Number(m[4].replaceAll(',','')).toFixed(2)}`,delta});}
+events.sort((a,b)=>a.date.localeCompare(b.date));for(const e of events)balances.set(e.k,(balances.get(e.k)||0)+e.delta);
+return {balances,latest,notes,events:events.length};}
+function show(){const sum=entries.reduce((n,p)=>n+Number(p[4]||0),0);const parts=csv?`Остання дата операцій у файлі: <strong>${csv.latest||'не визначена'}</strong>. Порівняння з контрольним знімком від <strong>18.10.2026</strong> є попереднім. Подій assignment/expiration, які не враховані в простих залишках: ${csv.notes}.`:'Вибери CSV у блоці вище, щоб порівняти список із історією операцій.';
+el('v19summary').innerHTML=`Контрольний список: <strong>${entries.length} позицій · ${sum} проданих контрактів</strong>.<p>${parts}</p>`;
+el('v19rows').innerHTML=entries.map((p,i)=>{const k=key(p),value=csv?.balances.get(k);const known=value!==undefined;const difference=known?Number(p[4])-value:null;const outcome=!csv?'Очікує CSV':!known?'Контракт відсутній у CSV як окрема операція':difference===0?'Кількість збігається математично (але події assignment ще не перевірені)':`Різниця: ${difference>0?'+':''}${difference} контрактів; можливі операції після дати CSV або незвірені події`;
+return `<article class="v19position"><div class="entry"><strong>${esc(p[0])} $${p[2]} ${p[1]} · ${p[3]}</strong><label>Продано <input type="number" data-v19qty="${i}" min="0" max="10000" step="1" value="${Number(p[4])}"></label></div><p>CSV залишок за STO/BTC: <b>${csv?(known?value:'немає даних'):'—'}</b>. Контрольний список: <b>${Number(p[4])}</b>.</p><p class="state">${esc(outcome)}</p></article>`}).join('');}
+el('v19rows').addEventListener('change',e=>{const i=e.target.dataset.v19qty;if(i===undefined)return;const q=Number(e.target.value);if(!Number.isInteger(q)||q<0||q>10000){alert('Вкажи цілу невід’ємну кількість');return}entries[Number(i)][4]=q;save();show()});
+el('v19reset').onclick=()=>{if(!confirm('Відновити 7 позицій зі скриншота Robinhood?'))return;entries=snapshot.map(p=>[...p]);save();show()};
+el('v19export').onclick=()=>{const data={version:'1.9',snapshotDate:'2026-10-18',source:'manually transcribed from Robinhood screenshot',positions:entries,csvThrough:csv?.latest??null,note:'CSV data may be stale; quantities cannot be verified without current broker positions'};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='viktor-robinhood-reconciliation.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)};
+el('v17file').addEventListener('change',async e=>{csv=null;show();try{const file=e.target.files?.[0];if(!file)return;const data=await file.text();csv=makeReport(data);show()}catch(err){el('v19summary').textContent='Помилка звірки: '+err.message}});show();
+})();
+</script><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id), E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const POSKEY='viktor-rh-position-snapshot-v19', QUOTES='viktor-rh-quotes-v20';
+const seed=[['SMCI','CALL',39,'2026-11-20',1],['SMCI','CALL',41,'2026-11-20',1],['SLS','PUT',6,'2026-12-18',30],['SLS','PUT',5,'2026-12-18',40],['SLS','PUT',2,'2027-01-15',1],['APLD','CALL',26.5,'2026-11-27',4],['HIMS','CALL',32,'2026-11-20',1]];
+const key=(symbol,date,kind,strike)=>`${symbol}|${date}|${kind}|${Number(strike).toFixed(3)}`;
+let positions=seed,report=null,quotes={};try{const p=JSON.parse(localStorage.getItem(POSKEY));if(Array.isArray(p)&&p.length===7)positions=p}catch{}try{quotes=JSON.parse(localStorage.getItem(QUOTES)||'{}')||{}}catch{}
+function parseCSV(s){s=s.replace(/^\uFEFF/,'');let rows=[],r=[],cell='',q=false;for(let i=0;i<s.length;i++){let c=s[i];if(q){if(c==='"'&&s[i+1]==='"'){cell+='"';i++}else if(c==='"')q=false;else cell+=c;}else if(c==='"')q=true;else if(c===','){r.push(cell);cell=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&s[i+1]==='\n')i++;r.push(cell);if(r.some(x=>x.trim()))rows.push(r);r=[];cell='';}else cell+=c;}if(q)throw Error('Некоректні лапки у CSV');r.push(cell);if(r.some(x=>x.trim()))rows.push(r);return rows;}
+const num=x=>{const s=String(x??'').trim(),n=Number(s.replace(/[$,()\s]/g,''));return Number.isFinite(n)?(/^\(.*\)$/.test(s)?-n:n):NaN};
+const date=x=>{const m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(x||'');return m?`${m[3]}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`:''};
+function analyze(text){const table=parseCSV(text),head=table.shift()||[],ix=s=>head.indexOf(s);for(const n of ['Activity Date','Description','Trans Code','Quantity','Amount'])if(ix(n)<0)throw Error('Відсутня колонка '+n);
+const rows=[],balances=new Map(),snapshotBalances=new Map(),queues=new Map(),matched=[],warnings=[],ambiguities=[],timeline=[],codeCount={};let maxDate='';
+for(const [i,r] of table.entries()){const d=date(r[ix('Activity Date')]);if(!d)continue;maxDate=d>maxDate?d:maxDate;const code=(r[ix('Trans Code')]||'').trim().toUpperCase(),description=r[ix('Description')]||'',qty=num(r[ix('Quantity')]),cash=num(r[ix('Amount')]);codeCount[code]=(codeCount[code]||0)+1;
+const m=/\b([A-Z][A-Z0-9.\-]*)\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+(Call|Put)\s+\$([\d,.]+)/i.exec(description),k=m?key(m[1].toUpperCase(),date(m[2]),m[3].toUpperCase(),Number(m[4].replaceAll(',',''))):null;
+rows.push({i:i+2,d,code,qty,cash,k,description});}
+// The Robinhood Account Activity CSV does not contain fill timestamps. Its row order is NOT execution order.
+rows.sort((a,b)=>a.d.localeCompare(b.d)||a.i-b.i);
+const grouped=new Map();for(const r of rows){if(!grouped.has(r.d))grouped.set(r.d,new Map());const group=grouped.get(r.d),k=r.k||'ROW:'+r.i;if(!group.has(k))group.set(k,[]);group.get(k).push(r)}
+for(const [d,day] of grouped){for(const [k,events] of day){
+for(const r of events)if(['OASGN','OEXP','OEXCS','OCC'].includes(r.code))warnings.push({...r,reason:'Подія потребує звірки акцій або settlement'});
+const opts=events.filter(r=>['STO','BTC','BTO','STC'].includes(r.code));if(!opts.length)continue;
+if(k.startsWith('ROW:')){warnings.push(...opts.map(r=>({...r,reason:'Не визначений контракт'})));continue;}
+const valid=opts.filter(r=>Number.isInteger(r.qty)&&r.qty>0&&Number.isFinite(r.cash));if(valid.length!==opts.length)warnings.push(...opts.filter(r=>!valid.includes(r)).map(r=>({...r,reason:'Неправильна кількість або сума'})));
+for(const side of ['SHORT','LONG']){const openCode=side==='SHORT'?'STO':'BTO',closeCode=side==='SHORT'?'BTC':'STC',id=k+'|'+side,queue=queues.get(id)||[];
+const opening=valid.filter(r=>r.code===openCode),closing=valid.filter(r=>r.code===closeCode);if(!opening.length&&!closing.length)continue;
+const prev=queue.reduce((n,x)=>n+x.qty,0),closed=closing.reduce((n,x)=>n+x.qty,0),opened=opening.reduce((n,x)=>n+x.qty,0);
+const mixed=opening.length>0&&closing.length>0;
+if(mixed)ambiguities.push({k,date:d,side,previous:prev,opened,closed,reason:prev>=closed?'Ймовірне закриття старого лота і нове відкриття того самого дня; час виконання відсутній':'У CSV немає часу угод — внутрішньоденний порядок відкриття/закриття не підтверджено'});
+// Prefer closing existing lots first; never silently treat the file-row order as execution time.
+// If the day does not have enough prior inventory, the same-day match is only indicative.
+for(const r of closing){let left=r.qty;for(const lot of queue){if(left<=0)break;const take=Math.min(left,lot.qty);if(take<=0)continue;lot.qty-=take;left-=take;matched.push({k,side,qty:take,open:lot.d,close:d,pnl:take*(lot.cashPer+r.cash/r.qty),uncertain:lot.d===d});}
+if(left>0){const sameDay=opening.reduce((n,x)=>n+x.qty,0);if(sameDay>0){warnings.push({...r,unmatched:left,reason:'Закриття без підтвердженого попереднього лота; можливий внутрішньоденний цикл'});}else warnings.push({...r,unmatched:left,reason:'Немає відкриття для закриття'});}}
+for(const r of opening)queue.push({qty:r.qty,cashPer:r.cash/r.qty,d,i:r.i});queues.set(id,queue);
+if(side==='SHORT')for(const r of valid.filter(r=>r.code==='STO'||r.code==='BTC')){balances.set(k,(balances.get(k)||0)+(r.code==='STO'?r.qty:-r.qty));if(d<='2026-10-18')snapshotBalances.set(k,(snapshotBalances.get(k)||0)+(r.code==='STO'?r.qty:-r.qty));}
+for(const r of valid.filter(r=>r.code===openCode||r.code===closeCode))timeline.push({...r,side});
+}}
+}
+const open=[];for(const [id,lots] of queues)for(const lot of lots)if(lot.qty>0)open.push({id,qty:lot.qty,date:lot.d});
+return {rows,balances,snapshotBalances,matched,warnings,ambiguities,open,timeline,maxDate,codeCount};}
+const USD=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n):'—';
+function draw(){if(!report)return;positions=seed;try{const p=JSON.parse(localStorage.getItem(POSKEY));if(Array.isArray(p)&&p.length===7)positions=p}catch{}
+const total=positions.reduce((s,p)=>s+Number(p[4]),0),safe=report.matched.filter(m=>!m.uncertain&&m.k.startsWith('SMCI|')&&m.k.includes('|CALL|')),matchedPnl=safe.reduce((s,m)=>s+m.pnl,0);
+$('rh20status').textContent=`CSV до ${report.maxDate}. Знімок позицій — 18.10.2026; спочатку порівнюємо саме на дату знімка. CSV не містить часу виконання; неоднозначні внутрішньоденні цикли не є підтвердженим P/L. Дані спредів не аналізуємо.`;
+const stats=[['Контрольних позицій у знімку',positions.length],['Контрактів у контрольному знімку',total],['Зіставлених SMCI CALL закриттів (попередньо)',safe.length],['Внутрішньоденних циклів без часу',report.ambiguities.length],['Винятків та незакритих закриттів',report.warnings.length],['Відкритих FIFO-лотів (попередньо)',report.open.length],['SMCI CALL cash P/L без одноденних пар (попередньо)',USD(matchedPnl)]];
+$('rh20totals').innerHTML=stats.map(([k,v])=>`<div class="v17stat">${E(k)}<strong>${E(v)}</strong></div>`).join('');
+$('rh20positions').innerHTML=positions.map(p=>{const k=key(p[0],p[3],p[1],p[2]),before=report.snapshotBalances.get(k)||0,after=report.balances.get(k)||0,delta=after-before,match=before===Number(p[4]);const exposure=p[1]==='PUT'?Number(p[2])*100*Number(p[4]):null;
+return `<article class="v19position"><strong>${E(p[0])} $${E(p[2])} ${E(p[1])} · ${E(p[3])}</strong><p>Знімок Robinhood 18.10: <b>${E(p[4])}</b> · CSV станом на 18.10: <b>${E(before)}</b> · CSV станом на ${E(report.maxDate)}: <b>${E(after)}</b></p><p>${match?'Збіг зі знімком на 18.10':'Розбіжність на дату знімка — потрібна перевірка'}${delta?' · Пізніше в CSV зміна: '+(delta>0?'+':'')+delta:''}${exposure!==null?' · Сума виконання PUT: '+USD(exposure):''}</p></article>`;}).join('');
+const agg=new Map();for(const m of safe){const symbol=m.k.split('|')[0],v=agg.get(symbol)||{count:0,pnl:0};v.count+=m.qty;v.pnl+=m.pnl;agg.set(symbol,v)}
+const smci=report.timeline.filter(r=>r.k?.startsWith('SMCI|')&&r.k.includes('|CALL|')).sort((a,b)=>a.d.localeCompare(b.d)||a.i-b.i);
+const smciRows=smci.map(r=>`<div class="v19position"><strong>${E(r.d)} · ${E(r.k.split('|')[3])} CALL · ${E(r.code)}</strong><p>${E(r.qty)} контр. · рух ${USD(r.cash)} · CSV рядок ${E(r.i)}</p></div>`).join('');
+const candidate=report.balances.get(key('SMCI','2026-11-20','CALL',40))||0;
+$('rh20ledger').innerHTML=`<div class="v19position"><strong>SMCI CALL — контроль операцій</strong><p>Контракт $39 після 19.10: ${E(report.balances.get(key('SMCI','2026-11-20','CALL',39))||0)} · кандидат $40: ${E(candidate)} · $41: ${E(report.balances.get(key('SMCI','2026-11-20','CALL',41))||0)}. Це історичні залишки за CSV, не поточне підтвердження Robinhood.</p><p>Коли BTC та STO одного контракту виконані в один день без часу угод, їх порядок залишається непідтвердженим. Не записувати результат як остаточний.</p></div><details><summary>Показати всі операції SMCI CALL із CSV (${smci.length})</summary>${smciRows||'Немає операцій'}</details><details><summary>Інші попередньо зіставлені закриття (спреди окремо не аналізуються)</summary>${[...agg].sort((a,b)=>a[0].localeCompare(b[0])).map(([symbol,v])=>`<div class="v19position"><strong>${E(symbol)}</strong><p>К-сть: ${v.count} · cash P/L: ${USD(v.pnl)}. Без підтвердження одноногого ордера це не підсумок стратегії.</p></div>`).join('')||'Немає зіставлених закриттів'}</details>`;
+$('rh20quote').innerHTML=positions.map((p,i)=>{const k=key(p[0],p[3],p[1],p[2]),v=quotes[k]||{},ask=Number(v.ask),valid=v.ask!==undefined&&v.ask!==''&&Number.isFinite(ask)&&ask>=0;return `<div class="v19position"><strong>${E(p[0])} $${E(p[2])} ${E(p[1])} · ${E(p[3])}</strong><div class="grid"><div><label>Bid ($/акцію)</label><input type="number" min="0" step="0.01" inputmode="decimal" data-rh20="${i}:bid" value="${E(v.bid??'')}"></div><div><label>Ask ($/акцію)</label><input type="number" min="0" step="0.01" inputmode="decimal" data-rh20="${i}:ask" value="${E(v.ask??'')}"></div></div><p>Орієнтовний викуп за Ask: <b>${valid?USD(ask*100*Number(p[4])):'немає котирування'}</b> · без комісій</p><small>Ручне котирування без перевірки часу або джерела.</small></div>`;}).join('');}
+$('rh20quote').addEventListener('change',e=>{const ref=e.target.dataset.rh20;if(!ref)return;const [i,field]=ref.split(':'),p=positions[Number(i)];if(!p)return;const k=key(p[0],p[3],p[1],p[2]);const val=e.target.value.trim();if(val!==''&&(!Number.isFinite(Number(val))||Number(val)<0)){alert('Ціна має бути невід’ємним числом');return;}quotes[k]={...(quotes[k]||{}),[field]:val};localStorage.setItem(QUOTES,JSON.stringify(quotes));draw()});
+$('v17file').addEventListener('change',async e=>{report=null;const f=e.target.files?.[0];if(!f){$('rh20status').textContent='Вибери CSV для звірки.';return;}try{report=analyze(await f.text());draw();}catch(err){$('rh20status').textContent='Помилка аналізу: '+err.message;}});
+$('rh20export').addEventListener('click',()=>{if(!report){alert('Спершу вибери CSV');return;}const data={version:'2.1-reconciliation',csvThrough:report.maxDate,snapshotDate:'2026-10-18',positions,matched:report.matched,ambiguities:report.ambiguities,timeline:report.timeline,warnings:report.warnings,quotes:quotes,note:'Preliminary; not verified broker P/L. Not all assignments/expirations/shares/cash settlements are reconciled.'};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='viktor-robinhood-audit-v2.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),4000);});
+})();
+</script><script>
+(()=>{'use strict';
+const seed=[['SMCI','CALL',39,'2026-11-20',1],['SMCI','CALL',41,'2026-11-20',1],['SLS','PUT',6,'2026-12-18',30],['SLS','PUT',5,'2026-12-18',40],['SLS','PUT',2,'2027-01-15',1],['APLD','CALL',26.5,'2026-11-27',4],['HIMS','CALL',32,'2026-11-20',1]];
+const contractIds=['SMCI-39-C-2026-11-20','SMCI-41-C-2026-11-20','SLS-6-P-2026-12-18','SLS-5-P-2026-12-18','SLS-2-P-2027-01-15','APLD-26.5-C-2026-11-27','HIMS-32-C-2026-11-20'];
+const el=id=>document.getElementById(id);const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const worker='https://viktor-ai-market-test.camry007.workers.dev';
+const enabled=el('rh21enabled'),one=el('rh21load'),all=el('rh21all'),status=el('rh21status'),wrap=el('rh21positions'),token=el('rh22token');
+el('rh22clearToken').addEventListener('click',()=>{token.value='';status.textContent='Токен очищено.';});
+let latest={};
+// Net STO proceeds transcribed from user Robinhood Account Activity CSV through 2026-10-14.
+// For SLS $5 only the 40 Oct-12 re-opened STO contracts are included, not the older closed lots.
+const opening=[
+ {credit:269.95,qty:1,date:'14.10.2026',detail:'STO 1 × $2.70'},
+ {credit:354.95,qty:1,date:'12.10.2026',detail:'STO 1 × $3.55'},
+ {credit:2298.74,qty:30,date:'09–12.10.2026',detail:'STO 10 + 10 + 4 + 6'},
+ {credit:1908.34,qty:40,date:'12.10.2026',detail:'STO 4 + 6 + 10 + 10 + 10; після BTC 50'},
+ {credit:14.94,qty:1,date:'17.09.2026',detail:'STO 1 × близько $0.15'},
+ {credit:221.81,qty:4,date:'14.10.2026',detail:'STO 1 + 2 + 1'},
+ {credit:247.95,qty:1,date:'13.10.2026',detail:'STO 1 × $2.48'}
+];
+const USD=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+const quoteInfo=q=>{if(!q||q.kind!=='previous-day'||!Array.isArray(q.results)||!q.results.length)return null;const r=q.results[0],c=Number(r?.close),ts=Number(r?.t);return r.close!==null&&r.close!==undefined&&Number.isFinite(c)&&c>=0&&Number.isFinite(ts)&&ts>0?{close:c,time:ts,volume:r?.volume}:null;};
+const pos=()=>{try{const p=JSON.parse(localStorage.getItem('viktor-rh-position-snapshot-v19')||'null');if(Array.isArray(p)&&p.length===7)return p;}catch{}return seed;};
+function draw(){const p=pos();const valuations=p.map((r,i)=>{const match=seed[i].slice(0,4).every((x,j)=>String(x)===String(r[j]));const q=match?quoteInfo(latest[i]):null;const qty=Number(r[4]);return q&&Number.isInteger(qty)&&qty>0?{...q,qty,value:q.close*100*qty}:null;});
+const total=valuations.reduce((sum,v)=>sum+(v?.value||0),0),complete=valuations.every(Boolean);
+const creditRows=p.map((r,i)=>{const match=seed[i].slice(0,4).every((x,j)=>String(x)===String(r[j]));return match&&Number(r[4])===opening[i].qty?opening[i]:null;});
+ const premiumsComplete=creditRows.every(Boolean);
+ const premiumTotal=creditRows.reduce((n,c)=>n+(c?.credit||0),0);
+ const estPnL=complete&&premiumsComplete?premiumTotal-total:null;
+ const summary='<div class="panel" style="margin:0 0 16px"><h3>Орієнтовна вартість викупу за історичним Close</h3><p><strong style="font-size:27px">'+(complete?USD(total):'Неповні дані')+'</strong></p><p>Оцінено: '+valuations.filter(Boolean).length+' із 7 контрактних позицій'+(complete?' · загалом '+p.reduce((n,r)=>n+Number(r[4]||0),0)+' контрактів':' · проміжна сума '+USD(total))+'</p><hr><h3>Премії та попередній P/L</h3><p>Отримані чисті премії STO за зіставленими відкритими лотами: <strong>'+(premiumsComplete?USD(premiumTotal):'неповні дані')+'</strong></p><p>Попередній P/L за історичним Close: <strong style="font-size:25px">'+(estPnL!==null?(estPnL>=0?'+':'')+USD(estPnL):'неповні дані')+'</strong></p><p class="muted">Джерело премій: Robinhood Account Activity CSV, операції до 14.10.2026. Суми STO взято з колонки Amount (після зборів, відображених у CSV). Для SLS $5 враховано лише 40 нових контрактів після BTC 50, а не всю попередню історію ролювань.</p><p class="note">Це умовна оцінка: премії за відкриті лоти мінус Close × 100 × кількість контрактів. Історичні ціни можуть належати різним дням; це НЕ виконувана ціна BTC, НЕ поточний брокерський P/L і НЕ фінальний результат ролювань. Комісії майбутнього закриття, спред, виконання та операції після 14.10.2026 не враховані. У разі зміни контрактів/кількості оцінку премій приховано до повторної звірки.</p></div>';
+wrap.innerHTML=summary+p.map((r,i)=>{const q=latest[i],match=seed[i].slice(0,4).every((x,j)=>String(x)===String(r[j]));let info=q?'<p>Джерело: '+esc(q.source)+' · '+esc(q.kind)+'</p>'+ (q.kind==='reference'?'<p>Термін: '+esc(q.contract?.expiration)+' · страйк: $'+esc(q.contract?.strike)+'</p>':(()=>{const r=Array.isArray(q.results)?q.results[0]:null;const c=Number(r?.close);const valid=r&&r.close!==null&&r.close!==undefined&&Number.isFinite(c);const ts=Number(r?.t);const when=Number.isFinite(ts)&&ts>0?new Date(ts).toLocaleDateString('uk-UA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}):'дата недоступна';return '<p>Close попередньої торгової сесії: <strong>'+(valid?'$'+esc(c.toFixed(2)):'недоступно')+'</strong></p><p>Дата сесії: '+esc(when)+' · обсяг: '+esc(r?.volume??'—')+'</p>'+(valuations[i]?'<p><b>Умовний викуп '+esc(valuations[i].qty)+' контр.: '+esc(USD(valuations[i].value))+'</b> (Close × 100 × контракти)</p>':'')+(creditRows[i]?'<p>Чиста премія STO: <b>'+esc(USD(creditRows[i].credit))+'</b> ('+esc(creditRows[i].detail)+', '+esc(creditRows[i].date)+')</p>':'<p class="muted">Премії: потрібна звірка кількості/контракту.</p>')+(creditRows[i]&&valuations[i]?'<p><b>Попередній P/L за Close: '+esc((creditRows[i].credit-valuations[i].value>=0?'+':'')+USD(creditRows[i].credit-valuations[i].value))+'</b> · без вартості майбутнього закриття та попередніх ролювань</p>':'')+'<p class="muted">Історична ціна, не актуальний Bid/Ask і не ціна BTC.</p>'})()):'<p class="muted">Не запитували Massive.</p>';return '<article class="v13item"><strong>'+esc(r[0])+' $'+esc(r[2])+' '+esc(r[1])+' · '+esc(r[3])+'</strong><p>Продано: '+esc(r[4])+' контракт(ів) · '+(match?'підтримується тестовим шлюзом':'змінено: потрібна перевірка контракту')+'</p>'+info+'</article>'}).join('');}
+enabled.addEventListener('change',()=>{one.disabled=all.disabled=!enabled.checked;status.textContent=enabled.checked?'Тестові запити дозволено вручну. Обмеження Worker: 4 за 60 секунд; не натискай повторно часто.':'Автоматичні запити вимкнено.'});
+async function fetchOne(index,kind='previous-day'){const id=contractIds[index];let ctrl=new AbortController();let timeout=setTimeout(()=>ctrl.abort(),14000);try{const res=await fetch(worker+'/contract?id='+encodeURIComponent(id)+'&kind='+kind,{signal:ctrl.signal,cache:'no-store',headers:{'Authorization':'Bearer '+token.value.trim()}});const data=await res.json().catch(()=>({}));if(!res.ok||data.error)throw Error((res.status===401?'401 — перевір токен':res.status===429?'429 — зачекай щонайменше хвилину':data.error||'HTTP '+res.status));if(data.id!==id||data.liveQuotes!==false||data.kind!==kind)throw Error('Некоректна відповідь');latest[index]=data;draw();return true;}finally{clearTimeout(timeout)}}
+let busy=false;async function run(indices){if(busy||!enabled.checked)return;if(!token.value.trim()){status.textContent='Спершу введи токен доступу до тестового Worker.';token.focus();return;}busy=true;one.disabled=all.disabled=true;let count=0;for(const i of indices){status.textContent='Контракт '+(count+1)+' із '+indices.length+'…';try{await fetchOne(i)}catch(e){status.textContent='Запит не завершено: '+e.message+'. Перевір CORS, обмеження, тариф і новий ключ.';break;}count++;if(count<indices.length)await new Promise(r=>setTimeout(r,16500));}if(count===indices.length)status.textContent='Перевірено '+count+' контракт(ів). Показано історичний Close, не поточні котирування.';busy=false;one.disabled=all.disabled=!enabled.checked;}
+one.addEventListener('click',()=>run([0]));all.addEventListener('click',()=>run([0,1,2,3,4,5,6]));draw();
+})();
+</script><style>
+#rhMultiImport{margin:18px 0;padding:18px;border:1px solid #4c758a;border-radius:16px;background:#10283b;color:#eaf5fa;max-width:100%;overflow-wrap:anywhere}
+#rhMultiImport h3{margin:0 0 12px;font-size:22px}#rhMultiImport p,#rhMultiImport li{line-height:1.55;font-size:15px;color:#c1d9e6}#rhMultiImport input[type=file]{display:block;max-width:100%;font-size:16px;margin:12px 0}#rhMultiImport button{padding:12px;border-radius:10px;background:#24455b;color:#fff;border:1px solid #56798b;margin:6px 6px 6px 0;font-size:15px}#rhMultiImport .rhm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:12px 0}#rhMultiImport .rhm-stat{padding:12px;border:1px solid #476b7c;border-radius:12px;min-width:0}#rhMultiImport .rhm-stat b{display:block;font-size:22px;overflow-wrap:anywhere}#rhMultiImport .rhm-row{padding:12px;margin:9px 0;border:1px solid #35566a;border-radius:10px;font-size:15px;line-height:1.5}#rhMultiImport .rhm-row strong{display:block}#rhMultiImport .rhm-warn{border-left:4px solid #e4b859;padding:12px;background:#233446;margin:12px 0}#rhMultiImport details{margin-top:12px}#rhMultiImport summary{font-weight:bold;cursor:pointer}#rhMultiImport small{color:#bfd0dc}
+
+/* Compact portfolio cards: affects dashboard only, not historical trade rows. */
+#rhMultiImport .rhm-portfolio-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
+#rhMultiImport .rhm-portfolio-cards .rhm-portfolio-card{margin:0;padding:11px;min-width:0;overflow:hidden}
+#rhMultiImport .rhm-portfolio-card>strong{font-size:18px;margin-bottom:7px}
+#rhMultiImport .rhm-card-positions{display:flex;gap:8px;flex-wrap:wrap;font-size:13px}
+#rhMultiImport .rhm-card-positions span{white-space:nowrap}
+#rhMultiImport .rhm-card-primary{margin:9px 0 6px;display:flex;flex-direction:column;gap:2px}
+#rhMultiImport .rhm-card-primary small{font-size:12px}
+#rhMultiImport .rhm-card-primary b{font-size:clamp(15px,3.5vw,22px);white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+#rhMultiImport .rhm-card-meta{display:grid;gap:4px;font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+#rhMultiImport .rhm-card-meta span{display:block}
+#rhMultiImport .rhm-card-meta b{white-space:nowrap}
+#rhMultiImport #rhmPortfolioDashboard>.rhm-grid .rhm-stat b{font-size:clamp(16px,4vw,22px);overflow-wrap:normal;word-break:normal;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+@media(max-width:365px){#rhMultiImport .rhm-portfolio-cards{grid-template-columns:1fr}}
+</style>
+<script>
+(()=>{'use strict';
+const base=document.getElementById('rhTestBox')||document.querySelector('#more .panel')||document.querySelector('#more')||document.querySelector('#moreTab')||document.querySelector('#settings');
+const root=document.createElement('section');root.id='rhMultiImport';root.innerHTML=`<h3>Robinhood · об’єднання CSV (TEST) — Universal CC/Wheel 23.10 DRIVE-PILOT</h3><p style="font-weight:700;color:#b5e2ff">Версія перевірки: UNIVERSAL-CC-WHEEL-DRIVE-PILOT · мульти-тикерний журнал CC/CSP і перевірка Wheel</p><p>Вибери одразу старий та новий звіти Account Activity. Дубльовані операції між звітами враховуються лише один раз. Аналіз відбувається на цьому пристрої; файли не надсилаються до Worker, GitHub чи Massive.</p><label for="rhmFiles">Звіти Robinhood CSV</label><input type="file" id="rhmFiles" accept=".csv,text/csv" multiple><div id="rhmStatus" role="status">Вибери один або кілька файлів.</div><div class="rhm-row" id="rhmDrivePanel"><strong>Google Drive — автоматичне читання CSV (тест)</strong><p>Знімок із приватної папки Robinhood CSV. Сервер синхронізує папку за розкладом; тут можна завантажити останній знімок без повторного вибору файлів. Це працюватиме після окремого налаштування захищеного Drive Worker.</p><label for="rhmDriveUrl">Адреса захищеного Drive Worker</label><input id="rhmDriveUrl" type="url" placeholder="https://viktor-drive-csv-test....workers.dev" autocomplete="off"><label for="rhmDriveToken">Токен доступу (не зберігається)</label><input id="rhmDriveToken" type="password" autocomplete="off" autocorrect="off" autocapitalize="off"><div class="row"><button type="button" id="rhmDriveLoad">Отримати CSV з Drive</button></div><p id="rhmDriveStatus" role="status">Не підключено. CSV можна й надалі завантажувати вручну.</p><small>Приватні CSV у версії з синхронізацією також тимчасово зберігатимуться в Cloudflare KV. Не вставляй Google ключі або паролі в сайт.</small></div><div class="rhm-row"><strong>Локальний архів імпорту — V</strong><p>За твоєю згодою зберігає вихідні CSV лише у сховищі браузера цього пристрою. Не надсилає файли в мережу. Safari може видалити локальні дані — зберігай також резервну копію.</p><label><input id="rhmKeep" type="checkbox" style="width:auto;min-height:0"> Автоматично зберігати CSV на цьому пристрої</label><div class="row"><button id="rhmRestore" type="button">Відновити локальні CSV</button><button id="rhmBackup" type="button">Завантажити резервну копію JSON</button><label>Імпортувати резервну копію<input id="rhmBackupInput" type="file" accept=".json,application/json"></label><button id="rhmDeleteSaved" type="button">Видалити локальний архів CSV</button></div><p id="rhmBackupStatus" role="status">Архів не перевірено.</p></div><details id="rhmLegacyHelp"><summary>Старі модулі Robinhood — довідка</summary><p>Старі імпортери й контрольні списки працюють окремо від об’єднаного журналу. Для поточних підсумків використовуй саме цей модуль V. Не потрібно повторювати імпорт у старих блоках.</p></details><nav aria-label="Швидка навігація Robinhood" style="display:flex;flex-wrap:wrap;gap:10px;margin:12px 0"><a href="#rhmSelfCheckU">Самоперевірка</a><a href="#rhmRegressionV">Контроль журналу</a><a href="#rhmPortfolioDashboard">Портфель</a><a href="#rhmWheelStockAuditR">Wheel та акції</a></nav><div id="rhmResult"></div><button id="rhmExport" type="button" disabled>Зберегти підсумок JSON</button><button id="rhmClear" type="button">Очистити результати</button><p><small>Облік FIFO лише орієнтовний: порядок угод у межах дня, часткові закриття, assignment, expiration та операції з акціями потребують незалежної звірки. Тут не розраховується повний P/L рахунку.</small></p>`;
+// Put beside the existing Robinhood TEST block; preserve all earlier UI and scripts.
+const slot=document.querySelector('#importsAndOptions')||document.querySelector('#more .panel')||document.querySelector('#more');
+if(slot){slot.appendChild(root)}else{document.querySelector('main').appendChild(root)}
+const $=x=>document.getElementById(x);let report=null;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function csv(text){let rows=[],r=[],part='',quote=false;text=text.replace(/^\uFEFF/,'');for(let i=0;i<text.length;i++){let c=text[i];if(quote){if(c==='"'&&text[i+1]==='"'){part+='"';i++}else if(c==='"')quote=false;else part+=c}else if(c==='"')quote=true;else if(c===','){r.push(part);part=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;r.push(part);if(r.some(x=>x.trim()))rows.push(r);r=[];part=''}else part+=c}if(quote)throw Error('Незакриті лапки у CSV');r.push(part);if(r.some(x=>x.trim()))rows.push(r);return rows}
+function money(v){let s=String(v??'').trim();if(!s)return NaN;let n=Number(s.replace(/[$,()\s]/g,''));return Number.isFinite(n)?n*(/^\(/.test(s)?-1:1):NaN}
+function date(s){let m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(s||'').trim());return m?m[3]+'-'+m[1].padStart(2,'0')+'-'+m[2].padStart(2,'0'):''}
+function opt(d){const m=/\b([A-Z][A-Z0-9.\-]*)\s+(\d{1,2}\/\d{1,2}\/\d{4})\s+(Call|Put)\s+\$([\d,.]+)/i.exec(d||'');return m?`${m[1].toUpperCase()} ${date(m[2])} ${m[3].toUpperCase()} $${Number(m[4].replaceAll(',','')).toFixed(2)}`:null}
+function signature(r){return [r.date,r.proc,r.settle,r.instrument,r.description,r.code,r.quantity,r.price,r.amountText].map(x=>String(x??'').trim()).join('\u001f')}
+function format(x){return (x<0?'−':'+')+'$'+Math.abs(x).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function sortDate(a,b){return a.date.localeCompare(b.date)||a.fileOrder-b.fileOrder||a.line-b.line}
+async function run(files){let sources=[];for(let fi=0;fi<files.length;fi++){let f=files[fi];if(f.size>9e6)throw Error(f.name+': розмір понад 9 MB');let grid=csv(await f.text());let head=(grid.shift()||[]).map(x=>x.trim()),ix={};head.forEach((v,i)=>ix[v]=i);let required=['Activity Date','Instrument','Description','Trans Code','Quantity','Amount'];if(required.some(v=>ix[v]===undefined))throw Error(f.name+': не впізнано колонки Robinhood');let rows=[];for(let j=0;j<grid.length;j++){let c=grid[j],r={fileOrder:fi,line:j+2,date:date(c[ix['Activity Date']]),proc:ix['Process Date']===undefined?'':c[ix['Process Date']],settle:ix['Settle Date']===undefined?'':c[ix['Settle Date']],instrument:c[ix.Instrument]||'',description:c[ix.Description]||'',code:(c[ix['Trans Code']]||'').trim().toUpperCase(),quantity:c[ix.Quantity]||'',price:ix.Price===undefined?'':c[ix.Price],amountText:c[ix.Amount]||''};r.qty=Math.abs(money(r.quantity));r.amount=money(r.amountText);r.contract=opt(r.description);if(r.date&&r.code)rows.push(r)}sources.push({name:f.name,rows})}
+// Multiset union: identical fills within ONE report remain distinct. Across reports use max multiplicity, not sum.
+let bins=new Map();for(let src of sources){let perFile=new Map();for(let r of src.rows){let k=signature(r),arr=perFile.get(k)||[];arr.push(r);perFile.set(k,arr)}for(let [k,list] of perFile){let current=bins.get(k);if(!current||list.length>current.length)bins.set(k,list)}}
+let merged=[...bins.values()].flat().sort(sortDate),total=sources.reduce((n,s)=>n+s.rows.length,0),duplicate=total-merged.length;
+let queues=new Map(),closed=[],warnings=[],optionCount=0,assign=0,other=0;let sameDay=new Set();
+// Date-level trades carry no execution timestamp: two-way trading of the same
+// exact contract in one date makes FIFO pairing uncertain, even if a lot
+// happened to have been opened on an earlier date.
+const dayActions=new Map();
+for(const r of merged){if(!r.contract||!['STO','BTC','BTO','STC'].includes(r.code))continue;
+ const k=r.contract+'|'+r.date, actions=dayActions.get(k)||new Set();actions.add(r.code);dayActions.set(k,actions)}
+const uncertainDates=new Set([...dayActions].filter(([k,a])=>(a.has('STO')&&a.has('BTC'))||(a.has('BTO')&&a.has('STC'))).map(([k])=>k));
+for(let r of merged){if(['OASGN','OEXP','OEXCS','OCC'].includes(r.code)){assign++;warnings.push({date:r.date,contract:r.contract||r.instrument,reason:'Призначення, експірація або виконання: окремо звірити акції/settlement'});continue}if(!['STO','BTC','BTO','STC'].includes(r.code)){other++;continue}optionCount++;if(!r.contract||!Number.isFinite(r.qty)||r.qty<=0||!Number.isFinite(r.amount)){warnings.push({date:r.date,contract:r.instrument,reason:'Невідомий опціон або сума/кількість'});continue}let side=['STO','BTC'].includes(r.code)?'short':'long',k=r.contract+'|'+side,stack=queues.get(k)||[],opening=r.code==='STO'||r.code==='BTO';
+if(opening){stack.push({qty:r.qty,unit:r.amount/r.qty,date:r.date,line:r.line});queues.set(k,stack);continue}
+let remaining=r.qty,cp=r.amount/r.qty;for(let lot of stack){if(remaining<=1e-9)break;if(lot.qty<=1e-9)continue;let n=Math.min(lot.qty,remaining);lot.qty-=n;remaining-=n;closed.push({contract:r.contract,side,qty:n,date:r.date,openDate:lot.date,pnl:n*(lot.unit+cp),ambiguous:uncertainDates.has(r.contract+'|'+r.date),openCash:n*lot.unit,closeCash:n*cp});if(lot.date===r.date)sameDay.add(k+'|'+r.date)}if(remaining>1e-9)warnings.push({date:r.date,contract:r.contract,reason:`BTC/STC: не знайдено відкриття ${remaining} контр. у звітах`});queues.set(k,stack)}
+let opens=[];for(let [k,stack] of queues)for(let lot of stack)if(lot.qty>1e-9)opens.push({contract:k.split('|')[0],side:k.split('|')[1],date:lot.date,qty:lot.qty,cash:lot.qty*lot.unit});for(const k of uncertainDates){const cut=k.lastIndexOf('|');warnings.push({date:k.slice(cut+1),contract:k.slice(0,cut),reason:'Відкриття і закриття того самого контракту в один день — немає часу виконання; FIFO і P/L попередні'})}
+if(sameDay.size)warnings.push({date:'—',contract:'Кілька угод за день',reason:'Зіставлення FIFO у межах однієї дати може бути неточним без часу виконання'});
+// Independent date/series quantities from raw deduplicated Robinhood rows.
+// They explain flagged matches but never amend FIFO or book P/L.
+const dailyTrades=new Map();
+for(const tx of merged){
+ if(!tx.contract||!['STO','BTC'].includes(tx.code)||!Number.isFinite(tx.qty)||!Number.isFinite(tx.amount))continue;
+ const key=tx.contract+'|'+tx.date;
+ let z=dailyTrades.get(key);
+ if(!z){z={contract:tx.contract,date:tx.date,stoQty:0,btcQty:0,stoCash:0,btcCash:0,stoRows:0,btcRows:0};dailyTrades.set(key,z)}
+ if(tx.code==='STO'){z.stoQty+=tx.qty;z.stoCash+=tx.amount;z.stoRows++}
+ else {z.btcQty+=tx.qty;z.btcCash+=tx.amount;z.btcRows++}
+}
+let net=closed.reduce((n,c)=>n+c.pnl,0);
+// Roll candidates: closing one short CALL and opening a short CALL for
+// the same ticker on the same day. This is a cash-flow pairing, not proof
+// that Robinhood executed a single roll order. Never add the new credit to
+// realized P/L, and avoid accidental cartesian product over same-day fills.
+const closeByDay=new Map(),openByDay=new Map();
+for(const c of closed){if(c.side!=='short'||!c.contract.includes(' CALL '))continue;const k=c.contract.split(' ')[0]+'|'+c.date,a=closeByDay.get(k)||[];a.push(c);closeByDay.set(k,a)}
+// Open residual lots alone cannot reconstruct earlier rolls.
+for(const r of merged){if(r.code!=='STO'||!r.contract?.includes(' CALL ')||!Number.isFinite(r.amount))continue;const k=r.contract.split(' ')[0]+'|'+r.date,a=openByDay.get(k)||[];a.push({contract:r.contract,date:r.date,qty:r.qty,cash:r.amount});openByDay.set(k,a)}
+const rolls=[];
+for(const [key,closes] of closeByDay){const opening=openByDay.get(key)||[];const used=new Set();for(const c of closes){let j=opening.findIndex((o,i)=>!used.has(i)&&o.contract!==c.contract&&o.qty===c.qty);if(j<0)continue;used.add(j);const o=opening[j];rolls.push({date:c.date,from:c.contract,to:o.contract,qty:c.qty,closeCash:c.closeCash,newCredit:o.cash,netCash:c.closeCash+o.cash,ambiguous:c.ambiguous,provisional:true})}}
+return {sources:sources.map(x=>({name:x.name,rows:x.rows.length})),total,duplicate,rows:merged.length,options:optionCount,closed,opens,warnings,assign,other,net,rolls,dailyTrades:[...dailyTrades.values()],wheelRaw:merged.filter(x=>['OASGN','OEXP','OEXCS','OCC','BUY','SELL'].includes(x.code)).map(x=>({date:x.date,code:x.code,ticker:(x.instrument||'').trim().toUpperCase(),contract:x.contract,qty:x.qty,amount:x.amount,description:x.description})),last:merged.at(-1)?.date||'—'} }
+function wheelEventAuditQ(r){
+ const raw=r.wheelRaw||[];
+ const eventCodes=new Set(['OASGN','OEXP','OEXCS','OCC']);
+ const opts=raw.filter(x=>eventCodes.has(x.code));
+ const shares=raw.filter(x=>x.code==='BUY'||x.code==='SELL');
+ const tickerOf=x=>x.ticker||'НЕВІДОМИЙ';
+ const buckets=new Map();
+ for(const x of raw){const t=tickerOf(x),b=buckets.get(t)||{ticker:t,events:0,shares:0};if(eventCodes.has(x.code))b.events++;else b.shares++;buckets.set(t,b)}
+ const count=c=>opts.filter(x=>x.code===c).length;
+ const safe=x=>esc(x??'—');
+ const value=x=>Number.isFinite(x)?format(x):'не визначено';
+ const detail=x=>{
+   const label= x.contract||x.description||'Опис відсутній';
+   const qty=Number.isFinite(x.qty)&&x.qty>0?`${x.qty} ${eventCodes.has(x.code)?'контр. (за CSV)':'акцій (за CSV)'}`:'кількість не визначена';
+   return `<div class="rhm-row"><strong>${safe(x.date)} · ${safe(x.ticker||'тикер невідомий')} · ${safe(x.code)}</strong><p>${safe(label)}</p><p>${qty} · cash ${value(x.amount)}</p><small>Не пов’язано автоматично з відкритим опціоном, акціями або собівартістю.</small></div>`;
+ };
+ const tickers=[...buckets.keys()].sort();
+ const rows=tickers.map(t=>{const data=raw.filter(x=>tickerOf(x)===t).sort((a,b)=>a.date.localeCompare(b.date));
+ const b=buckets.get(t);
+ return `<details><summary>${safe(t)} · опціонних подій ${b.events}, рухів акцій ${b.shares}</summary>${data.map(detail).join('')}</details>`
+ }).join('');
+ const missing=r.warnings.filter(w=>/не знайдено відкриття/i.test(w.reason||''));
+ return `<details open id="rhmWheelAuditQ"><summary>Wheel: assignment, expiration та акції — Q</summary>
+ <p>Окремий аудит із тих самих дедуплікованих CSV до ${safe(r.last)}. <strong>Це не готовий облік Wheel</strong>: опціонні події та рухи акцій показані для ручної звірки, без автоматичного приписування собівартості, прибутку або зв’язку PUT → акції → CALL. Наявність події не підтверджує, що вона стосується самостійної стратегії.</p>
+ <div class="rhm-grid">${statU('Assignment (OASGN)',count('OASGN'))}${statU('Expiration (OEXP)',count('OEXP'))}${statU('Exercise / settlement (OEXCS)',count('OEXCS'))}${statU('OCC cash рядки',count('OCC'))}${statU('Buy / Sell акцій — рядки',shares.length)}${statU('Закриття без знайденого відкриття',missing.length)}</div>
+ <details><summary>Події та акції за тикерами (${tickers.length})</summary>${rows||'<p>Подій не знайдено.</p>'}</details>
+ <details><summary>Закриття опціонів без знайденого відкриття (${missing.length})</summary>${missing.map(w=>`<div class="rhm-row"><strong>${safe(w.date)} · ${safe(w.contract)}</strong><p>${safe(w.reason)}</p></div>`).join('')||'<p>Немає.</p>'}</details>
+ <div class="rhm-warn">Статус: НЕ звірено. Фрагменти з неповною історією, можливими складними ордерами, corporate actions і відсутніми часами виконання не зараховуються до підтвердженого P/L. Дані для собівартості акцій та повного Wheel ще потребують окремої звірки.</div></details>`;
+}
+
+// Independent Wheel stock-flow reconciliation: no inferred brokerage cost basis.
+function wheelStockAuditR(r){
+ const raw=r.wheelRaw||[];
+ const events=raw.filter(x=>['OASGN','OEXP','OEXCS'].includes(x.code));
+ const shares=raw.filter(x=>['BUY','SELL'].includes(x.code));
+ const occ=raw.filter(x=>x.code==='OCC');
+ const cleanTicker=x=>String(x.ticker||'').trim().toUpperCase();
+ const tickers=[...new Set([...events,...shares,...occ].map(cleanTicker).filter(Boolean))].sort();
+ const nice=x=>esc(String(x??'—'));
+ const amt=x=>Number.isFinite(x)?format(x):'невизначено';
+ const dayDelta=(a,b)=>{const d=Date.parse(a+'T12:00:00Z'),e=Date.parse(b+'T12:00:00Z');return Number.isFinite(d)&&Number.isFinite(e)?Math.abs(d-e)/86400000:Infinity};
+ const candidateLinks=[];
+ for(const e of events){
+   if(e.code==='OEXP')continue;
+   const t=cleanTicker(e);
+   if(!t)continue;
+   const candidates=shares.filter(x=>cleanTicker(x)===t&&dayDelta(x.date,e.date)<=2);
+   const expected=Number.isFinite(e.qty)&&e.qty>0?e.qty*100:NaN;
+   const exact=candidates.filter(x=>Number.isFinite(expected)&&Number.isFinite(x.qty)&&Math.abs(x.qty-expected)<1e-6);
+   candidateLinks.push({event:e,candidates,exact});
+ }
+ const oneExact=candidateLinks.filter(x=>x.exact.length===1).length;
+ const noExact=candidateLinks.filter(x=>x.exact.length===0).length;
+ const manyExact=candidateLinks.filter(x=>x.exact.length>1).length;
+ const stockCash=shares.filter(x=>Number.isFinite(x.amount)).reduce((v,x)=>v+x.amount,0);
+ const buyQty=shares.filter(x=>x.code==='BUY'&&Number.isFinite(x.qty)).reduce((v,x)=>v+x.qty,0);
+ const sellQty=shares.filter(x=>x.code==='SELL'&&Number.isFinite(x.qty)).reduce((v,x)=>v+x.qty,0);
+ const detailEvent=e=>{
+   const ex=candidateLinks.find(x=>x.event===e);
+   const possible=ex?.candidates||[],exact=ex?.exact||[];
+   const status=e.code==='OEXP'?'Експірація: зіставлення з акціями не припускається':!Number.isFinite(e.qty)||e.qty<=0?'Кількість події невідома — потрібна звірка':exact.length===1?'Один кількісний кандидат — НЕ підтверджений зв’язок':exact.length>1?'Кілька кількісних кандидатів — неоднозначно':'Немає кількісного збігу — НЕ означає відсутність settlement';
+   return `<div class="rhm-row"><strong>${nice(e.date)} · ${nice(e.code)} · ${nice(e.contract||e.description)}</strong><p>Кількість події ${Number.isFinite(e.qty)?e.qty:'невідома'} · cash ${amt(e.amount)} · ${nice(status)}</p>${e.code==='OEXP'?'':`<small>Рухи акцій поруч (±2 календарні дні): ${possible.length}; із кількістю ${Number.isFinite(e.qty)?e.qty*100+' акцій':'не визначено'}: ${exact.length}. Це лише кандидати, без автоматичного призначення.</small>`}</div>`;
+ };
+ const tickerCards=tickers.map(t=>{
+   const e=events.filter(x=>cleanTicker(x)===t);
+   const sh=shares.filter(x=>cleanTicker(x)===t);
+   const cx=occ.filter(x=>cleanTicker(x)===t);
+   const cash=sh.filter(x=>Number.isFinite(x.amount)).reduce((v,x)=>v+x.amount,0);
+   const rows=sh.sort((a,b)=>a.date.localeCompare(b.date)).map(x=>{
+      const qty=Number.isFinite(x.qty)&&x.qty>0?x.qty:null;
+      const unit=qty!==null&&Number.isFinite(x.amount)?Math.abs(x.amount)/qty:null;
+      return `<div class="rhm-row"><strong>${nice(x.date)} · ${nice(x.code)} ${qty===null?'?':qty} акцій</strong><p>Cash ${amt(x.amount)} · сума на акцію ${unit===null?'невідома':amt(unit)} (не собівартість портфеля)</p><small>${nice(x.description)}</small></div>`;
+   }).join('');
+   return `<details><summary>${nice(t)} — подій ${e.length}, рухів акцій ${sh.length}, OCC ${cx.length}</summary><p>Сума грошових рухів акцій у наявному CSV: <b>${amt(cash)}</b>. Це НЕ P/L, не фінальна собівартість і не поточна вартість позиції.</p><details><summary>Опціонні події (${e.length})</summary>${e.map(detailEvent).join('')||'<p>Немає.</p>'}</details><details><summary>Операції з акціями (${sh.length})</summary>${rows||'<p>Немає.</p>'}</details><details><summary>OCC / settlement (${cx.length})</summary>${cx.map(x=>`<div class="rhm-row">${nice(x.date)} · ${nice(x.description)} · ${amt(x.amount)} — не включено до P/L</div>`).join('')||'<p>Немає.</p>'}</details></details>`;
+ }).join('');
+ return `<details open id="rhmWheelStockAuditR"><summary>Wheel: звірка акцій та собівартості — R</summary>
+ <p>Перевірка руху акцій і подій assignment/exercise з двох CSV до ${nice(r.last)}. Події зіставляються з рухами акцій того самого тикера в межах ±2 календарних днів <strong>лише як кандидати</strong>. Збіг кількості не доводить призначення. Строк settlement, дроблення, складні ордери та неповна історія можуть змінити висновок.</p>
+ <div class="rhm-grid">${statU('Рядків BUY / SELL',shares.length)}${statU('Куплено акцій (сума qty)',buyQty)}${statU('Продано акцій (сума qty)',sellQty)}${statU('Події OASGN / OEXCS / OEXP',events.length)}${statU('Події з 1 кількісним кандидатом',oneExact)}${statU('Без кількісного кандидата',noExact)}${statU('З кількома кандидатами',manyExact)}${statU('Net cash рухів акцій (НЕ P/L)',amt(stockCash))}</div>
+ <p><strong>Собівартість акцій:</strong> не визначена за цим аудитом. Для надійного FIFO cost basis потрібні підтверджені початкові залишки, assignment із напрямком і датою, корпоративні дії та звірені комісії. Умовне значення «сума на акцію» для кожної BUY / SELL — це лише cash рядка ÷ qty, а не собівартість утримуваних акцій. Автоматичного зв'язку PUT → акції → CALL немає.</p>
+ <details><summary>Деталізація за тикерами (${tickers.length})</summary>${tickerCards||'<p>Немає даних.</p>'}</details>
+ <div class="rhm-warn">Дані CSV — попередні, не підтвердження брокера. Не додавайте OCC і грошові рухи акцій до опціонного P/L без незалежної звірки: можливе подвійне врахування. Спреди не класифікуються й не аналізуються.</div></details>`;
+}
+
+// Candidate-only review of 1-to-1 quantity coincidences from R; no cost basis or trade attribution.
+function wheelFiveAuditS(r){
+ const raw=r.wheelRaw||[];
+ const ev=raw.filter(x=>x.code==='OASGN'||x.code==='OEXCS');
+ const stocks=raw.filter(x=>x.code==='BUY'||x.code==='SELL');
+ const ticker=x=>String(x.ticker||'').trim().toUpperCase();
+ const diff=(a,b)=>{const u=Date.parse(String(a)+'T12:00:00Z'),v=Date.parse(String(b)+'T12:00:00Z');return Number.isFinite(u)&&Number.isFinite(v)?Math.round((v-u)/86400000):NaN};
+ const matches=e=>stocks.filter(x=>ticker(x)===ticker(e)&&Number.isFinite(e.qty)&&e.qty>0&&Number.isFinite(x.qty)&&x.qty===e.qty*100&&Number.isFinite(diff(e.date,x.date))&&Math.abs(diff(e.date,x.date))<=2);
+ const entries=ev.map(e=>({e,links:matches(e)})).filter(x=>x.links.length===1);
+ const usage=new Map();
+ for(const x of entries){const hit=x.links[0];usage.set(hit,(usage.get(hit)||0)+1)}
+ const fmt=x=>Number.isFinite(x)?format(x):'не визначено';
+ const html=entries.map(({e,links},i)=>{
+   const x=links[0],delta=diff(e.date,x.date),collision=usage.get(x)>1;
+   const q=Number(e.qty),stockq=Number(x.qty);
+   const direction=x.code==='BUY'?'купівля акцій':'продаж акцій';
+   const status=collision?'⚠ Один рядок акцій підходить до кількох опціонних подій': '⚠ Лише один кількісний кандидат; не підтверджено assignment';
+   return `<div class="rhm-row"><strong>${i+1}. ${esc(ticker(e))} · ${esc(e.code)} ${esc(e.date)} · ${esc(e.contract||e.description||'опціон')}</strong>
+   <p>Подія: ${q} контр. × 100 = ${q*100} акцій · cash ${fmt(e.amount)}.</p>
+   <p>Кандидат: ${esc(x.date)} · ${esc(x.code)} · ${stockq} акцій (${direction}) · cash ${fmt(x.amount)} · зміщення ${delta>0?'+':''}${delta} дн.</p>
+   <p>${status}. Напрямок руху, settlement, комісії, розмір початкового пакета акцій та підтвердження брокера не встановлені.</p>
+   <small>Опціон: ${esc(e.description||'—')} · Акції: ${esc(x.description||'—')}</small></div>`;
+ }).join('')||'<p>Кількісних кандидатів не знайдено для поточних CSV.</p>';
+ const collisions=entries.filter(x=>usage.get(x.links[0])>1).length;
+ return `<details open id="rhmWheelCandidatesS"><summary>Wheel: перевірка кількісних збігів — S (${entries.length})</summary>
+ <p>Нижче лише випадки з рівно одним рядком BUY/SELL того самого тикера, кількістю 100 акцій на опціонний контракт та різницею дат не більше двох календарних днів. Це <strong>не підтверджені угоди Wheel</strong> і не розрахунок собівартості. Однакова кількість або напрямок операції самі по собі не встановлюють зв'язку.</p>
+ <div class="rhm-grid">${statU('Кандидатів з 1 збігом',entries.length)}${statU('Конфліктне повторне використання рядка',collisions)}${statU('Підтверджених брокером зв’язків',0)}</div>
+ <details open><summary>Деталізація можливих пар (${entries.length})</summary>${html}</details>
+ <div class="rhm-warn">Жоден із цих збігів не переноситься до реалізованого P/L, cost basis або журналу підтверджених assignment. Дані акцій показано лише для звірки; спреди не класифікуються й не аналізуються.</div></details>`;
+}
+
+function universalJournal(r,ticker,kind){
+ const now=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+ const pattern=new RegExp('^'+ticker.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+' (\\d{4}-\\d{2}-\\d{2}) '+kind+' \\$');
+ const fits=x=>x.side==='short'&&x.contract.startsWith(ticker+' ')&&x.contract.includes(' '+kind+' ');
+ const closes=r.closed.filter(fits).sort((a,b)=>a.date.localeCompare(b.date)||a.contract.localeCompare(b.contract));
+ const ambiguous=closes.filter(x=>x.ambiguous),clean=closes.filter(x=>!x.ambiguous);
+ const openAll=r.opens.filter(fits),active=openAll.filter(x=>(x.contract.match(/^[^ ]+ (\d{4}-\d{2}-\d{2}) /)||[])[1]>=now),historic=openAll.filter(x=>(x.contract.match(/^[^ ]+ (\d{4}-\d{2}-\d{2}) /)||[])[1]<now);
+ const total=clean.reduce((s,x)=>s+x.pnl,0),unc=ambiguous.reduce((s,x)=>s+x.pnl,0),premium=active.reduce((s,x)=>s+x.cash,0);
+ // Aggregate quantities (contracts), not FIFO row counts (lots).
+ // This view is a grouping of existing provisional FIFO results; it never
+ // resolves same-day execution order or derives stock/assignment outcomes.
+ const groupMap=new Map();
+ const getGroup=contract=>{if(!groupMap.has(contract))groupMap.set(contract,{contract,closeQty:0,cleanQty:0,ambigQty:0,cleanCash:0,ambigCash:0,openQty:0,openCash:0,expiredQty:0,expiredCash:0,closeLots:0,openLots:0});return groupMap.get(contract)};
+ for(const x of closes){const g=getGroup(x.contract);g.closeQty+=x.qty;g.closeLots++;if(x.ambiguous){g.ambigQty+=x.qty;g.ambigCash+=x.pnl}else{g.cleanQty+=x.qty;g.cleanCash+=x.pnl}}
+ for(const x of active){const g=getGroup(x.contract);g.openQty+=x.qty;g.openCash+=x.cash;g.openLots++}
+ for(const x of historic){const g=getGroup(x.contract);g.expiredQty+=x.qty;g.expiredCash+=x.cash;g.openLots++}
+ const countContracts=xs=>xs.reduce((n,x)=>n+x.qty,0);
+ const grouped=[...groupMap.values()].sort((a,b)=>a.contract.localeCompare(b.contract));
+ const groupedHtml=grouped.map(g=>`<div class="rhm-row"><strong>${esc(g.contract)}</strong>Закрито за FIFO: ${g.closeQty} контр. (${g.closeLots} частин закриття) · без конфлікту ${g.cleanQty} контр., P/L ${format(g.cleanCash)} · ⚠ неоднозначно ${g.ambigQty} контр., умовний P/L ${format(g.ambigCash)} (НЕ додавати) · можливі відкриті ${g.openQty} контр. у ${g.openLots} лотах, премія ${format(g.openCash)} (НЕ прибуток) · минула експірація ${g.expiredQty} контр., історична премія ${format(g.expiredCash)} (не P/L)</div>`).join('')||'<p>Контрактів не знайдено.</p>';
+
+ // CSP collateral is a face-value scenario, not actual broker buying power.
+ // Group by full OCC-like description so expiries are never mixed.
+ const putCollateral = kind==='PUT' ? grouped.map(g=>{
+   // Parse the strike token only; never require the entire broker description
+   // to match one exact spelling or spacing pattern.
+   const strikeText=String(g.contract).match(/\bPUT\s*\$\s*([0-9]+(?:\.[0-9]+)?)/i);
+   const strike=strikeText?Number(strikeText[1]):NaN;
+   const m=strikeText;
+   const valid=!!m&&Number.isFinite(strike)&&strike>=0&&Number.isFinite(g.openQty)&&g.openQty>=0;
+   return {g,strike,valid,amount:valid?Math.round(g.openQty*strike*100*100)/100:0};
+ }) : [];
+ const cspTotal=putCollateral.filter(x=>x.valid).reduce((sum,x)=>sum+x.amount,0);
+ const cspQty=putCollateral.filter(x=>x.valid).reduce((sum,x)=>sum+x.g.openQty,0);
+ const cspUnknown=putCollateral.filter(x=>!x.valid&&x.g.openQty>0);
+ const cspRows=putCollateral.filter(x=>x.g.openQty>0).map(x=>`<div class="rhm-row"><strong>${esc(x.g.contract)}</strong>${x.g.openQty} можливих коротких PUT у ${x.g.openLots} лотах · страйк ${x.valid?format(x.strike):'невідомий (перевірити формат контракту)'} · номінальне забезпечення <strong>${x.valid?format(x.amount):'не розраховано'}</strong> · премія ${format(x.g.openCash)} (НЕ прибуток)</div>`).join('');
+ const cspHtml=kind==='PUT'?`<details open><summary>Номінальне забезпечення CSP — K · ${cspQty} контрактів</summary><div class="rhm-grid">${statU('Можливі короткі PUT (контракти)',cspQty)}${statU('Номінальне забезпечення за страйками',format(cspTotal))}${statU('Серій без достатніх даних',cspUnknown.length)}</div><p>Розрахунок для можливих відкритих PUT: кількість контрактів × 100 акцій × страйк. Це <strong>не</strong> брокерське підтвердження відкритих позицій, заблокованої готівки чи buying power. Премії не віднімаємо від номінального забезпечення. Позиції після експірації виключені; звіти охоплюють операції лише до ${esc(r.last)}.</p>${cspRows||'<p>Можливих відкритих PUT не знайдено.</p>'}<div class="rhm-warn">Перед використанням як справжнього CSP-забезпечення необхідно звірити актуальні контракти, assignment, багатоногі ордери та операції з акціями з брокером. Розрахунок не є доступним залишком коштів.</div></details>`:'';
+ const countStats=`<div class="rhm-grid">${statU('Закриті контракти (сума qty)',countContracts(closes))}${statU('Без конфлікту — контракти',countContracts(clean))}${statU('Неоднозначні — контракти',countContracts(ambiguous))}${statU('Можливі відкриті контракти',countContracts(active))}${statU('Можливі відкриті лоти',active.length)}${statU('Після експірації — контракти',countContracts(historic))}</div>`;
+ let accumulated=0;
+ const detail=closes.map(x=>{if(!x.ambiguous)accumulated+=x.pnl;return `<div class="rhm-row"><strong>${esc(x.date+' · '+x.contract)}</strong>STO ${esc(x.openDate)} ${format(x.openCash)} → BTC ${format(x.closeCash)} · ${x.qty} контр. · попередній P/L ${format(x.pnl)} · ${x.ambiguous?'⚠ невизначений порядок, виключено із суми':'умовне FIFO, накопичено '+format(accumulated)}</div>`}).join('')||'<p>Закриттів у CSV не знайдено.</p>';
+ const activeHtml=active.map(x=>`<div class="rhm-row"><strong>${esc(x.contract)}</strong>${x.qty} коротких контр. · премія ${format(x.cash)} · STO ${esc(x.date)} (це НЕ прибуток)</div>`).join('')||'<p>Можливих відкритих за CSV немає.</p>';
+ const histHtml=historic.map(x=>`<div class="rhm-row"><strong>${esc(x.contract)}</strong>${x.qty} контр. · отримано ${format(x.cash)} · необхідна звірка експірації/assignment та акцій</div>`).join('')||'<p>Немає.</p>';
+ return `<div class="rhm-grid">${statU('Закриття без конфлікту',clean.length)}${statU('Попередній P/L цих закриттів',format(total))}${statU('Неоднозначні закриття',ambiguous.length)}${statU('Їхній P/L окремо',format(unc))}${statU('Можливі відкриті',active.length)}${statU('Премії відкритих — не прибуток',format(premium))}</div>${countStats}${cspHtml}<details open><summary>Підсумок за страйком та експірацією (${grouped.length})</summary><p>Контракти рахуються за кількістю (qty), а лоти — за кількістю записів FIFO. Неоднозначні угоди не включаються до основного P/L. Наведені рядки — результат зіставлення CSV, не підтвердження брокера.</p>${groupedHtml}</details><details open><summary>Історія ${esc(ticker)} ${kind} — ${closes.length} закриттів</summary>${detail}</details><details open><summary>Можливі відкриті (${active.length})</summary>${activeHtml}</details><details><summary>Експірація минула — звірити (${historic.length})</summary>${histHtml}</details><div class="rhm-warn">${kind==='PUT'?'Для Wheel / CSP окремо потрібні рух акцій, забезпечення та assignment. ':'Для Covered Call окремо потрібні акції та assignment. '}Це попередня хронологія коротких опціонів за CSV до ${esc(r.last)}. Вона не визначає зв’язки Wheel та не підтверджує, що опціон не є частиною багатоногого ордера. Спреди не класифікуються та не включаються до аналізу стратегії.</div>`;
+}
+function ambiguityAuditN(r){
+ // All figures are from this import. Grouped reconciliation is NOT a P/L repair.
+ const flagged=r.closed.filter(x=>x.ambiguous&&x.side==='short');
+ const groups=new Map();
+ for(const x of flagged){
+  const key=x.contract+'|'+x.date;
+  let g=groups.get(key);
+  if(!g){g={key,contract:x.contract,date:x.date,qty:0,fragments:0,provisionalPnl:0};groups.set(key,g)}
+  g.qty+=x.qty;g.fragments++;g.provisionalPnl+=x.pnl;
+ }
+ const all=[...groups.values()].sort((a,b)=>b.qty-a.qty||a.date.localeCompare(b.date)||a.contract.localeCompare(b.contract));
+ const daily=new Map((r.dailyTrades||[]).map(x=>[x.contract+'|'+x.date,x]));
+ const unmatched=r.warnings.filter(w=>/BTC\/STC:\s*не знайдено відкриття/.test(w.reason));
+ // Date-end accounting based solely on observed STO/BTC rows; NOT brokerage holdings.
+ // A daily net can be deterministic while its within-day FIFO assignment is not.
+ const seriesHistory=new Map();
+ for(const day of r.dailyTrades||[]){
+  let a=seriesHistory.get(day.contract)||[];a.push(day);seriesHistory.set(day.contract,a);
+ }
+ for(const a of seriesHistory.values())a.sort((x,y)=>x.date.localeCompare(y.date));
+ function seriesPosition(contract,date){
+  let before=0,delta=0,after=0,negative=false,first=null;
+  for(const d of seriesHistory.get(contract)||[]){
+   if(d.date>date)break;
+   if(!first)first=d.date;
+   const change=d.stoQty-d.btcQty;
+   if(d.date<date)before+=change;else if(d.date===date)delta+=change;
+   if(before+delta<0)negative=true;
+  }
+  after=before+delta;
+  return {before,delta,after,negative,first};
+ }
+ const invalidGroupCount=all.filter(g=>seriesPosition(g.contract,g.date).negative).length;
+ const tickerCounts=new Map();
+ for(const g of all){let t=g.contract.split(' ')[0],old=tickerCounts.get(t)||{ticker:t,qty:0,parts:0,groups:0};old.qty+=g.qty;old.parts+=g.fragments;old.groups++;tickerCounts.set(t,old)}
+ const num=x=>Number.isInteger(x)?String(x):x.toFixed(2);
+ const totalQty=all.reduce((n,g)=>n+g.qty,0), totalFragments=all.reduce((n,g)=>n+g.fragments,0);
+ const table=all.map(g=>{
+  const d=daily.get(g.key), both=d&&d.stoQty>0&&d.btcQty>0;
+  const position=seriesPosition(g.contract,g.date);
+  const status=both?'STO і BTC того самого дня: порядок невідомий':'Недостатньо операцій у CSV для уточнення';
+  const insufficient=position.negative?' ⚠ Спостережуваний залишок став від’ємним — можлива відсутня попередня історія або інші події.':'';
+  return `<div class="rhm-row"><strong>${esc(g.contract)} · ${esc(g.date)}</strong><div>Неоднозначно зіставлено ${num(g.qty)} контр. у ${g.fragments} частинах FIFO.</div><div>STO за дату: ${d?num(d.stoQty):'—'} контр., ${d?format(d.stoCash):'—'} (${d?d.stoRows:0} рядків)</div><div>BTC за дату: ${d?num(d.btcQty):'—'} контр., ${d?format(d.btcCash):'—'} (${d?d.btcRows:0} рядків)</div><div><strong>Залишок за CSV до дати: ${num(position.before)} контр.; зміна за день: ${num(position.delta>=0?position.delta:position.delta)}; після дати: ${num(position.after)} контр.</strong> — лише сума STO − BTC, не підтверджена брокером позиція.${esc(insufficient)}</div><div>Умовний FIFO P/L: ${format(g.provisionalPnl)} — <strong>НЕ додавати до підтвердженого P/L</strong></div><div>Статус: ${esc(status)}. Потрібен час виконання/ідентифікатор ордера для точного парування.</div></div>`;
+ }).join('');
+ const tickerRows=[...tickerCounts.values()].sort((a,b)=>b.qty-a.qty).map(x=>`<tr><td>${esc(x.ticker)}</td><td>${num(x.qty)}</td><td>${x.parts}</td><td>${x.groups}</td></tr>`).join('');
+ const missing=unmatched.map(w=>`<div class="rhm-row"><strong>${esc(w.contract||'Невідома серія')} · ${esc(w.date)}</strong>${esc(w.reason)} · неповна історія, P/L не розраховувати</div>`).join('');
+ return `<details id="rhmAmbiguityAuditN" open><summary>Звірка неоднозначних серій — Q (${all.length} груп)</summary>
+ <p>Дані STO/BTC нижче взято безпосередньо з об'єднаних CSV за <strong>точною серією та датою</strong>. Кількість контрактів, грошові потоки й фрагменти FIFO показані окремо. Це не реконструкція часу виконання або окремих ордерів.</p>
+ <div class="rhm-grid">${statU('Неоднозначні контракти (qty)',num(totalQty))}${statU('Частини FIFO',totalFragments)}${statU('Серія + дата',all.length)}${statU('Закриття без знайденого відкриття',unmatched.length)}${statU('Групи з від’ємним залишком CSV',invalidGroupCount)}</div>
+ <details><summary>Розподіл за тикерами (${tickerCounts.size})</summary><div style="overflow-x:auto"><table class="rhm-audit-table"><thead><tr><th>Тикер</th><th>Контр.</th><th>Фрагм.</th><th>Груп</th></tr></thead><tbody>${tickerRows}</tbody></table></div></details>
+ <details open><summary>Зіставлення STO та BTC за датами (${all.length})</summary>${table||'<p>Неоднозначностей не знайдено.</p>'}</details>
+ <details><summary>Історія неповна — відкриття не знайдено (${unmatched.length})</summary><p>Ці події не включені до розрахованих закриттів FIFO. Потрібні попередні STO або незалежне брокерське підтвердження.</p>${missing||'<p>Не знайдено.</p>'}</details>
+ <details><summary>Контроль правильності звірки</summary><p>Для кожної проблемної серії накопичуємо STO − BTC від найранішої дати у завантажених CSV. Перевіряємо тотожність: залишок до дати + (STO − BTC за дату) = залишок після дати. Від’ємний результат позначається як проблема неповного набору подій, а не автоматично виправляється. Дані assignment, expiration, коригування й виконання акцій у цих балансах не відображені. FIFO/P&L залишаються без змін.</p></details>
+ <div class="rhm-warn"><strong>Обмеження звірки</strong><p>CSV не містить точного часу операцій, тому зіставлення STO/BTC у межах однієї дати не можна автоматично підтвердити. Жодна з цих груп не додана до основного P/L. Assignment, expiration та акції потребують окремої звірки. Спреди не аналізуються.</p></div>
+ </details>`;
+}
+function portfolioDashboard(r){
+ const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+ const positions=new Map();
+ const get=(ticker,kind)=>{const id=ticker+'|'+kind;if(!positions.has(id))positions.set(id,{ticker,kind,closed:0,ambiguous:0,cleanPnl:0,ambigPnl:0,openQty:0,openLots:0,openPremium:0,nominal:0,unpricedQty:0,expiredQty:0});return positions.get(id)};
+ const parse=contract=>{const m=/^([A-Z][A-Z0-9.\-]*)\s+(\d{4}-\d{2}-\d{2})\s+(CALL|PUT)\s+\$([\d.]+)/.exec(String(contract));return m?{ticker:m[1],expiry:m[2],kind:m[3],strike:Number(m[4])}:null};
+ for(const x of r.closed){if(x.side!=='short')continue;const p=parse(x.contract);if(!p)continue;const a=get(p.ticker,p.kind);if(x.ambiguous){a.ambiguous+=x.qty;a.ambigPnl+=x.pnl}else{a.closed+=x.qty;a.cleanPnl+=x.pnl}}
+ for(const x of r.opens){if(x.side!=='short')continue;const p=parse(x.contract);if(!p)continue;const a=get(p.ticker,p.kind);if(p.expiry<today){a.expiredQty+=x.qty;continue}a.openQty+=x.qty;a.openLots++;a.openPremium+=x.cash;if(p.kind==='PUT'){if(Number.isFinite(p.strike)&&p.strike>=0)a.nominal+=x.qty*100*p.strike;else a.unpricedQty+=x.qty}}
+ const entries=[...positions.values()].sort((a,b)=>a.ticker.localeCompare(b.ticker)||a.kind.localeCompare(b.kind));
+ const tickers=[...new Set(entries.map(a=>a.ticker))].sort();
+ const sums={tickers:tickers.length,active:0,cc:0,put:0,collateral:0,clean:0,ambiguity:0,premium:0,unpriced:0,expired:0};
+ for(const a of entries){sums.active+=a.openQty;if(a.kind==='CALL')sums.cc+=a.openQty;else {sums.put+=a.openQty;sums.collateral+=a.nominal;sums.unpriced+=a.unpricedQty}sums.clean+=a.cleanPnl;sums.ambiguity+=a.ambiguous;sums.premium+=a.openPremium;sums.expired+=a.expiredQty}
+ const rows=tickers.map(t=>{
+  const v=entries.filter(a=>a.ticker===t),cc=v.find(a=>a.kind==='CALL'),put=v.find(a=>a.kind==='PUT');
+  const n=(a,k)=>a?a[k]:0;
+  const callPnl=n(cc,'cleanPnl'),putPnl=n(put,'cleanPnl'),totalPnl=callPnl+putPnl;
+  const bad=n(cc,'ambiguous')+n(put,'ambiguous'),premium=n(cc,'openPremium')+n(put,'openPremium');
+  return `<div class="rhm-row rhm-portfolio-card" data-portfolio-ticker="${esc(t)}" data-open="${n(cc,'openQty')+n(put,'openQty')}" data-collateral="${n(put,'nominal')}" data-ambiguous="${bad}"><strong>${esc(t)}</strong><div class="rhm-card-positions"><span>CALL <b>${n(cc,'openQty')}</b></span><span>PUT <b>${n(put,'openQty')}</b></span></div><div class="rhm-card-primary"><small>Номінальне CSP</small><b>${format(n(put,'nominal'))}</b></div><div class="rhm-card-meta"><span>P/L закритих CALL <b>${format(callPnl)}</b></span><span>P/L закритих PUT <b>${format(putPnl)}</b></span><span><strong>Разом CALL + PUT</strong> <b>${format(totalPnl)}</b></span><span>Незвірені закриття <b>${bad} контр.</b></span><span>Премії можливих відкритих <b>${format(premium)}</b> (не прибуток)</span>${n(put,'unpricedQty')?'<span>Не розраховано забезпечення для '+n(put,'unpricedQty')+' PUT</span>':''}</div></div>`
+ }).join('');
+ return `<details open id="rhmPortfolioDashboard"><summary>Портфель за CSV — компактний огляд Q (${sums.tickers} тикерів)</summary><p>Попередня звірка коротких CALL/PUT станом на останній імпорт до ${esc(r.last)}. Контракти після експірації відокремлені; дані не є актуальним підтвердженням позицій брокера.</p><div class="rhm-grid">${statU('Можливі відкриті CALL · контракти',sums.cc)}${statU('Можливі відкриті PUT · контракти',sums.put)}${statU('Номінальне CSP (без премій)',format(sums.collateral))}${statU('Попередній P/L зіставлених закриттів',format(sums.clean))}${statU('Неоднозначні закриття · контракти',sums.ambiguity)}${statU('Премії відкритих (НЕ прибуток)',format(sums.premium))}</div><div class="rhm-portfolio-controls" style="display:flex;flex-wrap:wrap;gap:12px;margin:16px 0"><label>Позиції <select id="rhmActiveFilter" style="font-size:16px;padding:8px"><option value="active">Лише можливі відкриті</option><option value="all">Усі тикери</option></select></label><label>Сортування <select id="rhmPortfolioSort" style="font-size:16px;padding:8px"><option value="collateral">За номінальним CSP ↓</option><option value="contracts">За кількістю контрактів ↓</option><option value="ambiguous">За кількістю незвірених ↓</option><option value="ticker">За тикером А–Я</option></select></label></div><p id="rhmPortfolioCount" aria-live="polite"></p><div id="rhmPortfolioRows" class="rhm-portfolio-cards">${rows||'<p>Немає знайдених коротких CALL або PUT.</p>'}</div><p><small>Номінальне забезпечення = PUT × 100 × страйк. Без перевірки assignment, акцій та багатоногих ордерів ці суми не визначають фактичне забезпечення, прибуток чи ризик рахунку. Спреди тут не аналізуються. Невідомих страйків: ${sums.unpriced}; історичних контрактів після експірації: ${sums.expired}.</small></p></details>`;
+}
+function setupPortfolioDashboard(){
+ const root=document.getElementById('rhmPortfolioDashboard');if(!root)return;
+ const filter=root.querySelector('#rhmActiveFilter'),sort=root.querySelector('#rhmPortfolioSort');
+ const list=root.querySelector('#rhmPortfolioRows'),counter=root.querySelector('#rhmPortfolioCount');
+ const rows=[...list.querySelectorAll('[data-portfolio-ticker]')];
+ const apply=()=>{
+  const selected=rows.filter(row=>filter.value==='all'||Number(row.dataset.open)>0);
+  const metric={collateral:'collateral',contracts:'open',ambiguous:'ambiguous'}[sort.value];
+  selected.sort((a,b)=>metric?(Number(b.dataset[metric])-Number(a.dataset[metric])||a.dataset.portfolioTicker.localeCompare(b.dataset.portfolioTicker)):a.dataset.portfolioTicker.localeCompare(b.dataset.portfolioTicker));
+  list.replaceChildren(...selected);
+  // Hidden rows stay in memory and are reattached when filters change.
+  counter.textContent=`Показано ${selected.length} з ${rows.length} тикерів. Дані можливих відкритих позицій — лише за CSV.`;
+ };
+ filter.addEventListener('change',apply);sort.addEventListener('change',apply);apply();
+}
+function statU(k,v){return `<div class="rhm-stat"><small>${esc(k)}</small><b>${esc(v)}</b></div>`}
+function selfCheckU(r){
+ const checks=[];
+ const add=(name,pass,explanation)=>checks.push({name,pass,explanation});
+ add('Кількість файлів і рядків',r.sources?.length>0&&Number.isInteger(r.rows)&&r.rows>=0&&Number.isInteger(r.duplicate)&&r.duplicate>=0,'Знайдено джерел: '+(r.sources?.length||0)+'; унікальних рядків '+r.rows+'; дублікатів '+r.duplicate);
+ const closed=r.closed||[],opens=r.opens||[];
+ add('Коректна кількість контрактів', [...closed,...opens].every(x=>Number.isFinite(x.qty)&&x.qty>0),'Усі зіставлені закриття та залишки повинні мати додатну кількість.');
+ add('Перевірка FIFO cash P/L',closed.every(x=>Number.isFinite(x.pnl)&&Number.isFinite(x.openCash)&&Number.isFinite(x.closeCash)&&Math.abs(x.pnl-(x.openCash+x.closeCash))<0.015),'P/L закриття = cash відкриття + cash закриття; перевірка арифметики, не підтвердження брокера.');
+ add('Нерозподілені випадки залишаються окремо',Array.isArray(r.warnings),'Assignment, відсутні відкриття та порядок угод у межах дня не підтверджуються автоматично.');
+ const passed=checks.filter(c=>c.pass).length;
+ const items=checks.map(c=>`<div class="rhm-row"><b>${c.pass?'✓':'⚠'} ${esc(c.name)}</b><p>${esc(c.explanation)}</p></div>`).join('');
+ return `<details id="rhmSelfCheckU"><summary>Самоперевірка імпорту — V (${passed}/${checks.length})</summary><p>Технічна перевірка структури й арифметики після кожного імпорту, <strong>не</strong> підтвердження позицій або P/L брокера. Дані CSV: до ${esc(r.last)}.</p>${items}<p><small>Непідтверджені операції залишаються непідтвердженими. Жодна перевірка не додає їх до прибутку.</small></p></details>`;
+}
+function overviewX(r){
+ const closed=(r.closed||[]).filter(x=>!x.ambiguous&&Number.isFinite(x.pnl));
+ const short=closed.filter(x=>x.side==='short'),long=closed.filter(x=>x.side==='long');
+ const sum=xs=>xs.reduce((a,x)=>a+x.pnl,0);
+ const ambiguous=(r.closed||[]).filter(x=>x.ambiguous).reduce((a,x)=>a+x.qty,0);
+ const opens=(r.opens||[]).filter(x=>x.side==='short');
+ const asOf=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+ const parsed=c=>/^([A-Z0-9.-]+)\s+(\d{4}-\d\d-\d\d)\s+(CALL|PUT)\s+\$([\d.]+)/.exec(c||'');
+ let calls=0,puts=0,nominal=0,unpriced=0;
+ for(const x of opens){const m=parsed(x.contract);if(!m||m[2]<asOf)continue;if(m[3]==='CALL')calls+=x.qty;else{puts+=x.qty;const strike=Number(m[4]);if(Number.isFinite(strike))nominal+=strike*x.qty*100;else unpriced+=x.qty}}
+ const s=sum(short),l=sum(long),all=sum(closed);
+ const status=Math.abs((s+l)-all)<.02;
+ return `<section id="rhmOverviewX" class="rhm-row" style="margin:14px 0;border:2px solid #4c8ca1"><h3 style="margin:0 0 8px">Головний фінансовий огляд — Y</h3>
+ <p><strong>CSV до ${esc(r.last)}.</strong> Це попередні результати, а не підтверджений брокером P/L чи повний облік Wheel.</p>
+ <div class="rhm-grid">${statU('CALL: можливі відкриті контракти',calls)}${statU('PUT: можливі відкриті контракти',puts)}${statU('Номінальне CSP (НЕ фактично заблоковані кошти)',format(nominal))}${statU('P/L коротких STO/BTC',format(s))}${statU('P/L довгих BTO/STC (окремо)',format(l))}${statU('Разом short + long (НЕ додавати ще раз)',format(all))}${statU('Неоднозначні контракти — без підтвердження',ambiguous)}${statU('Джерела / рядки / дублікати',`${r.sources.length} / ${r.rows} / ${r.duplicate}`)}</div>
+ <p><strong>Контроль:</strong> ${status?'✓ Short + long = загальний результат':'⚠ Суми потребують звірки'}. ${unpriced?'Додатково '+unpriced+' PUT без визначеного номіналу.':''}</p>
+ <nav aria-label="Розділи фінансової звірки" style="display:flex;flex-wrap:wrap;gap:10px"><a href="#rhmPortfolioDashboard">Картки тикерів</a><a href="#rhmReconcileW">Пояснення P/L</a><a href="#rhmSelfCheckU">Технічні перевірки</a><a href="#rhmWheelStockAuditR">Wheel</a><a href="#rhmAmbiguityAuditN">Неоднозначні операції</a></nav>
+ <details><summary>Як читати суми та обмеження</summary><p>Короткі STO/BTC — підсумок портфеля Covered Calls/CSP. Довгі BTO/STC наведені лише для пояснення різниці з ширшим контролем. Їх не потрібно додавати вдруге. Премії можливих відкритих позицій не є реалізованим прибутком. Відсутність часу виконання та підтверджених assignment/settlement обмежує точність.</p></details></section>`;
+}
+function reconciliationW(r){
+ const closed=(r.closed||[]).filter(x=>!x.ambiguous&&Number.isFinite(x.pnl));
+ const bySide={short:[],long:[],other:[]};
+ for(const x of closed)(bySide[x.side]||bySide.other).push(x);
+ const sum=xs=>xs.reduce((a,x)=>a+x.pnl,0),qty=xs=>xs.reduce((a,x)=>a+x.qty,0);
+ const short=bySide.short,long=bySide.long,other=bySide.other;
+ const all=sum(closed),portfolio=sum(short),difference=all-portfolio;
+ const parsed=x=>/^(\S+)\s+\d{4}-\d\d-\d\d\s+(CALL|PUT)\s+\$/.exec(x.contract||'');
+ const map=new Map();
+ for(const x of [...short,...long,...other]){const m=parsed(x);const ticker=m?.[1]||'НЕРОЗПІЗНАНО';const side=x.side||'other';const key=ticker+'|'+side;let item=map.get(key)||{ticker,side,n:0,qty:0,pnl:0};item.n++;item.qty+=x.qty;item.pnl+=x.pnl;map.set(key,item)}
+ const rows=[...map.values()].sort((a,b)=>a.ticker.localeCompare(b.ticker)||a.side.localeCompare(b.side));
+ const detail=rows.map(x=>`<tr><td>${esc(x.ticker)}</td><td>${esc(x.side==='short'?'Короткі STO/BTC':x.side==='long'?'Довгі BTO/STC':'Інші')}</td><td>${x.n}</td><td>${x.qty}</td><td>${format(x.pnl)}</td></tr>`).join('');
+ const near=Math.abs(difference-328.20)<.02&&Math.abs(portfolio-5020.08)<.02&&Math.abs(all-4691.88)<.02;
+ const check=Math.abs((sum(short)+sum(long)+sum(other))-all)<.01;
+ return `<details id="rhmReconcileW"><summary>Звірка P/L портфеля і журналу — W</summary>
+ <p>Обидва модулі обчислюють P/L за тими самими зіставленими CSV, але використовують різне охоплення: портфель — лише <strong>короткі STO/BTC</strong>; контроль V — <strong>короткі STO/BTC + довгі BTO/STC</strong>. Неоднозначні закриття не входять у ці три суми.</p>
+ <div class="rhm-grid">${statU('Портфель: лише short',format(portfolio))}${statU('Контроль: short + long',format(all))}${statU('Довгі BTO/STC — різниця',format(sum(long)))}${statU('Інші невідомі сторони',format(sum(other)))}${statU('Контрактів short / long',qty(short)+' / '+qty(long))}${statU('Арифметика різниці',check?'✓ Збігається':'⚠ Потребує перевірки')}</div>
+ <div class="rhm-row"><b>${near?'✓ Пояснено раніше помічену різницю $328.20':'Звірка поточного набору даних'}</b><p>Контроль мінус портфель = <strong>${format(difference)}</strong>; внесок довгих BTO/STC = <strong>${format(sum(long))}</strong>; внесок інших типів = <strong>${format(sum(other))}</strong>.</p></div>
+ <details><summary>Розподіл за тикерами та типом позиції (${rows.length})</summary><div style="overflow-x:auto"><table class="rhm-audit-table"><thead><tr><th>Тикер</th><th>Тип</th><th>Частин FIFO</th><th>Контрактів</th><th>Попередній P/L</th></tr></thead><tbody>${detail}</tbody></table></div></details>
+ <p><small>Це пояснення складу сум, а не новий прибуток. Не додавайте short і загальний показник один до одного. Довгі позиції не включено до портфельної панелі Covered Calls/CSP. Підтвердження брокера, корпоративні дії, assignment і спреди не реконструюються.</small></p></details>`;
+}
+function regressionV(r){
+ const issues=[];
+ const check=(ok,msg)=>{if(!ok)issues.push(msg)};
+ const closes=r.closed||[],opens=r.opens||[],warnings=r.warnings||[];
+ const quantity=xs=>xs.reduce((a,x)=>a+(Number.isFinite(x.qty)?x.qty:0),0);
+ check(r.sources?.length>0,'Немає імпортованих джерел');
+ check(r.rows>=0&&r.duplicate>=0,'Некоректні лічильники CSV');
+ check(closes.every(x=>x.qty>0&&Number.isFinite(x.pnl)&&Math.abs(x.pnl-(x.openCash+x.closeCash))<0.015),'Арифметика закриттів FIFO');
+ check(opens.every(x=>x.qty>0&&Number.isFinite(x.cash)),'Некоректні залишки');
+ const ambiguous=closes.filter(x=>x.ambiguous),good=closes.filter(x=>!x.ambiguous);
+ const cleanSum=good.reduce((v,x)=>v+x.pnl,0),ambSum=ambiguous.reduce((v,x)=>v+x.pnl,0);
+ check(Number.isFinite(cleanSum)&&Number.isFinite(ambSum),'Некоректна сума P/L');
+ // The exact baseline applies only to the user's previously verified two-report test set.
+ const baseline=r.sources?.length===2&&r.rows===561&&r.duplicate===7;
+ const smci=closes.filter(x=>x.contract.startsWith('SMCI ')&&x.contract.includes(' CALL '));
+ const sameSmci=smci.length===7;
+ const baselineText=baseline?`Розпізнано контрольний набір: 2 CSV / 561 унікальний рядок / 7 дублікатів. SMCI CALL: ${smci.length} закриттів (${sameSmci?'збігається з контролем':'відрізняється від контролю 7'}).`:'Цей імпорт не збігається з відомим контрольним набором 2 CSV / 561 рядок / 7 дублікатів. Це не обов’язково помилка: можливо, дані оновились.';
+ const fmt=x=>Number.isFinite(x)?format(x):'не визначено';
+ return `<details id="rhmRegressionV"><summary>Контроль цілісності журналу — V (${issues.length?'увага':'арифметика без помилок'})</summary><p>Перевірка після імпорту: лічильники, кількості, сума відкриття + закриття та відокремлення неоднозначних результатів. Не є звіркою брокера і не змінює даних.</p><div class="rhm-grid">${statU('Закриті частини FIFO',closes.length)}${statU('Контракти без конфлікту',quantity(good))}${statU('Неоднозначні контракти',quantity(ambiguous))}${statU('P/L без конфлікту',fmt(cleanSum))}${statU('Неоднозначний P/L (окремо)',fmt(ambSum))}${statU('Попереджень',warnings.length)}</div><div class="rhm-row"><strong>${issues.length?'⚠ Потрібна перевірка':'✓ Технічні інваріанти виконані'}</strong><p>${issues.length?esc(issues.join('; ')):'Суми зіставлених закриттів і кількості не мають виявлених арифметичних аномалій.'}</p></div><p>${esc(baselineText)}</p><p><small>Перевірка не усуває невідомий порядок виконання за день, відсутні відкриття, assignment або корпоративні дії. Спреди не аналізуються.</small></p></details>`;
+}
+function draw(r){
+ const smci=r.closed.filter(x=>x.contract.startsWith('SMCI ')&&x.contract.includes(' CALL '));
+ const allOpen=r.opens.filter(x=>x.contract.startsWith('SMCI ')&&x.contract.includes(' CALL '));
+ // Compare against the browser's current local calendar date. Date-only contracts
+ // are not considered expired until the following calendar day.
+ const today=new Date();
+ // Trading dates are interpreted in New York, independent of the phone's timezone.
+ const asOf=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(today);
+ const expiration=x=>/^SMCI (\d{4}-\d{2}-\d{2}) CALL /.exec(x.contract)?.[1]||'';
+ const opened=allOpen.filter(x=>expiration(x)>=asOf);
+ const expired=allOpen.filter(x=>expiration(x)<asOf);
+ const definite=smci.filter(x=>!x.ambiguous),uncertain=smci.filter(x=>x.ambiguous);
+ const realized=definite.reduce((n,x)=>n+x.pnl,0);
+ const preliminary=uncertain.reduce((n,x)=>n+x.pnl,0);
+ const openPremium=opened.reduce((n,x)=>n+x.cash,0);
+ const smciRolls=(r.rolls||[]).filter(x=>x.from.startsWith('SMCI '));
+ const fmtCount=x=>x.toLocaleString('uk-UA');
+ const cautions=r.warnings.filter(x=>x.contract.startsWith('SMCI ')||x.contract==='Кілька угод за день');
+ const stat=(k,v)=>`<div class="rhm-stat"><small>${esc(k)}</small><b>${esc(v)}</b></div>`;
+ const row=(title,detail)=>`<div class="rhm-row"><strong>${esc(title)}</strong>${esc(detail)}</div>`;
+ // Unified SMCI covered-call journal based only on parsed Account Activity CSV.
+ // Closed-lot FIFO P/L excludes conflicts; roll cash is information only and
+ // never added to the P/L subtotal. Do not count historical expired credits.
+ const chron=smci.slice().sort((a,b)=>a.date.localeCompare(b.date)||a.openDate.localeCompare(b.openDate)||a.contract.localeCompare(b.contract));
+ let verifiedSubtotal=0;
+ const journalRows=chron.map((x,i)=>{
+   if(!x.ambiguous)verifiedSubtotal+=x.pnl;
+   const exp=expiration(x);
+   const strike=x.contract.match(/ CALL \$([\d.]+)/)?.[1]||'?';
+   const status=x.ambiguous?'⚠ Неоднозначно, поза накопиченим P/L':'FIFO без конфлікту';
+   const cumulative=x.ambiguous?'не змінюється':format(verifiedSubtotal);
+   const related=smciRolls.filter(r=>r.date===x.date&&r.from===x.contract);
+   const links=related.map(r=>`можливе ролювання до ${r.to} (cash ${format(r.netCash)})`).join('; ');
+   return row(`${i+1}. ${x.date} · SMCI $${strike} CALL · ${exp}`,
+     `STO ${x.openDate} → BTC ${x.date} · ${x.qty} контр. · початковий cash ${format(x.openCash)} · BTC ${format(x.closeCash)} · P/L ${format(x.pnl)} · ${status} · накопичений попередній P/L ${cumulative}${links?' · '+links+' (НЕ додавати до P/L)':''}`);
+ });
+ const journalOpen=opened.slice().sort((a,b)=>a.contract.localeCompare(b.contract)).map(x=>row(x.contract,`Можливий відкритий short CALL · ${x.qty} контр. · STO ${x.date} · отримано ${format(x.cash)} · реалізований P/L не розрахований`));
+ const journalHistoric=expired.map(x=>row(x.contract,`Минув термін дії · первинний cash ${format(x.cash)} · assignment/expiration та акції не звірені; не додавати до прибутку`));
+ const journal=`<details open><summary>SMCI Covered Calls — єдиний журнал (${chron.length} закриттів)</summary>
+ <p>Хронологія FIFO зі звітів Robinhood: послідовність угод, можливі ролювання та накопичений <strong>попередній</strong> результат лише закриттів без конфлікту послідовності. Чистий рух ролювання не є прибутком і не додається вдруге.</p>
+ <div class="rhm-grid">${stat('Закриттів без конфлікту',definite.length)}${stat('Попередній P/L закриттів без конфлікту',format(realized))}${stat('Неоднозначних закриттів',uncertain.length)}${stat('Неоднозначний P/L — окремо',format(preliminary))}${stat('Можливі відкриті контракти',opened.length)}${stat('Премії відкритих, не прибуток',format(openPremium))}</div>
+ ${journalRows.join('')||'<p>Закриттів не знайдено.</p>'}
+ <details><summary>Можливі відкриті CALL (${opened.length})</summary>${journalOpen.join('')||'<p>Не знайдено.</p>'}</details>
+ <details><summary>Минулі експірації — звірити (${expired.length})</summary>${journalHistoric.join('')||'<p>Не знайдено.</p>'}</details>
+ <p><small>Лише CSV до ${esc(r.last)}. Це не брокерськи підтверджений прибуток і не підсумок усієї стратегії з акціями. Спреди не аналізуються.</small></p></details>`;
+
+ $('rhmResult').innerHTML=`<div class="rhm-grid">${stat('Файлів',r.sources.length)}${stat('Унікальних рядків',r.rows)}${stat('Дублікати',r.duplicate)}${stat('SMCI CALL: закриття',smci.length)}${stat('SMCI CALL: можливі активні',opened.length)}${stat('Минулі експірації — звірити',expired.length)}</div><div class="rhm-grid">${stat('Закриття без конфлікту послідовності (FIFO)',format(realized))}${stat('Неоднозначні закриття (НЕ додавати)',format(preliminary))}${stat('Премії можливих активних CALL (НЕ прибуток)',format(openPremium))}${stat('Можливі ролювання',smciRolls.length)}</div>${journal}<div class="rhm-warn"><strong>Як читати P/L</strong><p>Суми враховують cash за зіставленими STO/BTC, включно з комісіями, які відображені в CSV Amount. Це умовний FIFO cash P/L, а не підтверджений реалізований прибуток брокера. Премії відкритих CALL НЕ додаються до P/L, доки контракт не закритий. Для незвірених assignment, expiration, акцій і settlement результат не обчислюється. Неоднозначні угоди мають окрему суму та не включаються в перший показник.</p></div><details open><summary>SMCI CALL: фінансовий підсумок та можливі ролювання (${smciRolls.length})</summary><p>Ролювання визначено за закриттям та відкриттям різних SMCI CALL в один день. Це кандидат на ролювання, а не підтверджений комбінований ордер. Net cash ролювання = кредит нового STO плюс витрата на BTC; це НЕ реалізований P/L.</p>${smciRolls.map(x=>row(`${x.date}: ${x.from} → ${x.to}`,`${x.qty} контр. · BTC ${format(x.closeCash)} · STO ${format(x.newCredit)} · чистий рух ${format(x.netCash)} · потрібна звірка`)).join('')||'<p>Кандидатів не знайдено.</p>'}</details><div class="rhm-warn"><strong>SMCI CALL — попередня звірка</strong><p>Результати FIFO можуть бути неоднозначними, коли закриття і відкриття того самого контракту виконані в один день, адже CSV не містить часу. Ніякий P/L не вважається брокерськи підтвердженим. Перелік можливих активних контрактів побудований лише за CSV до ${esc(r.last)}: зміни після цієї дати можуть бути відсутні. Контракти з минулою експірацією винесені окремо для звірки. Спреди не аналізуються.</p></div><details open><summary>SMCI CALL: можливі активні за CSV (${opened.length})</summary>${opened.map(x=>row(x.contract,`${x.side} · ${x.qty} контр. · дата ${x.date} · cash ${format(x.cash)}`)).join('')||'<p>Не знайдено</p>'}</details><details><summary>SMCI CALL: історичні лоти після експірації (${expired.length})</summary><p>Ці лоти не є діючими контрактами на ${esc(asOf)}. CSV не підтверджує остаточне закриття чи фінансовий результат.</p>${expired.map(x=>row(x.contract,`${x.side} · ${x.qty} контр. · первинний cash ${format(x.cash)} · потрібна звірка виконання або експірації`)).join('')||'<p>Немає</p>'}</details><details><summary>SMCI CALL: попередні закриття (${smci.length})</summary>${smci.map(x=>row(x.contract,`${x.qty} контр. · ${x.openDate} → ${x.date} · орієнтовний cash P/L ${format(x.pnl)}${x.ambiguous?' · НЕОДНОЗНАЧНО — поза підсумком':''}`)).join('')||'<p>Не знайдено</p>'}</details><details><summary>SMCI: потребує перевірки (${cautions.length})</summary>${cautions.map(w=>row(w.contract,`${w.date}: ${w.reason}`)).join('')||'<p>Не виявлено</p>'}</details><details><summary>Завантажені звіти</summary>${r.sources.map(x=>row(x.name,`${x.rows} рядків`)).join('')}</details><p>Остання дата операцій: ${esc(r.last)}. Цей модуль не змінює журнал або збережені позиції.</p>`;
+ $('rhmResult').insertAdjacentHTML('afterbegin',selfCheckU(r)+reconciliationW(r)+regressionV(r)+portfolioDashboard(r)+wheelFiveAuditS(r)+wheelStockAuditR(r)+wheelEventAuditQ(r)+ambiguityAuditN(r));
+ 
+ // Read-only multi-ticker view, derived from the same deduplicated report.
+ // No spread- or stock-level inference; short CALL and PUT are provisional trade legs.
+ const universe=[...new Set([...r.closed,...r.opens].filter(x=>x.side==='short'&&/ (CALL|PUT) /.test(x.contract)).map(x=>x.contract.split(' ')[0]))].sort();
+ const options=universe.map(t=>`<option value="${esc(t)}" ${t==='SMCI'?'selected':''}>${esc(t)}</option>`).join('');
+ const section=document.createElement('section');section.id='universalJournal';section.innerHTML=`<h3>Універсальний журнал Covered Calls / CSP / Wheel — TEST V</h3><p>Один імпорт для всіх тикерів. Вибери тикер і CALL або PUT. Розрахунки попередні, без автоматичного встановлення Wheel, assignment чи багатоногих стратегій.</p><div style="display:flex;gap:12px;flex-wrap:wrap"><label>Тикер <select id="ujTicker" style="font-size:17px;padding:8px">${options}</select></label><label>Опціон <select id="ujKind" style="font-size:17px;padding:8px"><option value="CALL">CALL (Covered Call)</option><option value="PUT">PUT (CSP / Wheel)</option></select></label></div><div id="ujBody"></div>`;
+ $('rhmResult').prepend(section);
+ $('rhmResult').prepend($('rhmPortfolioDashboard'));
+ $('rhmResult').insertAdjacentHTML('afterbegin',overviewX(r));
+ setupPortfolioDashboard();
+ // Keep the main overview, portfolio and active trading journal visible.
+ // Group prior diagnostics; preserve their elements, values and event handlers.
+ const resultRoot=$('rhmResult');
+ const advanced=document.createElement('details');advanced.id='rhmAdvancedY';
+ const summary=document.createElement('summary');summary.textContent='Додаткові технічні перевірки та історичні звіти';advanced.appendChild(summary);
+ [...resultRoot.children].filter(el=>!['rhmOverviewX','rhmPortfolioDashboard','universalJournal'].includes(el.id)).forEach(el=>advanced.appendChild(el));
+ resultRoot.appendChild(advanced);
+ // Opening an in-page diagnostics link also reveals its collapsed parent.
+ root.querySelectorAll('a[href^="#rhm"]').forEach(a=>a.addEventListener('click',()=>{
+  const target=document.getElementById(a.getAttribute('href').slice(1));
+  if(!target)return;
+  let parent=target.parentElement;
+  while(parent&&parent!==document.body){if(parent.tagName==='DETAILS')parent.open=true;parent=parent.parentElement}
+ }));
+ const updateUniversal=()=>{$('ujBody').innerHTML=universalJournal(r,$('ujTicker').value,$('ujKind').value)};
+ $('ujTicker').addEventListener('change',updateUniversal);
+ $('ujKind').addEventListener('change',updateUniversal);
+ updateUniversal();
+}
+
+// Private, consent-based, origin-scoped IndexedDB archive of CSV source texts.
+// No network calls. Archive is distinct from trade journal and worker tokens.
+const ARCHIVE_DB='viktor-rh-csv-private-v1',ARCHIVE_STORE='files',ARCHIVE_KEY='last';
+function archiveDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window)){reject(Error('IndexedDB недоступний у цьому браузері'));return}const req=indexedDB.open(ARCHIVE_DB,1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains(ARCHIVE_STORE))req.result.createObjectStore(ARCHIVE_STORE)};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||Error('Помилка сховища'))})}
+async function archiveAction(mode,payload){
+ const db=await archiveDB();
+ try{return await new Promise((resolve,reject)=>{const tx=db.transaction(ARCHIVE_STORE,mode==='get'?'readonly':'readwrite'),store=tx.objectStore(ARCHIVE_STORE);const req=mode==='get'?store.get(ARCHIVE_KEY):mode==='put'?store.put(payload,ARCHIVE_KEY):store.delete(ARCHIVE_KEY);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||Error('Помилка запису'));tx.onabort=()=>reject(tx.error||Error('Запис скасовано'))})}
+ finally{db.close()}
+}
+const backupStatus=$('rhmBackupStatus');
+// Persist only a consent preference, never credentials or user financial data in localStorage.
+const CONSENT_KEY='viktor-rh-keep-consent-v1';
+try{$('rhmKeep').checked=localStorage.getItem(CONSENT_KEY)==='yes'}catch(e){}
+
+async function archiveSave(files){
+ const items=[];
+ for(const f of files){if(f.size>9e6)throw Error('Файл перевищує 9 MB');items.push({name:f.name,text:await f.text()})}
+ await archiveAction('put',{type:'viktor-robinhood-csv-backup',version:1,savedAt:new Date().toISOString(),items});
+ backupStatus.textContent=`CSV збережено локально (${items.length} файлів). Для захисту від втрати даних завантаж резервну копію.`;
+}
+function validateArchive(a){
+ if(!a||a.type!=='viktor-robinhood-csv-backup'||a.version!==1||!Array.isArray(a.items)||a.items.length<1||a.items.length>30)throw Error('Формат резервної копії не розпізнано');
+ const total=a.items.reduce((n,x)=>n+(typeof x.text==='string'?x.text.length:0),0);
+ if(total>27000000||a.items.some(x=>typeof x.text!=='string'||typeof x.name!=='string'||x.name.length>250||x.text.length>9000000))throw Error('Невірний формат або надмірний розмір CSV');
+ return a.items.map(x=>new File([x.text],x.name,{type:'text/csv'}));
+}
+async function applyArchived(a){
+ const files=validateArchive(a);
+ const next=await run(files);
+ report=next;draw(report);$('rhmExport').disabled=false;
+ $('rhmStatus').textContent=`Відновлено ${files.length} CSV з локального архіву; остання дата ${report.last}.`;
+ return files.length;
+}
+$('rhmKeep').addEventListener('change',async e=>{
+ try{localStorage.setItem(CONSENT_KEY,e.target.checked?'yes':'no')}catch(err){}
+ try{if(e.target.checked){if(!report){backupStatus.textContent='Збереження ввімкнено. Вибери CSV або імпортуй резервну копію.';return}backupStatus.textContent='Збереження ввімкнено. Для архіву поточного імпорту вибери файли ще раз.'}
+ else backupStatus.textContent='Автозбереження вимкнено. Раніше збережений архів залишається, доки ти його не видалиш.'}
+ catch(err){backupStatus.textContent=err.message}
+});
+$('rhmRestore').onclick=async()=>{try{const a=await archiveAction('get');if(!a)throw Error('Немає локального архіву.');const n=await applyArchived(a);backupStatus.textContent=`Відновлено ${n} CSV з IndexedDB.`}catch(err){backupStatus.textContent='Не вдалося відновити: '+err.message}};
+$('rhmBackup').onclick=async()=>{try{const a=await archiveAction('get');if(!a)throw Error('Спочатку збережи CSV локально.');validateArchive(a);const u=URL.createObjectURL(new Blob([JSON.stringify(a)],{type:'application/json'}));const link=document.createElement('a');link.href=u;link.download='viktor-robinhood-csv-private-backup.json';link.click();setTimeout(()=>URL.revokeObjectURL(u),5000);backupStatus.textContent='Створено резервну копію. Файл містить фінансову історію; зберігай його приватно.'}catch(err){backupStatus.textContent=err.message}};
+$('rhmBackupInput').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>28000000)throw Error('Завеликий JSON');const data=JSON.parse(await f.text());const n=await applyArchived(data);if($('rhmKeep').checked)await archiveAction('put',data);backupStatus.textContent=`Імпортовано резервну копію (${n} CSV). ${$('rhmKeep').checked?'Також збережено локально.':'Автозбереження вимкнено.'}`}catch(err){backupStatus.textContent='Помилка резервної копії: '+err.message}finally{e.target.value=''}});
+$('rhmDeleteSaved').onclick=async()=>{if(!confirm('Видалити лише локальний архів CSV? Дані відкритої сторінки та журнал угод залишаться.'))return;try{await archiveAction('delete');$('rhmKeep').checked=false;try{localStorage.setItem(CONSENT_KEY,'no')}catch(e){}backupStatus.textContent='Локальний архів CSV видалено.'}catch(err){backupStatus.textContent=err.message}};
+archiveAction('get').then(a=>{backupStatus.textContent=a?`Є локальний архів від ${a.savedAt||'невідомої дати'} (${a.items?.length||0} CSV). Натисни «Відновити локальні CSV».`:'Локального архіву CSV немає.'}).catch(()=>{backupStatus.textContent='Локальне сховище недоступне; можна імпортувати CSV вручну.'});
+
+// Drive connector: fetches only from configured authenticated Cloudflare Worker; uses existing parser.
+$('rhmDriveLoad').addEventListener('click',async()=>{
+ const st=$('rhmDriveStatus'),button=$('rhmDriveLoad');let base=$('rhmDriveUrl').value.trim();
+ const token=$('rhmDriveToken').value.trim();
+ try{
+   if(!/^https:\/\/[a-z0-9.-]+\.workers\.dev\/?$/i.test(base))throw Error('Вкажи HTTPS-адресу Cloudflare Worker (без шляху).');
+   if(!token)throw Error('Потрібен токен доступу до Worker.');
+   button.disabled=true;st.textContent='Отримую захищений знімок Drive…';
+   const res=await fetch(base.replace(/\/$/,'')+'/api/drive/snapshot',{method:'GET',headers:{'Authorization':'Bearer '+token},cache:'no-store'});
+   if(!res.ok)throw Error('Сервер відповів HTTP '+res.status);
+   const snap=await res.json();
+   if(snap.type!=='viktor-drive-csv-snapshot'||snap.version!==1||!Array.isArray(snap.files)||snap.files.length<1||snap.files.length>100)throw Error('Синхронізованих CSV поки немає.');
+   const files=snap.files.map(x=>{if(typeof x.name!=='string'||typeof x.text!=='string'||x.text.length>9e6)throw Error('Неправильний CSV у знімку');return new File([x.text],x.name,{type:'text/csv'})});
+   const next=await run(files);report=next;draw(next);$('rhmExport').disabled=false;
+   if($('rhmKeep').checked){try{await archiveSave(files)}catch(err){backupStatus.textContent='Локальний архів: '+err.message}}
+   st.textContent=`Отримано ${files.length} CSV з Drive (знімок ${snap.syncedAt||'без дати'}). ${next.rows.length} унікальних рядків, ${next.duplicate} дублікатів.`;
+ }catch(err){st.textContent='Синхронізація не виконана: '+err.message}finally{button.disabled=false}
+});
+
+$('rhmFiles').addEventListener('change',async e=>{report=null;$('rhmExport').disabled=true;$('rhmResult').replaceChildren();let files=[...(e.target.files||[])];if(!files.length)return;$('rhmStatus').textContent='Обробляю обрані CSV…';try{report=await run(files);draw(report);if($('rhmKeep').checked){try{await archiveSave(files)}catch(e){backupStatus.textContent='Не збережено: '+e.message}}$('rhmStatus').textContent=`Об'єднано ${files.length} звіт(ів), остання дата ${report.last}. Для наступного оновлення вибери всі потрібні файли знову.`;$('rhmExport').disabled=false}catch(err){$('rhmStatus').textContent='Помилка імпорту: '+err.message}});
+$('rhmClear').onclick=()=>{report=null;$('rhmFiles').value='';$('rhmResult').replaceChildren();$('rhmExport').disabled=true;$('rhmStatus').textContent='Результати з екрана очищено. Локальний архів, якщо є, залишається.'};
+$('rhmExport').onclick=()=>{if(!report)return;let data={version:'2.2 TEST',generated:new Date().toISOString(),note:'Preliminary FIFO cash-flow audit, not brokerage-confirmed realized P/L',...report};let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='viktor-robinhood-merged-audit.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),3000)};
+})();
+</script>
+<!-- Viktor Watchlist V2: local UI preview; not connected to Apps Script -->
+<div id="vwlOverlay" role="dialog" aria-modal="true" aria-label="Мої акції" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.82);overflow:auto;padding:24px 14px;color:#f0f5ff">
+ <div style="max-width:560px;margin:20px auto;background:#13243a;border:1px solid #42617e;border-radius:18px;padding:20px">
+ <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">⭐ Мої акції</h2><button type="button" id="vwlClose">Закрити ✕</button></div>
+ <p style="font-size:13px;color:#bcd">Підготовча версія: список зберігається лише на цьому пристрої. Синхронізація з Google Apps Script ще не підключена.</p>
+ <h3>CORE — незмінний</h3><p id="vwlCore" style="line-height:2"></p>
+ <h3>Мій Watchlist</h3><form id="vwlForm" style="display:flex;gap:8px;flex-wrap:wrap"><input id="vwlInput" aria-label="Тикер" placeholder="Наприклад AMD" maxlength="15" autocomplete="off" style="flex:1;min-width:130px"><button type="submit">+ Додати</button></form>
+ <p id="vwlMessage" role="status" style="font-size:13px"></p><div id="vwlList"></div>
+ <p style="font-size:12px;color:#bcd">Видалення зі списку не торкається історії OHLCV. Не використовуйте цю версію як синхронізований між пристроями список.</p>
+ </div></div>
+<script>
+(function(){'use strict';
+const core=['SMCI','HIMS','CVNA','APLD','IONQ','ACAD','CIFR','SLS','HPE','MU'];
+const key='viktor-watchlist-ui-draft-v2';
+const el=id=>document.getElementById(id);
+const normalize=v=>String(v||'').trim().toUpperCase();
+function read(){try{const a=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(a)?a.filter(x=>typeof x==='string'&&/^[A-Z][A-Z0-9.-]{0,14}$/.test(x)).slice(0,50):[]}catch(e){return []}}
+function save(a){try{localStorage.setItem(key,JSON.stringify(a));return true}catch(e){el('vwlMessage').textContent='Не вдалося зберегти на пристрої.';return false}}
+function render(){el('vwlCore').textContent=core.join(' · ');const target=el('vwlList');target.replaceChildren();const list=read();if(!list.length){const p=document.createElement('p');p.textContent='Список поки порожній.';target.appendChild(p)}list.forEach(t=>{const row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #38516a';const name=document.createElement('strong');name.textContent=t;const b=document.createElement('button');b.type='button';b.textContent='Видалити';b.addEventListener('click',()=>{if(save(read().filter(x=>x!==t)))render()});row.append(name,b);target.appendChild(row)})}
+el('vwlOpen').addEventListener('click',()=>{el('vwlOverlay').style.display='block';render()});
+el('vwlClose').addEventListener('click',()=>{el('vwlOverlay').style.display='none'});
+el('vwlForm').addEventListener('submit',e=>{e.preventDefault();const t=normalize(el('vwlInput').value),a=read();if(!/^[A-Z][A-Z0-9.-]{0,14}$/.test(t)){el('vwlMessage').textContent='Невірний формат тикера';return}if(core.includes(t)){el('vwlMessage').textContent='Тикер уже в CORE';return}if(a.includes(t)){el('vwlMessage').textContent='Тикер уже додано';return}if(a.length>=50){el('vwlMessage').textContent='Ліміт 50 тикерів';return}if(save([...a,t])){el('vwlInput').value='';el('vwlMessage').textContent=t+' додано локально';render()}});
+})();
+</script>
+</body></html>
