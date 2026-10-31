@@ -978,28 +978,74 @@ $('rhmClear').onclick=()=>{report=null;$('rhmFiles').value='';$('rhmResult').rep
 $('rhmExport').onclick=()=>{if(!report)return;let data={version:'2.2 TEST',generated:new Date().toISOString(),note:'Preliminary FIFO cash-flow audit, not brokerage-confirmed realized P/L',...report};let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download='viktor-robinhood-merged-audit.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),3000)};
 })();
 </script>
-<!-- Viktor Watchlist V2: local UI preview; not connected to Apps Script -->
+<!-- Viktor Watchlist Cloud: admin-only testing; token stays in memory -->
 <div id="vwlOverlay" role="dialog" aria-modal="true" aria-label="Мої акції" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.82);overflow:auto;padding:24px 14px;color:#f0f5ff">
  <div style="max-width:560px;margin:20px auto;background:#13243a;border:1px solid #42617e;border-radius:18px;padding:20px">
- <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">⭐ Мої акції</h2><button type="button" id="vwlClose">Закрити ✕</button></div>
- <p style="font-size:13px;color:#bcd">Підготовча версія: список зберігається лише на цьому пристрої. Синхронізація з Google Apps Script ще не підключена.</p>
- <h3>CORE — незмінний</h3><p id="vwlCore" style="line-height:2"></p>
- <h3>Мій Watchlist</h3><form id="vwlForm" style="display:flex;gap:8px;flex-wrap:wrap"><input id="vwlInput" aria-label="Тикер" placeholder="Наприклад AMD" maxlength="15" autocomplete="off" style="flex:1;min-width:130px"><button type="submit">+ Додати</button></form>
- <p id="vwlMessage" role="status" style="font-size:13px"></p><div id="vwlList"></div>
- <p style="font-size:12px;color:#bcd">Видалення зі списку не торкається історії OHLCV. Не використовуйте цю версію як синхронізований між пристроями список.</p>
- </div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">⭐ Мої акції · Cloud</h2><button type="button" id="vwlClose">Закрити ✕</button></div>
+  <p style="font-size:14px;color:#bcd">Тестове адміністрування Cloudflare D1. Токен не зберігається у файлі або браузері. Не використовуйте спільний адміністративний токен для інших користувачів.</p>
+  <label for="vwlToken">WATCHLIST_API_TOKEN (лише для цієї відкритої сторінки)</label>
+  <input id="vwlToken" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Введіть токен доступу">
+  <div class="row" style="margin:10px 0"><button id="vwlConnect" type="button" class="primary">Підключити й оновити</button><button id="vwlDisconnect" type="button">Очистити токен</button></div>
+  <h3>CORE — незмінний</h3><p id="vwlCore" style="line-height:2"></p>
+  <h3>Мій Watchlist (D1)</h3>
+  <form id="vwlForm" style="display:flex;gap:8px;flex-wrap:wrap"><input id="vwlInput" aria-label="Тикер" placeholder="Наприклад AMD" maxlength="15" autocomplete="off" style="flex:1;min-width:130px"><button type="submit">+ Додати</button></form>
+  <p id="vwlMessage" role="status" aria-live="polite" style="font-size:14px"></p><div id="vwlList"></div>
+  <p style="font-size:13px;color:#bcd">Це окрема база D1, не Google Apps Script. Дані журналу та історія OHLCV не змінюються.</p>
+ </div>
+</div>
 <script>
 (function(){'use strict';
+const BASE='https://viktor-watchlist-api.camry007.workers.dev';
 const core=['SMCI','HIMS','CVNA','APLD','IONQ','ACAD','CIFR','SLS','HPE','MU'];
-const key='viktor-watchlist-ui-draft-v2';
 const el=id=>document.getElementById(id);
+let token='',tickers=[],busy=false;
+const message=t=>{el('vwlMessage').textContent=t};
 const normalize=v=>String(v||'').trim().toUpperCase();
-function read(){try{const a=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(a)?a.filter(x=>typeof x==='string'&&/^[A-Z][A-Z0-9.-]{0,14}$/.test(x)).slice(0,50):[]}catch(e){return []}}
-function save(a){try{localStorage.setItem(key,JSON.stringify(a));return true}catch(e){el('vwlMessage').textContent='Не вдалося зберегти на пристрої.';return false}}
-function render(){el('vwlCore').textContent=core.join(' · ');const target=el('vwlList');target.replaceChildren();const list=read();if(!list.length){const p=document.createElement('p');p.textContent='Список поки порожній.';target.appendChild(p)}list.forEach(t=>{const row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #38516a';const name=document.createElement('strong');name.textContent=t;const b=document.createElement('button');b.type='button';b.textContent='Видалити';b.addEventListener('click',()=>{if(save(read().filter(x=>x!==t)))render()});row.append(name,b);target.appendChild(row)})}
+function extract(data){
+ const a=Array.isArray(data)?data:Array.isArray(data?.watchlist)?data.watchlist:Array.isArray(data?.tickers)?data.tickers:null;
+ if(!a)throw Error('Сервер не повернув список тикерів');
+ return [...new Set(a.map(x=>typeof x==='string'?x:x?.ticker).filter(x=>typeof x==='string'&&/^[A-Z][A-Z0-9.-]{0,14}$/.test(x)))];
+}
+async function request(path,method='GET',body){
+ if(!token)throw Error('Спочатку введіть токен і натисніть «Підключити»');
+ const headers={'X-API-Key':token};
+ if(body!==undefined)headers['Content-Type']='application/json';
+ const response=await fetch(BASE+path,{method,headers,body:body===undefined?undefined:JSON.stringify(body),cache:'no-store'});
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok)throw Error(response.status===401?'Невірний токен (401)':response.status===404?'Маршрут API не знайдено (404)':(data.error||data.message||'HTTP '+response.status));
+ return data;
+}
+function render(){
+ el('vwlCore').textContent=core.join(' · ');
+ const target=el('vwlList');target.replaceChildren();
+ if(!tickers.length){const p=document.createElement('p');p.textContent='Список порожній або ще не завантажений.';target.appendChild(p)}
+ tickers.forEach(t=>{
+  const row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #38516a';
+  const name=document.createElement('strong');name.textContent=t;
+  const b=document.createElement('button');b.type='button';b.textContent='Видалити';b.disabled=busy;
+  b.addEventListener('click',async()=>{if(!confirm('Видалити '+t+' з хмарного Watchlist?'))return;await run(async()=>{const data=await request('/api/watchlist/'+encodeURIComponent(t),'DELETE');tickers=extract(data);message(t+' видалено з D1')})});
+  row.append(name,b);target.appendChild(row);
+ });
+}
+async function run(fn){if(busy)return;busy=true;try{await fn()}catch(e){message('Помилка: '+e.message)}finally{busy=false;render()}}
+async function refresh(){
+ const data=await request('/api/watchlist');
+ tickers=extract(data);message('Підключено до D1 · '+tickers.length+' тикерів');
+}
 el('vwlOpen').addEventListener('click',()=>{el('vwlOverlay').style.display='block';render()});
 el('vwlClose').addEventListener('click',()=>{el('vwlOverlay').style.display='none'});
-el('vwlForm').addEventListener('submit',e=>{e.preventDefault();const t=normalize(el('vwlInput').value),a=read();if(!/^[A-Z][A-Z0-9.-]{0,14}$/.test(t)){el('vwlMessage').textContent='Невірний формат тикера';return}if(core.includes(t)){el('vwlMessage').textContent='Тикер уже в CORE';return}if(a.includes(t)){el('vwlMessage').textContent='Тикер уже додано';return}if(a.length>=50){el('vwlMessage').textContent='Ліміт 50 тикерів';return}if(save([...a,t])){el('vwlInput').value='';el('vwlMessage').textContent=t+' додано локально';render()}});
+el('vwlConnect').addEventListener('click',()=>run(async()=>{token=el('vwlToken').value.trim();el('vwlToken').value='';await refresh()}));
+el('vwlDisconnect').addEventListener('click',()=>{token='';tickers=[];el('vwlToken').value='';message('Токен очищено');render()});
+el('vwlForm').addEventListener('submit',e=>{e.preventDefault();run(async()=>{
+ const t=normalize(el('vwlInput').value);
+ if(!/^[A-Z][A-Z0-9.-]{0,14}$/.test(t))throw Error('Невірний формат тикера');
+ if(core.includes(t))throw Error('Тикер уже в CORE');
+ if(tickers.includes(t))throw Error('Тикер уже додано');
+ if(tickers.length>=50)throw Error('Ліміт 50 тикерів');
+ const data=await request('/api/watchlist','POST',{ticker:t});
+ tickers=extract(data);el('vwlInput').value='';message(t+' збережено у D1');
+})});
+render();
 })();
 </script>
 </body></html>
