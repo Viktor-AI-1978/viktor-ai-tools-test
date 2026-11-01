@@ -1010,7 +1010,17 @@ async function request(path,method='GET',body){
  if(!token)throw Error('Спочатку введіть токен і натисніть «Підключити»');
  const headers={'X-API-Key':token};
  if(body!==undefined)headers['Content-Type']='application/json';
- const response=await fetch(BASE+path,{method,headers,body:body===undefined?undefined:JSON.stringify(body),cache:'no-store'});
+ const response=await fetch(BASE+path,{metlet response;
+try {
+  response = await fetch(BASE+path,{
+    method,
+    headers,
+    body:body===undefined?undefined:JSON.stringify(body),
+    cache:'no-store'
+  });
+} catch(e) {
+  throw Error('Помилка з’єднання з API (можливо CORS або блокування браузером): '+e.message);
+}hod,headers,body:body===undefined?undefined:JSON.stringify(body),cache:'no-store'});
  const data=await response.json().catch(()=>({}));
  if(!response.ok)throw Error(response.status===401?'Невірний токен (401)':response.status===404?'Маршрут API не знайдено (404)':(data.error||data.message||'HTTP '+response.status));
  return data;
@@ -1023,7 +1033,7 @@ function render(){
   const row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #38516a';
   const name=document.createElement('strong');name.textContent=t;
   const b=document.createElement('button');b.type='button';b.textContent='Видалити';b.disabled=busy;
-  b.addEventListener('click',async()=>{if(!confirm('Видалити '+t+' з хмарного Watchlist?'))return;await run(async()=>{const data=await request('/api/watchlist/'+encodeURIComponent(t),'DELETE');tickers=extract(data);message(t+' видалено з D1')})});
+  b.addEventListener('click',async()=>{if(!confirm('Видалити '+t+' з хмарного Watchlist?'))return;await run(async()=>{const data=await request('/api/watchlist','DELETE',{ticker:t});tickers=extract(data);message(t+' видалено з D1')})});
   row.append(name,b);target.appendChild(row);
  });
 }
