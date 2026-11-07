@@ -983,6 +983,20 @@ $('rhmExport').onclick=()=>{if(!report)return;let data={version:'2.2 TEST',gener
  <div style="max-width:560px;margin:20px auto;background:#13243a;border:1px solid #42617e;border-radius:18px;padding:20px">
   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 style="margin:0">⭐ Мої акції · Cloud</h2><button type="button" id="vwlClose">Закрити ✕</button></div>
   <p style="font-size:14px;color:#bcd">Тестове адміністрування Cloudflare D1. Токен не зберігається у файлі або браузері. Не використовуйте спільний адміністративний токен для інших користувачів.</p>
+  <div style="margin:16px 0">
+  <button
+    id="vwlGithubLogin"
+    type="button"
+    class="primary">
+    Увійти через GitHub
+  </button>
+  <button
+    id="vwlGithubLogout"
+    type="button"
+    style="display:none">
+    Вийти
+  </button>
+</div>
   <label for="vwlToken">WATCHLIST_API_TOKEN (лише для цієї відкритої сторінки)</label>
   <input id="vwlToken" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Введіть токен доступу">
   <div class="row" style="margin:10px 0"><button id="vwlConnect" type="button" class="primary">Підключити й оновити</button><button id="vwlDisconnect" type="button">Очистити токен</button></div>
@@ -999,6 +1013,12 @@ const BASE='https://viktor-watchlist-api.camry007.workers.dev';
 const core=['SMCI','HIMS','CVNA','APLD','IONQ','ACAD','CIFR','SLS','HPE','MU'];
 const el=id=>document.getElementById(id);
 let token='',tickers=[],busy=false;
+let sessionToken='';
+
+el('vwlGithubLogin').addEventListener('click',()=>{
+  window.location.href =
+    BASE+'/auth/github/start';
+});
 const message=t=>{el('vwlMessage').textContent=t};
 const normalize=v=>String(v||'').trim().toUpperCase();
 function extract(data){
@@ -1008,8 +1028,11 @@ function extract(data){
 }
 
 async function request(path,method='GET',body){
-  if(!token)throw Error('Спочатку введіть токен і натисніть «Підключити»');
-  const headers={'X-API-Key':token};
+  if(!token && !sessionToken)
+  throw Error('Спочатку увійдіть через GitHub або введіть токен');
+  const headers=sessionToken
+  ? {'Authorization':'Bearer '+sessionToken}
+  : {'X-API-Key':token};
   if(body!==undefined)headers['Content-Type']='application/json';
 
   let response;
