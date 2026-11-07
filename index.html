@@ -61,7 +61,7 @@ table{font-size:15px}td,th{padding:12px}.sectionfoot{margin-top:14px}
     <div class="stat"><span>Неоднозначні контракти</span><b id="rhmHomeUncertain">—</b></div>
   </div>
   <p class="sectionfoot" id="rhmHomeDate">Джерело: Robinhood CSV → Google Drive → Cloudflare KV. Очікуємо дані.</p>
-  <p><a href="#rhmByTicker" style="color:#50dac8">Детальний P/L за тикерами ↓</a></p>
+  <p><a href="#rhmByTicker" id="rhmHomeTickerLink" style="color:#50dac8">Детальний P/L за тикерами ↓</a></p>
   <p class="note">Це попередня звірка опціонних операцій, не підтверджений брокером повний P/L рахунку. Результати не додаються до локального ручного журналу та не враховуються двічі.</p>
 </div><div class="panel"><h2>Твоя персональна робоча панель</h2><p>Записуй Covered Call, Cash-Secured Put і PMCC, рахуй премії та готуй запити до ChatGPT. Для демонстрації можна додати тестову угоду.</p><div class="row"><button class="primary" id="demoTrade">Додати тестову угоду</button><button id="openJournal">Перейти до журналу</button></div></div><div class="panel"><h3>Ризик-правила моделі ($30 000)</h3><div class="grid"><div><span class="chip">Резерв 25% · $7 500</span></div><div><span class="chip">Звичайна позиція ≤ $9 000</span></div><div><span class="chip">Високоволатильна ≤ $4 500</span></div><div><span class="chip">Спекулятивний кластер ≤ $7 500</span></div></div><p class="sectionfoot">Це довідкові ліміти твоєї моделі, а не перевірка реального рахунку. Котирування на закриття сесії можна отримувати через окремий захищений шлюз у розділі «Ринок». Живі опціонні котирування ще не підключені.</p></div></section>
 <section class="tab" id="journal"><div class="panel"><h2>Нова угода</h2><form id="tradeForm"><div class="grid"><div class="field"><label for="ticker">Тикер</label><input id="ticker" maxlength="12" placeholder="HPE" required></div><div class="field"><label for="strategy">Стратегія</label><select id="strategy"><option>Covered Call</option><option>Cash-Secured Put</option><option>PMCC</option></select></div><div class="field date-field"><label for="tradeDate">Дата продажу опціону</label><input id="tradeDate" type="date" required></div><div class="field date-field"><label for="expiry">Експірація</label><input id="expiry" type="date" required></div><div class="field"><label for="strike">Страйк ($)</label><input id="strike" type="number" min="0.01" step="0.01" required></div><div class="field"><label for="contracts">Кількість контрактів</label><input id="contracts" type="number" min="1" max="10000" step="1" value="1" required></div><div class="field"><label for="premium">Отримана премія ($/акцію)</label><input id="premium" type="number" min="0" step="0.01" required></div><div class="field"><label for="closeDebit">Викуп опціону ($/акцію; 0 якщо експірація)</label><input id="closeDebit" type="number" min="0" step="0.01" value="0"></div><div class="field"><label for="fee">Загальні комісії ($)</label><input id="fee" type="number" min="0" step="0.01" value="0"></div><div class="field"><label for="status">Статус</label><select id="status"><option>Open</option><option>Closed</option><option>Expired</option></select></div></div><p class="sectionfoot">P/L враховує лише продану опціонну ногу (short option), без зміни вартості акцій, LEAPS, дивідендів і податків. Для відкритих угод остаточний P/L не показується.</p><button class="primary" type="submit">Зберегти угоду</button></form></div><div class="panel"><h2>Керування позиціями</h2><p class="muted">Закрий відкриту коротку ногу або запиши ролювання. Ролювання фіксує закриття старого контракту і створює новий запис. Обидві операції можна перевірити у журналі.</p><div id="manageTrades"></div></div><div class="panel"><div class="row between"><h2>Журнал</h2><span id="journalCount" class="chip">0 записів</span></div><div id="journalCards" class="journal-cards"></div><div class="hidden"><table><tbody id="tradesBody"></tbody></table></div></div></section>
@@ -1030,6 +1030,21 @@ const markRhmInteracted=()=>{rhmUserInteracted=true};
 ['rhmFiles','rhmBackupInput'].forEach(id=>$(id).addEventListener('change',markRhmInteracted));
 ['rhmClear','rhmRestore','rhmDeleteSaved'].forEach(id=>$(id).addEventListener('click',markRhmInteracted));
 
+// The ticker table lives in the Robinhood tab; an ordinary fragment link does not
+// activate a hidden tab. Switch tabs first, then scroll to the rendered report.
+document.getElementById('rhmHomeTickerLink')?.addEventListener('click', event => {
+  event.preventDefault();
+  const destination = 'importsAndOptions';
+  document.querySelectorAll('.tab').forEach(el => el.classList.toggle('active', el.id === destination));
+  document.querySelectorAll('.bottom-nav button, .tabs button').forEach(el =>
+    el.classList.toggle('active', el.dataset.tab === destination));
+  const target = document.getElementById('rhmByTicker');
+  if (target) {
+    target.scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    document.getElementById('rhmResult')?.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+});
 function renderRobinhoodHome(result, syncedAt, sourceText) {
   const byId=id=>document.getElementById(id);
   if(!byId('rhmHomePanel') || !result)return;
