@@ -1139,7 +1139,8 @@ async function finishGithubLogin(){
     el('vwlToken').value='';
     el('vwlGithubLogout').style.display='inline-block';
     await refresh();
-    message('GitHub підключено · '+tickers.length+' тикерів');
+message('GitHub підключено · '+tickers.length+' тикерів');
+render();
   }catch(e){
     sessionToken='';
     el('vwlGithubLogout').style.display='none';
