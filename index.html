@@ -988,7 +988,7 @@ async function autoLoadRobinhoodFromDrive(force=false) {
    report=next;draw(report);$('rhmExport').disabled=false;
    const stamp=snap.syncedAt?new Date(snap.syncedAt).toLocaleString('uk-UA'):'дата невідома';
    st.textContent='Автоматично завантажено '+files.length+
-     ' CSV · Оновлено: '+stamp+' · '+next.rows.length+' унікальних операцій.';
+     ' CSV · Оновлено: '+stamp+' · '+next.rows+' унікальних операцій.';
  }catch(err){st.textContent='Автоімпорт із Drive не виконано: '+err.message}
 }
 
@@ -1022,7 +1022,7 @@ $('rhmDriveLoad').addEventListener('click',async()=>{
    const files=snap.files.map(x=>{if(typeof x.name!=='string'||typeof x.text!=='string'||x.text.length>9e6)throw Error('Неправильний CSV у знімку');return new File([x.text],x.name,{type:'text/csv'})});
    const next=await run(files);report=next;draw(next);$('rhmExport').disabled=false;
    if($('rhmKeep').checked){try{await archiveSave(files)}catch(err){backupStatus.textContent='Локальний архів: '+err.message}}
-   st.textContent=`Отримано ${files.length} CSV з Drive (знімок ${snap.syncedAt||'без дати'}). ${next.rows.length} унікальних рядків, ${next.duplicate} дублікатів.`;
+   st.textContent=`Отримано ${files.length} CSV з Drive (знімок ${snap.syncedAt||'без дати'}). ${next.rows} унікальних рядків, ${next.duplicate} дублікатів.`;
  }catch(err){st.textContent='Синхронізація не виконана: '+err.message}finally{button.disabled=false}
 });
 
