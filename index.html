@@ -1075,8 +1075,8 @@ async function refresh(){
 }
 el('vwlOpen').addEventListener('click',()=>{el('vwlOverlay').style.display='block';render()});
 el('vwlClose').addEventListener('click',()=>{el('vwlOverlay').style.display='none'});
-el('vwlConnect').addEventListener('click',()=>run(async()=>{token=el('vwlToken').value.trim();el('vwlToken').value='';await refresh()}));
-el('vwlDisconnect').addEventListener('click',()=>{token='';tickers=[];el('vwlToken').value='';message('Токен очищено');render()});
+el('vwlConnect').addEventListener('click',()=>run(async()=>{const next=el('vwlToken').value.trim();if(next){sessionToken='';el('vwlGithubLogout').style.display='none'}token=next;el('vwlToken').value='';await refresh()}));
+el('vwlDisconnect').addEventListener('click',()=>{token='';sessionToken='';tickers=[];el('vwlToken').value='';el('vwlGithubLogout').style.display='none';message('Локальний доступ очищено');render()});
 el('vwlForm').addEventListener('submit',e=>{e.preventDefault();run(async()=>{
  const t=normalize(el('vwlInput').value);
  if(!/^[A-Z][A-Z0-9.-]{0,14}$/.test(t))throw Error('Невірний формат тикера');
@@ -1086,7 +1086,58 @@ el('vwlForm').addEventListener('submit',e=>{e.preventDefault();run(async()=>{
  const data=await request('/api/watchlist','POST',{ticker:t});
  tickers=extract(data);el('vwlInput').value='';message(t+' збережено у D1');
 })});
+// GitHub OAuth: short-lived, one-use ticket is exchanged for a session token.
+// Session token lives only in memory and is never placed in localStorage or cookies.
+el('vwlGithubLogout').addEventListener('click',async()=>{
+  const active=!!sessionToken;
+  if(active){
+    try{await request('/auth/logout','POST')}catch(e){console.warn('GitHub logout:',e.message)}
+  }
+  sessionToken=''; token=''; tickers=[];
+  el('vwlToken').value='';
+  el('vwlGithubLogout').style.display='none';
+  message('Вийшли з хмарної сесії');
+  render();
+});
+
+async function finishGithubLogin(){
+  const params=new URLSearchParams(window.location.hash.slice(1));
+  const ticket=params.get('auth_ticket');
+  const authError=params.get('auth_error');
+  if(!ticket && !authError)return;
+
+  // Remove short-lived login material from the address bar and browser history.
+  window.history.replaceState(null,'',window.location.pathname+window.location.search);
+  el('vwlOverlay').style.display='block';
+  if(authError){message('Помилка GitHub: '+authError);render();return}
+
+  try{
+    message('Завершуємо вхід через GitHub…');
+    const response=await fetch(BASE+'/auth/session',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ticket}),
+      cache:'no-store'
+    });
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||typeof data.sessionToken!=='string'||!data.sessionToken)
+      throw Error(data.error||'Не вдалося створити сесію');
+
+    sessionToken=data.sessionToken;
+    token='';
+    el('vwlToken').value='';
+    el('vwlGithubLogout').style.display='inline-block';
+    await refresh();
+    message('GitHub підключено · '+tickers.length+' тикерів');
+  }catch(e){
+    sessionToken='';
+    el('vwlGithubLogout').style.display='none';
+    message('Помилка входу: '+e.message);
+  }
+  render();
+}
 render();
+finishGithubLogin().catch(e=>message('Помилка GitHub: '+e.message));
 })();
 </script>
 </body></html>
