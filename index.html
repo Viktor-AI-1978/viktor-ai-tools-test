@@ -955,7 +955,60 @@ $('rhmDeleteSaved').onclick=async()=>{if(!confirm('Видалити лише л�
 archiveAction('get').then(a=>{backupStatus.textContent=a?`Є локальний архів від ${a.savedAt||'невідомої дати'} (${a.items?.length||0} CSV). Натисни «Відновити локальні CSV».`:'Локального архіву CSV немає.'}).catch(()=>{backupStatus.textContent='Локальне сховище недоступне; можна імпортувати CSV вручну.'});
 
 // Drive connector: fetches only from configured authenticated Cloudflare Worker; uses existing parser.
+const driveOnWorker=location.origin==='https://viktor-watchlist-api.camry007.workers.dev';
+let rhmUserInteracted=false;
+const markRhmInteracted=()=>{rhmUserInteracted=true};
+['rhmFiles','rhmBackupInput'].forEach(id=>$(id).addEventListener('change',markRhmInteracted));
+['rhmClear','rhmRestore','rhmDeleteSaved'].forEach(id=>$(id).addEventListener('click',markRhmInteracted));
+
+async function autoLoadRobinhoodFromDrive(force=false) {
+ const st=$('rhmDriveStatus');
+ if(!driveOnWorker || (!force && (rhmUserInteracted || report!==null)))return;
+ try{
+   st.textContent='Автоматично перевіряю останній знімок Robinhood CSV з Google Drive…';
+   const res=await fetch('/api/robinhood/snapshot',{credentials:'same-origin',cache:'no-store'});
+   if(res.status===401){st.textContent='Увійди через GitHub, щоб автоматично завантажувати Robinhood CSV.';return}
+   if(res.status===404){st.textContent='Синхронізованих CSV у Drive ще немає.';return}
+   if(!res.ok)throw Error('HTTP '+res.status);
+   const snap=await res.json();
+   if(snap.type!=='viktor-drive-csv-snapshot'||snap.version!==1||
+      !Array.isArray(snap.files)||snap.files.length<1||snap.files.length>30)
+      throw Error('Неправильний формат знімка');
+   const files=snap.files.map(x=>{
+      if(typeof x.name!=='string'||typeof x.text!=='string'||x.text.length>9e6)
+        throw Error('Невірний CSV у знімку');
+      return new File([x.text],x.name,{type:'text/csv'});
+   });
+   const next=await run(files);
+   // Never overwrite a report if user imported/changed one while fetch was in progress.
+   if(!force && (rhmUserInteracted||report!==null)){
+     st.textContent='Автоматичний знімок доступний, але ручні дані залишено без змін.';
+     return;
+   }
+   report=next;draw(report);$('rhmExport').disabled=false;
+   const stamp=snap.syncedAt?new Date(snap.syncedAt).toLocaleString('uk-UA'):'дата невідома';
+   st.textContent='Автоматично завантажено '+files.length+
+     ' CSV · Оновлено: '+stamp+' · '+next.rows.length+' унікальних операцій.';
+ }catch(err){st.textContent='Автоімпорт із Drive не виконано: '+err.message}
+}
+
+if(driveOnWorker){
+ $('rhmDrivePanel').querySelector('strong').textContent=
+   'Google Drive — автоматичне завантаження Robinhood CSV';
+ $('rhmDriveUrl').style.display='none';
+ $('rhmDriveUrl').previousElementSibling.style.display='none';
+ $('rhmDriveToken').style.display='none';
+ $('rhmDriveToken').previousElementSibling.style.display='none';
+ $('rhmDriveLoad').textContent='Оновити з Drive зараз';
+ $('rhmDriveStatus').textContent='Перевірка Drive запускається автоматично після відкриття сторінки.';
+ // Run after scripts initialize; the authenticated session is already in a server cookie.
+ Promise.resolve().then(autoLoadRobinhoodFromDrive);
+}
 $('rhmDriveLoad').addEventListener('click',async()=>{
+ if(driveOnWorker){
+   if(report!==null && !confirm('Замінити поточний аналіз новим знімком із Drive?'))return;
+   return autoLoadRobinhoodFromDrive(true);
+ }
  const st=$('rhmDriveStatus'),button=$('rhmDriveLoad');let base=$('rhmDriveUrl').value.trim();
  const token=$('rhmDriveToken').value.trim();
  try{
@@ -1139,8 +1192,7 @@ async function finishGithubLogin(){
     el('vwlToken').value='';
     el('vwlGithubLogout').style.display='inline-block';
     await refresh();
-message('GitHub підключено · '+tickers.length+' тикерів');
-render();
+    message('GitHub підключено · '+tickers.length+' тикерів');
   }catch(e){
     sessionToken='';
     el('vwlGithubLogout').style.display='none';
@@ -1174,6 +1226,7 @@ async function restoreCookieSession(){
     el('vwlGithubLogout').style.display='inline-block';
     await refresh();
     message('GitHub підключено · '+tickers.length+' тикерів');
+    render();
   }catch(e){message('Не вдалося відновити сесію: '+e.message);}
 }
 render();
