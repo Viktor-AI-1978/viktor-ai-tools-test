@@ -2,12 +2,18 @@
 :root{color-scheme:dark;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;--bg:#081424;--panel:#10253a;--line:#284257;--fg:#eaf4fc;--muted:#a4bdcf;--accent:#50dac8;--gold:#e7bd72}*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#081424,#11263a 56%,#091827);color:var(--fg);min-height:100vh}main{max-width:980px;margin:auto;padding:22px 16px 90px}.hero{display:flex;align-items:center;gap:14px;margin-bottom:22px}.logo{background:#1b6d74;border-radius:17px;font-size:27px;padding:14px}h1{font-size:25px;margin:0}h2{font-size:20px;margin:0 0 12px}p{line-height:1.5}.sub,.muted,small{color:var(--muted)}.sub{margin:5px 0 0;font-size:13px}.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:12px;margin-bottom:8px}.tabs button{white-space:nowrap}.tab{display:none}.tab.active{display:block}.panel{background:rgba(16,37,58,.96);border:1px solid var(--line);border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 8px 22px #0002}.panel h3{margin:0 0 13px;font-size:16px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#132e43;border-radius:15px;padding:14px;border:1px solid var(--line)}.stat b{display:block;font-size:21px;margin-top:6px}.stat span{font-size:12px;color:var(--muted)}button{border:1px solid var(--line);background:#213a4f;color:var(--fg);padding:11px 13px;border-radius:11px;font:inherit;cursor:pointer}button.active,button.primary{background:var(--accent);color:#052327;border-color:var(--accent);font-weight:750}button.danger{border-color:#8a454c;color:#ffd3d3}button:active{transform:scale(.99)}label{display:block;color:var(--muted);font-size:12px;margin:0 0 5px}input,select,textarea{width:100%;background:#0b1d30;color:var(--fg);border:1px solid #37556d;border-radius:10px;padding:11px;font:inherit}textarea{min-height:120px;resize:vertical}form .field{min-width:0}.row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.between{justify-content:space-between}.result{border-radius:13px;background:#0c2935;padding:14px;margin:12px 0;border:1px solid #27565d;font-size:17px}.result strong{color:var(--accent)}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:700px;font-size:13px}td,th{padding:10px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:600}td .positive{color:#8eedc4}.negative{color:#ffacac}.note{border-left:3px solid var(--gold);padding:8px 12px;font-size:13px;color:#d5dfec;background:#24303d;border-radius:0 10px 10px 0}.chip{display:inline-block;background:#23465a;border-radius:999px;padding:5px 9px;font-size:11px;color:#c4e6eb}.sectionfoot{color:var(--muted);font-size:12px;margin-top:13px}.hidden{display:none!important}@media(max-width:620px){.cards{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:span 2}main{padding:18px 12px 72px}h1{font-size:22px}.panel{padding:14px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 
 
+
+
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#0a1c2cf5;border-top:1px solid #345368;display:grid;grid-template-columns:repeat(6,1fr);padding:6px max(5px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(5px,env(safe-area-inset-left));backdrop-filter:blur(15px)}.bottom-nav button{border:0;background:none;color:#a4bdcf;padding:6px 1px;font-size:10px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;min-width:0}.bottom-nav button span{font-size:20px}.bottom-nav button.active{color:#50dac8;background:#163545}.tabs{display:none}main{padding-bottom:110px}.tradeitem{border:1px solid #284257;border-radius:12px;padding:12px;margin:9px 0}.tradeitem .row{margin-top:9px}.tradeitem button{padding:8px 11px}.calendaritem{padding:13px 0;border-bottom:1px solid #284257}.calendaritem strong{color:#50dac8} .muted{font-size:13px}
+
+
 
 
 /* v1.2 compact editor and accessible roll dialog */
 @media(max-width:620px){.grid{grid-template-columns:1fr 1fr;gap:10px}.grid .field{min-width:0}.field input,.field select{min-height:44px;font-size:16px} .bottom-nav{padding-bottom:max(8px,env(safe-area-inset-bottom))}main{padding-bottom:calc(110px + env(safe-area-inset-bottom))}}
 #rollDialog{background:#10253a;color:#eaf4fc;border:1px solid #416377;border-radius:18px;width:min(94vw,480px);max-height:86dvh;overflow:auto;padding:20px}#rollDialog::backdrop{background:#000b}#rollDialog h2{margin-bottom:12px}#rollDialog .grid{grid-template-columns:1fr 1fr}#rollDialog input{font-size:16px}#rollDialog .roll-result{padding:12px;background:#0b2934;border-radius:10px;margin:13px 0}#rollDialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+
+
 
 
 /* v1.3: larger, more readable typography on iPhone without modifying saved data */
@@ -24,6 +30,8 @@ button{font-size:17px;min-height:44px}input,select,textarea{font-size:17px;min-h
 table{font-size:15px}td,th{padding:12px}.sectionfoot{margin-top:14px}
 #rollDialog label{font-size:15px}#rollDialog .muted{font-size:16px}#rollDialog input{font-size:17px}
 @media(max-width:620px){main{padding-bottom:calc(124px + env(safe-area-inset-bottom))}.panel{padding:16px}.stat{padding:15px}.bottom-nav button{font-size:11.5px}}
+
+
 
 
 /* v1.3 details */
@@ -81,6 +89,8 @@ const taskText={risk:'Оціни ризики covered call або cash-secured p
 function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}$('exportJson').onclick=()=>download('viktor-options-backup.json',JSON.stringify({version:1,trades},null,2),'application/json');$('exportCsv').onclick=()=>{const cols=['ticker','strategy','tradeDate','expiry','strike','contracts','premium','closeDebit','fee','status'];const lines=[cols.join(','),...trades.map(t=>cols.map(k=>'"'+String(t[k]??'').replaceAll('"','""')+'"').join(','))];download('viktor-options.csv','\ufeff'+lines.join('\r\n'),'text/csv;charset=utf-8')};$('importJson').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const obj=JSON.parse(await file.text());if(obj.version!==1||!Array.isArray(obj.trades)||obj.trades.length>10000||obj.trades.some(t=>!t||typeof t.ticker!=='string'||typeof t.id!=='string'||!['Open','Closed','Expired'].includes(t.status)||!Number.isFinite(t.premium)||!Number.isFinite(t.contracts)||!Number.isFinite(t.closeDebit)||!Number.isFinite(t.fee))){throw Error('Invalid data')}if(confirm(`Імпортувати ${obj.trades.length} записів, замінивши поточні?`)){trades=obj.trades;save()}}catch{alert('Некоректний файл резервної копії')}e.target.value=''};$('clearAll').onclick=()=>{if(confirm('Назавжди видалити всі записи на цьому пристрої? Зроби резервну копію перед видаленням.')){trades=[];save()}};if('serviceWorker'in navigator&&location.protocol==='https:'&&location.hostname!=='viktor-watchlist-api.camry007.workers.dev')navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
 
+
+
 // v1.1 additions: retain KEY 'viktor-options-journal-v1', keeping existing records.
 const oldRender=render;
 render=function(){oldRender();renderExtras()};
@@ -111,6 +121,8 @@ function btcCalculate(){const cr=Number($('btcCredit').value),db=Number($('btcDe
  $('btcNote').textContent='Сценарій експірації за нульовою вартістю — не прогноз. Призначення, рух акцій, LEAPS, зміна маржі, додаткові комісії та ризик утримання не враховані.';
 }
 ['btcCredit','btcDebit','btcQty','btcFees'].forEach(x=>$(x).addEventListener('input',btcCalculate));btcCalculate();renderExtras();
+
+
 
 
 // Version 1.3 — extra analytics, backward compatible with v1.2 journal.
@@ -166,6 +178,8 @@ const originalSave=save;save=function(){originalSave();renderV13()};renderV13();
  const note=document.createElement('p');note.className='note';note.textContent='Увага: для раніше збережених ролювань комісії могли бути повністю приписані новому контракту. Цифри P/L за історичними записами не є перевіреним брокерським результатом. Чистий кредит ролювання ≠ реалізований P/L.';document.querySelector('#journal .panel:last-child').append(note);
 })();
 </script>
+
+
 
 
 <style>
@@ -459,6 +473,8 @@ one.addEventListener('click',()=>run([0]));all.addEventListener('click',()=>run(
 #rhMultiImport h3{margin:0 0 12px;font-size:22px}#rhMultiImport p,#rhMultiImport li{line-height:1.55;font-size:15px;color:#c1d9e6}#rhMultiImport input[type=file]{display:block;max-width:100%;font-size:16px;margin:12px 0}#rhMultiImport button{padding:12px;border-radius:10px;background:#24455b;color:#fff;border:1px solid #56798b;margin:6px 6px 6px 0;font-size:15px}#rhMultiImport .rhm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin:12px 0}#rhMultiImport .rhm-stat{padding:12px;border:1px solid #476b7c;border-radius:12px;min-width:0}#rhMultiImport .rhm-stat b{display:block;font-size:22px;overflow-wrap:anywhere}#rhMultiImport .rhm-row{padding:12px;margin:9px 0;border:1px solid #35566a;border-radius:10px;font-size:15px;line-height:1.5}#rhMultiImport .rhm-row strong{display:block}#rhMultiImport .rhm-warn{border-left:4px solid #e4b859;padding:12px;background:#233446;margin:12px 0}#rhMultiImport details{margin-top:12px}#rhMultiImport summary{font-weight:bold;cursor:pointer}#rhMultiImport small{color:#bfd0dc}
 
 
+
+
 /* Compact portfolio cards: affects dashboard only, not historical trade rows. */
 #rhMultiImport .rhm-portfolio-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch}
 #rhMultiImport .rhm-portfolio-cards .rhm-portfolio-card{margin:0;padding:11px;min-width:0;overflow:hidden}
@@ -585,6 +601,8 @@ function wheelEventAuditQ(r){
 }
 
 
+
+
 // Independent Wheel stock-flow reconciliation: no inferred brokerage cost basis.
 function wheelStockAuditR(r){
  const raw=r.wheelRaw||[];
@@ -639,6 +657,8 @@ function wheelStockAuditR(r){
 }
 
 
+
+
 // Candidate-only review of 1-to-1 quantity coincidences from R; no cost basis or trade attribution.
 function wheelFiveAuditS(r){
  const raw=r.wheelRaw||[];
@@ -671,6 +691,8 @@ function wheelFiveAuditS(r){
 }
 
 
+
+
 function universalJournal(r,ticker,kind){
  const now=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  const pattern=new RegExp('^'+ticker.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+' (\\d{4}-\\d{2}-\\d{2}) '+kind+' \\$');
@@ -690,6 +712,8 @@ function universalJournal(r,ticker,kind){
  const countContracts=xs=>xs.reduce((n,x)=>n+x.qty,0);
  const grouped=[...groupMap.values()].sort((a,b)=>a.contract.localeCompare(b.contract));
  const groupedHtml=grouped.map(g=>`<div class="rhm-row"><strong>${esc(g.contract)}</strong>Закрито за FIFO: ${g.closeQty} контр. (${g.closeLots} частин закриття) · без конфлікту ${g.cleanQty} контр., P/L ${format(g.cleanCash)} · ⚠ неоднозначно ${g.ambigQty} контр., умовний P/L ${format(g.ambigCash)} (НЕ додавати) · можливі відкриті ${g.openQty} контр. у ${g.openLots} лотах, премія ${format(g.openCash)} (НЕ прибуток) · минула експірація ${g.expiredQty} контр., історична премія ${format(g.expiredCash)} (не P/L)</div>`).join('')||'<p>Контрактів не знайдено.</p>';
+
+
 
 
  // CSP collateral is a face-value scenario, not actual broker buying power.
@@ -946,6 +970,70 @@ function stockOptionCyclesV(r){
  <p><b>Не додавай Combined P/L повторно до загального Options P/L.</b> Він уже включає CALL P/L з таблиці вище. Непов’язані операції та assignment виключені з combined. Початкові залишки, коригування собівартості й податки не перевірені.</p>
  ${detail||'<p>Парних циклів не знайдено.</p>'}</section>`;
 }
+
+// Broker Reconciliation Dashboard: derived strictly from the deduplicated CSV.
+// Broker screenshot references are DISPLAY-ONLY and never overwrite calculated cash.
+// Assignment premiums are not included in STO/BTC closed legs; use once for delivered CALL cycles.
+function brokerReconciliationDashboardV(r){
+ const focus=['HPE','SMCI','KOD','AXTI','APLD'];
+ const stockRows=stockFifoRowsV(r).stocks;
+ const closed=r.closed||[],settled=r.settled||[],raw=r.wheelRaw||[];
+ const symbol=c=>String(c||'').split(' ')[0];
+ const safe=v=>esc(String(v??'—'));
+ const fmt=v=>Number.isFinite(v)?format(v):'—';
+ const sum=(items,key)=>items.reduce((n,x)=>n+(Number(x[key])||0),0);
+ const asof=safe(r.last);
+ // A result displayed on a broker screenshot is an external reference, not a free-form adjustment.
+ const brokerRefs={
+  HPE:[{label:'3–9 вересня: 100 акцій + CALL $40',value:-7.75,source:'Скриншот Robinhood: Stock +717.25, CALL −725.00'}],
+  KOD:[{label:'16 жовтня: CALL $34 assignment + акції',value:672.97,source:'Скриншот Robinhood'}],
+  SMCI:[{label:'8 вересня: продаж 100 акцій',value:116.52,source:'Скриншот Robinhood, лише акції'}]
+ };
+ const rows=focus.map(t=>{
+  const optionRows=closed.filter(x=>symbol(x.contract)===t&&Number.isFinite(x.pnl));
+  const certain=optionRows.filter(x=>!x.ambiguous),ambig=optionRows.filter(x=>x.ambiguous);
+  const ccall=certain.filter(x=>x.side==='short'&&x.contract.includes(' CALL '));
+  const cput=certain.filter(x=>x.side==='short'&&x.contract.includes(' PUT '));
+  const long=certain.filter(x=>x.side==='long');
+  const sales=stockRows.filter(x=>x.ticker===t);
+  const complete=sales.filter(x=>x.complete),incomplete=sales.filter(x=>!x.complete);
+  const stock=sum(complete,'profit'),options=sum(certain,'pnl');
+  const assignments=settled.filter(x=>symbol(x.contract)===t&&x.code==='OASGN'&&x.side==='short');
+  const callAssign=assignments.filter(x=>x.contract.includes(' CALL '));
+  const putAssign=assignments.filter(x=>x.contract.includes(' PUT '));
+  const delivered=callAssign.filter(x=>sales.some(s=>s.date===x.date&&s.complete&&s.qty>=x.qty*100));
+  const callPremium=sum(delivered,'openingCash');
+  const unpairedCall=callAssign.filter(x=>!delivered.includes(x));
+  const putPremium=sum(putAssign,'openingCash');
+  // No cash from an option is added twice: STO/BTC in options, completed assigned CALL premium only here.
+  // We exclude PUT assignment premium from realized combined while underlying shares remain open.
+  const combined=incomplete.length?null:options+stock+callPremium;
+  const pending=r.opens.filter(x=>symbol(x.contract)===t&&x.side==='short');
+  const rollRows=(r.rolls||[]).filter(x=>symbol(x.from)===t);
+  const conflictingStockDays=new Set(sales.filter(x=>raw.filter(z=>z.ticker===t&&z.date===x.date&&z.code==='BUY').length>1).map(x=>x.date));
+  const caution=ambig.length||incomplete.length||unpairedCall.length||conflictingStockDays.size;
+  const notes=[];
+  if(ambig.length)notes.push(ambig.length+' невизначених FIFO закриттів опціонів (не включено)');
+  if(incomplete.length)notes.push(incomplete.length+' продажів акцій без повної собівартості');
+  if(unpairedCall.length)notes.push(unpairedCall.length+' CALL assignment без повністю підтвердженого продажу');
+  if(conflictingStockDays.size)notes.push('неоднозначний вибір партії акцій у день '+[...conflictingStockDays].join(', '));
+  const broker=(brokerRefs[t]||[]).map(x=>`<div style="padding:7px 0;border-bottom:1px solid #355467"><b>${safe(x.label)}</b> · ${fmt(x.value)} <small>(${safe(x.source)})</small></div>`).join('');
+  const assignmentDetail=assignments.map(x=>`<div style="padding:6px 0;border-bottom:1px solid #355467">${safe(x.date)} · ${safe(x.contract)} · ${safe(x.qty)} контр. · премія STO ${fmt(x.openingCash)} · ${x.contract.includes(' PUT ')?'PUT assignment — акції/собівартість окремо':delivered.includes(x)?'CALL + продаж акцій зіставлено':'CALL: продаж акцій ще не зіставлено'}</div>`).join('');
+  return `<details class="rhm-broker-ticker" ${t==='HPE'?'open':''} style="padding:12px 0;border-bottom:1px solid #4c7183"><summary style="cursor:pointer"><strong>${safe(t)}</strong> · <b>Combined ${fmt(combined)}</b> · ${caution?'⚠️ звірити':'попередня звірка CSV'}</summary>
+   <div class="rhm-grid" style="margin-top:10px">${statU('Звичайні CALL STO/BTC',fmt(sum(ccall,'pnl')))}${statU('Звичайні PUT STO/BTC',fmt(sum(cput,'pnl')))}${statU('Long BTO/STC',fmt(sum(long,'pnl')))}${statU('Акції FIFO (реалізовано)',fmt(incomplete.length?NaN:stock))}${statU('Премії assigned CALL, пов’язані з продажем',fmt(callPremium))}${statU('Combined — CSV, попередній',fmt(combined))}</div>
+   <p style="font-size:14px">Закриті звичайні опціони: <b>${fmt(options)}</b> · Закриті продажі акцій: <b>${fmt(stock)}</b> · CALL assignment премії: <b>${fmt(callPremium)}</b>. Ролів: ${rollRows.length}, залишкових short позицій за CSV: ${pending.length}. Нові премії при ролюванні не додано вдруге.</p>
+   ${notes.length?`<p class="note">⚠️ ${safe(notes.join(' · '))}. Combined може змінитися після брокерської звірки.</p>`:''}
+   ${putAssign.length?`<p class="note">PUT assignment: премії ${fmt(putPremium)} показані окремо; вони не додані до реалізованого Combined, доки цикл з акціями не завершено. Можливе коригування собівартості.</p>`:''}
+   ${broker?`<details><summary>Результати безпосередньо зі скриншотів Robinhood</summary>${broker}<p class="sectionfoot">Це довідкові підтверджені фрагменти, а не повний брокерський P/L за тикером. Не додаються вдруге до CSV-підсумку.</p></details>`:''}
+   ${assignments.length?`<details><summary>Assignment (${assignments.length})</summary>${assignmentDetail}</details>`:''}
+  </details>`;
+ }).join('');
+ return `<section id="rhmBrokerRecV" class="rhm-row" style="border:2px solid #56b8b4;margin:14px 0;padding:15px">
+ <h3>Broker Reconciliation · Robinhood ↔ CSV</h3>
+ <p><b>HPE, SMCI, KOD, AXTI, APLD</b> · CSV до ${asof}. Підтверджені скриншоти Robinhood показані як контрольні значення; жодних штучних коригувань або подвійного зарахування.</p>
+ <p class="note">Combined = закриті STO/BTC і BTO/STC + реалізований Stock FIFO + премії зіставлених CALL assignment. PUT assignment з відкритими акціями — окремо. Це розрахунок з CSV, не офіційний P/L брокера. Позначені неоднозначності можуть змінити підсумок.</p>
+ ${rows}</section>`;
+}
 function tickerPnlBreakdown(r){
  const tickerOf=contract=>/^([A-Z][A-Z0-9.-]*)\s+\d{4}-\d{2}-\d{2}\s+(?:CALL|PUT)\s+\$/.exec(String(contract||''))?.[1]||null;
  const kindOf=contract=>/\sCALL\s/.test(String(contract))?'CALL':/\sPUT\s/.test(String(contract))?'PUT':'OTHER';
@@ -1063,6 +1151,8 @@ function draw(r){
  <p><small>Лише CSV до ${esc(r.last)}. Це не брокерськи підтверджений прибуток і не підсумок усієї стратегії з акціями. Спреди не аналізуються.</small></p></details>`;
 
 
+
+
  $('rhmResult').innerHTML=`<div class="rhm-grid">${stat('Файлів',r.sources.length)}${stat('Унікальних рядків',r.rows)}${stat('Дублікати',r.duplicate)}${stat('SMCI CALL: закриття',smci.length)}${stat('SMCI CALL: можливі активні',opened.length)}${stat('Минулі експірації — звірити',expired.length)}</div><div class="rhm-grid">${stat('Закриття без конфлікту послідовності (FIFO)',format(realized))}${stat('Неоднозначні закриття (НЕ додавати)',format(preliminary))}${stat('Премії можливих активних CALL (НЕ прибуток)',format(openPremium))}${stat('Можливі ролювання',smciRolls.length)}</div>${journal}<div class="rhm-warn"><strong>Як читати P/L</strong><p>Суми враховують cash за зіставленими STO/BTC, включно з комісіями, які відображені в CSV Amount. Це умовний FIFO cash P/L, а не підтверджений реалізований прибуток брокера. Премії відкритих CALL НЕ додаються до P/L, доки контракт не закритий. Для незвірених assignment, expiration, акцій і settlement результат не обчислюється. Неоднозначні угоди мають окрему суму та не включаються в перший показник.</p></div><details open><summary>SMCI CALL: фінансовий підсумок та можливі ролювання (${smciRolls.length})</summary><p>Ролювання визначено за закриттям та відкриттям різних SMCI CALL в один день. Це кандидат на ролювання, а не підтверджений комбінований ордер. Net cash ролювання = кредит нового STO плюс витрата на BTC; це НЕ реалізований P/L.</p>${smciRolls.map(x=>row(`${x.date}: ${x.from} → ${x.to}`,`${x.qty} контр. · BTC ${format(x.closeCash)} · STO ${format(x.newCredit)} · чистий рух ${format(x.netCash)} · потрібна звірка`)).join('')||'<p>Кандидатів не знайдено.</p>'}</details><div class="rhm-warn"><strong>SMCI CALL — попередня звірка</strong><p>Результати FIFO можуть бути неоднозначними, коли закриття і відкриття того самого контракту виконані в один день, адже CSV не містить часу. Ніякий P/L не вважається брокерськи підтвердженим. Перелік можливих активних контрактів побудований лише за CSV до ${esc(r.last)}: зміни після цієї дати можуть бути відсутні. Контракти з минулою експірацією винесені окремо для звірки. Спреди не аналізуються.</p></div><details open><summary>SMCI CALL: можливі активні за CSV (${opened.length})</summary>${opened.map(x=>row(x.contract,`${x.side} · ${x.qty} контр. · дата ${x.date} · cash ${format(x.cash)}`)).join('')||'<p>Не знайдено</p>'}</details><details><summary>SMCI CALL: історичні лоти після експірації (${expired.length})</summary><p>Ці лоти не є діючими контрактами на ${esc(asOf)}. CSV не підтверджує остаточне закриття чи фінансовий результат.</p>${expired.map(x=>row(x.contract,`${x.side} · ${x.qty} контр. · первинний cash ${format(x.cash)} · потрібна звірка виконання або експірації`)).join('')||'<p>Немає</p>'}</details><details><summary>SMCI CALL: попередні закриття (${smci.length})</summary>${smci.map(x=>row(x.contract,`${x.qty} контр. · ${x.openDate} → ${x.date} · орієнтовний cash P/L ${format(x.pnl)}${x.ambiguous?' · НЕОДНОЗНАЧНО — поза підсумком':''}`)).join('')||'<p>Не знайдено</p>'}</details><details><summary>SMCI: потребує перевірки (${cautions.length})</summary>${cautions.map(w=>row(w.contract,`${w.date}: ${w.reason}`)).join('')||'<p>Не виявлено</p>'}</details><details><summary>Завантажені звіти</summary>${r.sources.map(x=>row(x.name,`${x.rows} рядків`)).join('')}</details><p>Остання дата операцій: ${esc(r.last)}. Цей модуль не змінює журнал або збережені позиції.</p>`;
  $('rhmResult').insertAdjacentHTML('afterbegin',selfCheckU(r)+reconciliationW(r)+regressionV(r)+portfolioDashboard(r)+wheelFiveAuditS(r)+wheelStockAuditR(r)+wheelEventAuditQ(r)+ambiguityAuditN(r));
  
@@ -1074,7 +1164,7 @@ function draw(r){
  $('rhmResult').prepend(section);
  $('rhmResult').prepend($('rhmPortfolioDashboard'));
  $('rhmResult').insertAdjacentHTML('afterbegin',overviewX(r));
- $('rhmResult').insertAdjacentHTML('beforeend',tickerPnlBreakdown(r)+stockOptionCyclesV(r));
+ $('rhmResult').insertAdjacentHTML('beforeend',brokerReconciliationDashboardV(r)+tickerPnlBreakdown(r)+stockOptionCyclesV(r));
  setupPortfolioDashboard();
  const tickerSearch=document.getElementById('rhmTickerSearch');
  if(tickerSearch)tickerSearch.addEventListener('input',()=>{const query=tickerSearch.value.trim().toUpperCase();document.querySelectorAll('#rhmByTicker .rhm-ticker-item').forEach(e=>{e.hidden=!e.dataset.rhmTicker.includes(query)})});
@@ -1083,7 +1173,7 @@ function draw(r){
  const resultRoot=$('rhmResult');
  const advanced=document.createElement('details');advanced.id='rhmAdvancedY';
  const summary=document.createElement('summary');summary.textContent='Додаткові технічні перевірки та історичні звіти';advanced.appendChild(summary);
- [...resultRoot.children].filter(el=>!['rhmOverviewX','rhmPortfolioDashboard','universalJournal','rhmByTicker'].includes(el.id)).forEach(el=>advanced.appendChild(el));
+ [...resultRoot.children].filter(el=>!['rhmOverviewX','rhmPortfolioDashboard','universalJournal','rhmByTicker','rhmBrokerRecV'].includes(el.id)).forEach(el=>advanced.appendChild(el));
  resultRoot.appendChild(advanced);
  // Opening an in-page diagnostics link also reveals its collapsed parent.
  root.querySelectorAll('a[href^="#rhm"]').forEach(a=>a.addEventListener('click',()=>{
@@ -1099,6 +1189,8 @@ function draw(r){
 }
 
 
+
+
 // Private, consent-based, origin-scoped IndexedDB archive of CSV source texts.
 // No network calls. Archive is distinct from trade journal and worker tokens.
 const ARCHIVE_DB='viktor-rh-csv-private-v1',ARCHIVE_STORE='files',ARCHIVE_KEY='last';
@@ -1112,6 +1204,8 @@ const backupStatus=$('rhmBackupStatus');
 // Persist only a consent preference, never credentials or user financial data in localStorage.
 const CONSENT_KEY='viktor-rh-keep-consent-v1';
 try{$('rhmKeep').checked=localStorage.getItem(CONSENT_KEY)==='yes'}catch(e){}
+
+
 
 
 async function archiveSave(files){
@@ -1146,12 +1240,16 @@ $('rhmDeleteSaved').onclick=async()=>{if(!confirm('Видалити лише л�
 archiveAction('get').then(a=>{backupStatus.textContent=a?`Є локальний архів від ${a.savedAt||'невідомої дати'} (${a.items?.length||0} CSV). Натисни «Відновити локальні CSV».`:'Локального архіву CSV немає.'}).catch(()=>{backupStatus.textContent='Локальне сховище недоступне; можна імпортувати CSV вручну.'});
 
 
+
+
 // Drive connector: fetches only from configured authenticated Cloudflare Worker; uses existing parser.
 const driveOnWorker=location.origin==='https://viktor-watchlist-api.camry007.workers.dev';
 let rhmUserInteracted=false;
 const markRhmInteracted=()=>{rhmUserInteracted=true};
 ['rhmFiles','rhmBackupInput'].forEach(id=>$(id).addEventListener('change',markRhmInteracted));
 ['rhmClear','rhmRestore','rhmDeleteSaved'].forEach(id=>$(id).addEventListener('click',markRhmInteracted));
+
+
 
 
 // The ticker table lives in the Robinhood tab; an ordinary fragment link does not
@@ -1224,6 +1322,8 @@ async function autoLoadRobinhoodFromDrive(force=false) {
 }
 
 
+
+
 if(driveOnWorker){
  $('rhmDrivePanel').querySelector('strong').textContent=
    'Google Drive — автоматичне завантаження Robinhood CSV';
@@ -1257,6 +1357,8 @@ $('rhmDriveLoad').addEventListener('click',async()=>{
    st.textContent=`Отримано ${files.length} CSV з Drive (знімок ${snap.syncedAt||'без дати'}). ${next.rows} унікальних рядків, ${next.duplicate} дублікатів.`;
  }catch(err){st.textContent='Синхронізація не виконана: '+err.message}finally{button.disabled=false}
 });
+
+
 
 
 $('rhmFiles').addEventListener('change',async e=>{report=null;$('rhmExport').disabled=true;$('rhmResult').replaceChildren();let files=[...(e.target.files||[])];if(!files.length)return;$('rhmStatus').textContent='Обробляю обрані CSV…';try{report=await run(files);draw(report);renderRobinhoodHome(report,null,'локальний CSV');if($('rhmKeep').checked){try{await archiveSave(files)}catch(e){backupStatus.textContent='Не збережено: '+e.message}}$('rhmStatus').textContent=`Об'єднано ${files.length} звіт(ів), остання дата ${report.last}. Для наступного оновлення вибери всі потрібні файли знову.`;$('rhmExport').disabled=false}catch(err){$('rhmStatus').textContent='Помилка імпорту: '+err.message}});
@@ -1307,6 +1409,8 @@ if(cookieMode){
 let sessionToken='';
 
 
+
+
 el('vwlGithubLogin').addEventListener('click',()=>{
   window.location.href =
     BASE+'/auth/github/start'+(cookieMode?'?mode=cookie':'');
@@ -1320,6 +1424,8 @@ function extract(data){
 }
 
 
+
+
 async function request(path,method='GET',body){
   if(!cookieMode && !token && !sessionToken)
   throw Error('Спочатку увійдіть через GitHub або введіть токен');
@@ -1327,6 +1433,8 @@ async function request(path,method='GET',body){
   ? {'Authorization':'Bearer '+sessionToken}
   : {'X-API-Key':token};
   if(body!==undefined)headers['Content-Type']='application/json';
+
+
 
 
   let response;
@@ -1343,6 +1451,8 @@ async function request(path,method='GET',body){
   }
 
 
+
+
   const data=await response.json().catch(()=>({}));
   if(!response.ok)throw Error(
     response.status===401?'Невірний токен (401)':
@@ -1351,6 +1461,8 @@ async function request(path,method='GET',body){
   );
   return data;
 }
+
+
 
 
 function render(){
@@ -1403,6 +1515,8 @@ el('vwlGithubLogout').addEventListener('click',async()=>{
 });
 
 
+
+
 async function finishGithubLogin(){
   const params=new URLSearchParams(window.location.hash.slice(1));
   const ticket=params.get('auth_ticket');
@@ -1410,10 +1524,14 @@ async function finishGithubLogin(){
   if(!ticket && !authError)return;
 
 
+
+
   // Remove short-lived login material from the address bar and browser history.
   window.history.replaceState(null,'',window.location.pathname+window.location.search);
   el('vwlOverlay').style.display='block';
   if(authError){message('Помилка GitHub: '+authError);render();return}
+
+
 
 
   try{
@@ -1427,6 +1545,8 @@ async function finishGithubLogin(){
     const data=await response.json().catch(()=>({}));
     if(!response.ok||typeof data.sessionToken!=='string'||!data.sessionToken)
       throw Error(data.error||'Не вдалося створити сесію');
+
+
 
 
     sessionToken=data.sessionToken;
