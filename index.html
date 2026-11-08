@@ -883,10 +883,8 @@ function regressionV(r){
 // and no addition of new STO credits or roll cash flows to realized P/L.
 // Stock cash FIFO and call-cycle candidate matching, deliberately separate from options FIFO.
 // Never turn stock sale proceeds into profit; never count an unmatched or ambiguous lot.
-function stockOptionCyclesV(r){
+function stockFifoRowsV(r){
  const shares=(r.wheelRaw||[]).filter(x=>['BUY','SELL'].includes(x.code));
- const price=n=>Number.isFinite(n)?format(n):'—';
- const safe=x=>esc(String(x??'—'));
  const buckets=new Map(),stocks=[],uncertain=[];
  for(const x of shares){
   const ticker=String(x.ticker||'').trim().toUpperCase();
@@ -909,6 +907,12 @@ function stockOptionCyclesV(r){
   stocks.push(row);
   if(!complete)uncertain.push(row);
  }
+ return {stocks,uncertain};
+}
+function stockOptionCyclesV(r){
+ const {stocks,uncertain}=stockFifoRowsV(r);
+ const price=n=>Number.isFinite(n)?format(n):'—';
+ const safe=x=>esc(String(x??'—'));
  // Same-day, same-ticker one-to-one closing of an independently FIFO-matched
  // short CALL plus sale of precisely 100 shares per contract. This is a
  // strong candidate, not proof of a single broker order/strategy.
@@ -953,6 +957,14 @@ function tickerPnlBreakdown(r){
  for(const c of r.closed||[]){const t=tickerOf(c.contract);if(t)get(t).closed.push(c)}
  for(const o of r.opens||[]){const t=tickerOf(o.contract);if(t)get(t).opens.push(o)}
  for(const w of r.warnings||[]){const t=tickerOf(w.contract);if(t)get(t).warnings.push(w)}
+ // Reuse the stock ledger used by the covered-call cycle audit. Include every
+ // fully costed sale, independently of whether it has a same-day CALL match.
+ const stockByTicker=new Map();
+ for(const s of stockFifoRowsV(r).stocks){
+  const item=stockByTicker.get(s.ticker)||{pnl:0,incomplete:0};
+  if(s.complete)item.pnl+=s.profit;else item.incomplete++;
+  stockByTicker.set(s.ticker,item);get(s.ticker);
+ }
  const safe=v=>esc(String(v??'—'));
  const sum=rows=>rows.reduce((n,c)=>n+(Number.isFinite(c.pnl)?c.pnl:0),0);
  const fmt=v=>Number.isFinite(v)?format(v):'—';
@@ -964,12 +976,16 @@ function tickerPnlBreakdown(r){
   const shortPut=valid.filter(c=>c.side==='short'&&kindOf(c.contract)==='PUT');
   const long=valid.filter(c=>c.side==='long');
   const totals={call:sum(shortCall),put:sum(shortPut),long:sum(long),all:sum(valid),ambiguous:sum(ambiguous)};
+  const stock=stockByTicker.get(b.ticker)||{pnl:0,incomplete:0};
+  totals.stock=stock.incomplete?null:stock.pnl;
+  totals.combined=stock.incomplete?null:stock.pnl+totals.all;
   const qty=xs=>xs.reduce((n,x)=>n+(Number(x.qty)||0),0);
   const remaining=b.opens.filter(x=>String(x.contract).split(' ')[1]>=asOf);
   const older=b.opens.filter(x=>String(x.contract).split(' ')[1]<asOf);
   const line=c=>`<div style="padding:7px 0;border-bottom:1px solid #34516b"><b>${safe(c.contract)}</b><div style="font-size:13px;color:#b5cddd">${safe(c.openDate)} → ${safe(c.date)} · ${safe(c.side)} · ${safe(c.qty)} контр. · FIFO cash ${fmt(c.pnl)}${c.ambiguous?' · НЕОДНОЗНАЧНО, поза підсумком':''}</div></div>`;
   const openLine=o=>`<div style="padding:7px 0;border-bottom:1px solid #34516b"><b>${safe(o.contract)}</b><div style="font-size:13px;color:#b5cddd">${safe(o.date)} · ${safe(o.side)} · ${safe(o.qty)} контр. · первинний cash ${fmt(o.cash)} · не реалізований P/L</div></div>`;
-  return {...b,valid,ambiguous,remaining,older,totals,qty,details:`
+  return {...b,valid,ambiguous,remaining,older,totals,stock,qty,details:`
+   <p>Акції FIFO: ${fmt(totals.stock)} · усі зіставлені закриті опціони: ${fmt(totals.all)} · <strong>акції + закриті опціони: ${fmt(totals.combined)}</strong>. ${stock.incomplete?'Немає повної собівартості для '+stock.incomplete+' продажів; загальний результат не визначено.':''}</p>
    <details style="margin:9px 0 0"><summary>Зіставлені FIFO закриття (${valid.length})</summary>${valid.map(line).join('')||'<p>Немає</p>'}</details>
    <details><summary>Неоднозначні зіставлення (${ambiguous.length}; ${qty(ambiguous)} контр.)</summary>${ambiguous.map(line).join('')||'<p>Немає</p>'}</details>
    <details><summary>Можливі відкриті ноги (${remaining.length})</summary>${remaining.map(openLine).join('')||'<p>Немає</p>'}</details>
@@ -979,18 +995,21 @@ function tickerPnlBreakdown(r){
  const total=breakdown.reduce((n,b)=>n+b.totals.all,0);
  const expected=sum((r.closed||[]).filter(x=>!x.ambiguous));
  const consistent=Math.abs(total-expected)<0.01;
+ const hpe=breakdown.find(b=>b.ticker==='HPE');
+ const hpeSummary=hpe?`<div class="rhm-row" id="rhmHpeCombined"><h3>HPE · Акції + усі закриті опціони за період</h3><p style="font-size:24px"><strong>${fmt(hpe.totals.combined)}</strong></p><p>Акції FIFO: ${fmt(hpe.totals.stock)} · закриті опціони: ${fmt(hpe.totals.all)}.</p><small>${hpe.stock.incomplete?'Потрібна повна собівартість продажів акцій.':'Відкриті акції та відкриті опціони не входять у цей реалізований результат.'}</small></div>`:'';
  const rows=breakdown.map(b=>`<details class="rhm-ticker-item" data-rhm-ticker="${safe(b.ticker)}" style="border-bottom:1px solid #426277;padding:11px 0"><summary style="cursor:pointer;display:block">
- <div style="display:grid;grid-template-columns:minmax(64px,1fr) repeat(4,minmax(72px,1fr));gap:8px;align-items:center;font-size:14px">
- <strong>${safe(b.ticker)}</strong><span>${fmt(b.totals.call)}</span><span>${fmt(b.totals.put)}</span><span>${fmt(b.totals.long)}</span><strong>${fmt(b.totals.all)}</strong></div>
+ <div style="display:grid;grid-template-columns:minmax(64px,1fr) repeat(6,minmax(90px,1fr));gap:8px;align-items:center;font-size:14px">
+ <strong>${safe(b.ticker)}</strong><span>${fmt(b.totals.call)}</span><span>${fmt(b.totals.put)}</span><span>${fmt(b.totals.long)}</span><span>${fmt(b.totals.all)}</span><span>${fmt(b.totals.stock)}</span><strong>${fmt(b.totals.combined)}</strong></div>
  <div style="color:#aec9d9;font-size:12px;margin-top:5px">Неоднозначно: ${b.qty(b.ambiguous)} контрактів (${fmt(b.totals.ambiguous)} поза підсумком) · можливі відкриті: ${b.qty(b.remaining)} контр. · невирішені: ${b.warnings.length} попередж.</div></summary>
  <div style="margin:9px 0 0;padding:9px;background:#0a1f31;border-radius:9px">${b.details}</div></details>`).join('');
  return `<section id="rhmByTicker" class="rhm-row" style="margin-top:12px;border:2px solid #426f76">
   <h3>Robinhood · P/L за кожним тикером</h3>
-  <p>Лише зіставлені опціонні ноги FIFO (STO/BTC і BTO/STC), без неоднозначних зіставлень. Це <b>попередній cash P/L</b>, не підтверджений брокером realized P/L; assignment, expiration, акції й ролювання окремо не додаються.</p>
+  ${hpeSummary}
+  <p><strong>Основний результат — акції + усі зіставлені закриті опціони за період CSV.</strong> Акції: виручка від продажів мінус собівартість FIFO. Опціони: STO/BTC і BTO/STC без неоднозначних зіставлень. Це попередній cash P/L; відкриті акції, премії відкритих опціонів, assignment і expiration до результату не додаються.</p>
   <label for="rhmTickerSearch">Фільтр за тикером</label><input id="rhmTickerSearch" type="search" placeholder="SMCI, HPE, MU…" style="max-width:270px" aria-label="Пошук тикера">
-  <p style="color:#b5ccda;font-size:13px">CALL short · PUT short · Long · Разом (USD) — натисни на тикер для розшифровки.</p>
-  <div style="overflow-x:auto"><div style="min-width:530px"><div style="display:grid;grid-template-columns:minmax(64px,1fr) repeat(4,minmax(72px,1fr));gap:8px;font-size:12px;color:#adc3d6;font-weight:700;border-bottom:1px solid #56758b;padding-bottom:9px"><span>Тикер</span><span>CALL</span><span>PUT</span><span>Long</span><span>Разом</span></div>${rows||'<p>Опціонних записів немає</p>'}</div></div>
-  <p style="font-size:13px;color:#acc9d3">Разом за тикерами: <strong>${fmt(total)}</strong> · перевірка зі звітом: <strong>${consistent?'збігається':'НЕ ЗБІГАЄТЬСЯ, потрібна звірка'}</strong> · тикерів: ${breakdown.length}.</p>
+  <p style="color:#b5ccda;font-size:13px">Суми в USD. Праворуч — акції + закриті опціони. Натисни на тикер для розшифровки. «—» означає неповну собівартість проданих акцій.</p>
+  <div style="overflow-x:auto"><div style="min-width:800px"><div style="display:grid;grid-template-columns:minmax(64px,1fr) repeat(6,minmax(90px,1fr));gap:8px;font-size:12px;color:#adc3d6;font-weight:700;border-bottom:1px solid #56758b;padding-bottom:9px"><span>Тикер</span><span>CALL</span><span>PUT</span><span>Long</span><span>Закриті опціони</span><span>Акції FIFO</span><span>Акції + закриті опціони</span></div>${rows||'<p>Закритих операцій немає</p>'}</div></div>
+  <p style="font-size:13px;color:#acc9d3">Лише закриті опціони за тикерами: <strong>${fmt(total)}</strong> · перевірка з опціонним звітом: <strong>${consistent?'збігається':'НЕ ЗБІГАЄТЬСЯ, потрібна звірка'}</strong> · тикерів: ${breakdown.length}.</p>
   <p class="sectionfoot">Кількість відкритих ніг і попередження — з CSV, не підтвердження живих позицій. Спреди не класифікуються.</p>
  </section>`;
 }
